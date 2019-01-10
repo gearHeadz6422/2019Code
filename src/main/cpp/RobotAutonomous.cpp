@@ -6,29 +6,20 @@
  */
 
 #include "Robot.h"
-#include <Encoder.h>
-#include <SampleRobot.h>
-#include <SmartDashboard/SmartDashboard.h>
-#include <Timer.h>
 #include <cmath>
 using namespace std;
 
 #define LEFT
-bool forwarddone = false;
-float encoderDistanceReading = 0.0;
-int autoPick = 0;
-double maxAccelDiffX = 0.0;
-double maxAccelDiffY = 0.0;
-int x = 0;
-double AccelDiffX = 0.0;
-double AccelDiffY = 0.0;
-double velX = 0.0;
-double velY = 0.0;
-bool posAccelX;
-bool posAccelY;
-bool posVelX;
-bool posVelY;
-float err = 0.0;
+int startPosition = 0;
+double desAutoDelay = 0;
+double smartDashTimerAuto = 0;
+double autoDelayTimer = 0;
+int seconds = 0;
+std::string gameData = "";
+bool foundGameData = false;
+float leftInches = 0; //This variable acTually uses the right encoder because of an emergancy fix
+float rightInches = 0;
+int stepCount = 0;
 
 /*
  * This autonomous (along with the chooser code above) shows how to select
@@ -42,236 +33,554 @@ float err = 0.0;
  * SendableChooser make sure to add them to the chooser code above as well.
  */
 void Robot::AutonomousInit() {
-	CameraLightOn();
-	autoPick = int(frc::SmartDashboard::GetNumber("DB/Slider 0", 0.0));
-	/*
-	 autoSelected = chooser.GetSelected();
-	 std::string autoSelected = SmartDashboard::GetString("Auto Selector",
-	 autoNameDefault);
-	 std::cout << "Auto selected: " << autoSelected << std::endl;
+	autoDelayTimer = 0;
+	desAutoDelay = 0.0;
 
-	 if (autoSelected == autoNameCustom) {
-	 // Custom Auto goes here
-	 } else {
-	 // Default Auto goes here
-	 }
-	 */
-	encoderDistanceReading = 0.0;
-	MotorSpeedRight(0.0);
-	MotorSpeedLeft(0.0);
-	m_encoder_left.Reset();
-	m_encoder_right.Reset();
+	accelX = 0.0;
+	accelY = 0.0;
+
+	lastAccelX = 0.0;
+	lastAccelY = 0.0;
+
+	startPosition = SmartDashboard::GetNumber("DB/Slider 0", 0.0);
+	desAutoDelay = SmartDashboard::GetNumber("DB/Slider 1", 0.0);
+	cout << desAutoDelay;
+
+	leftEncoder.Reset();
+	rightEncoder.Reset();
+	winchEncoder.Reset();
+
 	ahrs->ZeroYaw();
-	colliding = false;
-	err = .25;
-	x = 0;
+
+	stepCount = 0;
 }
 
 void Robot::AutonomousPeriodic() {
-	frc::SmartDashboard::PutNumber("Gyro" , ahrs->GetAngle());
 	frc::SmartDashboard::PutNumber("Linear accel X", accelX * 1000);
 	frc::SmartDashboard::PutNumber("Linear accel Y", accelY * 1000);
-	accelX = ahrs->GetWorldLinearAccelX();
-	accelY = ahrs->GetWorldLinearAccelY();
-	velX = ahrs->GetVelocityX();
-	velY = ahrs->GetVelocityY();
 
-	frc::SmartDashboard::PutBoolean("Currently crashing into like a wall or some shit. Like just stop moving maybe?", colliding);
-	AccelDiffX = fabs(lastAccelX) - fabs(accelX);
-	AccelDiffY = fabs(lastAccelY) - fabs(accelY);
-	/*if ((AccelDiffX < -0.05 || AccelDiffY < -0.05) && x > 0) {
-		colliding = true;
+	accelX = ahrs->GetWorldLinearAccelX() * 1000;
+	accelY = ahrs->GetWorldLinearAccelY() * 1000;
+
+	//waitper = 0;
+	frc::SmartDashboard::PutNumber("Gyro" , ahrs->GetAngle());
+	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
+	frc::SmartDashboard::PutNumber("startPosition", startPosition);
+	frc::SmartDashboard::PutNumber("autoDelayTimer", autoDelayTimer);
+
+	startPosition = frc::SmartDashboard::GetNumber("startPosition", 0.0);
+	if (smartDashTimerAuto < 10) {
+		smartDashTimerAuto += 1;
+	} else {
+		smartDashTimerAuto = 0;
+		frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
+		frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
+		frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
+		frc::SmartDashboard::PutNumber("Current step numb", stepCount);
+		frc::SmartDashboard::PutString("Game data", gameData);
 	}
-	*/
-	if(AccelDiffX < maxAccelDiffX) {
-		maxAccelDiffX = AccelDiffX;
+
+	if (!foundGameData) {
+		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 	}
-	if(AccelDiffY < maxAccelDiffY) {
-		maxAccelDiffY = AccelDiffY;
+
+	if(gameData.length() > 0) {
+		foundGameData = true;
 	}
-	if (x == 5) {
-		if (velX > 0.05){
-			posVelX = true;
+
+	leftInches = rightEncoder.GetDistance() / (6*M_PI); //changed to right, it should be left!
+	rightInches = rightEncoder.GetDistance() / (6 * M_PI);
+
+	if (autoDelayTimer < desAutoDelay){
+		autoDelayTimer += 0.05;
+		cout << autoDelayTimer;
+		cout << desAutoDelay;
+	} else {
+		if (startPosition == 5){
+			if (leftInches <= 220) {
+				FrontLeft.Set(-0.35);
+				FrontRight.Set(-0.35);
+				BackLeft.Set(-0.35);
+				BackRight.Set(-0.35);
+			} else {
+				FrontLeft.Set(0);
+				FrontRight.Set(0);
+				BackLeft.Set(0);
+			 	BackRight.Set(0);
+			}
 		}
-		else if (velX < -0.05){
-			posVelX = false;
+		if(startPosition == 4) {
+			switch (stepCount) {
+				case 0:
+					if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+						stepCount++;
+					}
+					FrontLeft.Set(-0.35);
+					FrontRight.Set(-0.35);
+					BackLeft.Set(-0.35);
+					BackRight.Set(-0.35);
+				break;
+				case 1:
+					FrontLeft.Set(-0.35);
+					FrontRight.Set(-0.35);
+					BackLeft.Set(-0.35);
+					BackRight.Set(-0.35);
+				break;
+			}
 		}
-		if (velY > 0.05){
-			posVelY = true;
+		if (startPosition == 1) {
+			if (gameData[0] == 'L'){
+				switch(stepCount) {
+					case 0:
+						if (leftInches <= 50){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 1:
+						if (ahrs->GetAngle() > -80){
+							FrontRight.Set(0.3);
+							BackRight.Set(0.3);
+							FrontLeft.Set(-0.3);
+							BackLeft.Set(-0.3);
+						}
+						else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 2:
+						if (leftInches <= 100){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 3:
+						if (ahrs->GetAngle() < 0){
+							FrontRight.Set(-0.3);
+							BackRight.Set(-0.3);
+							FrontLeft.Set(0.3);
+							BackLeft.Set(0.3);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 4:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (leftInches <= 94){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+
+						if (winchEncoder.GetDistance() > -1880) {
+							Winch.Set(-1);
+						} else {
+							Winch.Set(0.0);
+						}
+					break;
+					case 5:
+						Winch.Set(0.0);
+						FrontRight.Set(0.0);
+						FrontLeft.Set(0.0);
+						BackRight.Set(0.0);
+						BackLeft.Set(0.0);
+						Shooter1.Set(-0.35);
+						Shooter2.Set(-0.35);
+					break;
+				}
+			}
+
+			if (gameData[0] == 'R') {
+				switch (stepCount){
+					case 0:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (leftInches <= 108){
+							FrontLeft.Set(-0.25);
+							FrontRight.Set(-0.25);
+							BackLeft.Set(-0.25);
+							BackRight.Set(-0.25);
+						} else {
+							stepCount ++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+						}
+						if (winchEncoder.GetDistance() > -1900) {
+							Winch.Set(-1);
+						} else {
+							Winch.Set(0);
+						}
+					break;
+					case 1:
+							Shooter1.Set(-0.35);
+							Shooter2.Set(-0.35);
+					break;
+				}
+			}
+		} else if (startPosition == 0) {
+			if (gameData[0] == 'L') {
+				switch (stepCount){
+					case 0:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (leftInches <= 98){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+							stepCount ++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+						}
+						if (winchEncoder.GetDistance() > -1900) {
+							Winch.Set(-1);
+						} else {
+							Winch.Set(0);
+						}
+					break;
+					case 1:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (ahrs->GetAngle() < 15){
+							FrontRight.Set(-0.35);
+							BackRight.Set(-0.35);
+						}
+						else {
+							FrontRight.Set(0.0);
+							FrontLeft.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+							stepCount ++;
+						}
+					break;
+					case 2:
+						FrontRight.Set(0.0);
+						FrontLeft.Set(0.0);
+						BackRight.Set(0.0);
+						BackLeft.Set(0.0);
+						Shooter1.Set(-0.35);
+						Shooter2.Set(-0.35);
+					break;
+				}
+			} else if (gameData[0] == 'R') {
+				switch(stepCount) {
+					case 0:
+						if (leftInches <= 58){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 1:
+						if (ahrs->GetAngle() < 90){
+							FrontRight.Set(-0.3);
+							BackRight.Set(-0.3);
+							FrontLeft.Set(0.3);
+							BackLeft.Set(0.3);
+						}
+						else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 2:
+						if (leftInches <= 134){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 3:
+						if (ahrs->GetAngle() > 0){
+							FrontRight.Set(0.3);
+							BackRight.Set(0.3);
+							FrontLeft.Set(-0.3);
+							BackLeft.Set(-0.3);
+						}
+						else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 4:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (leftInches <= 56){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+
+						if (winchEncoder.GetDistance() > -1880) {
+							Winch.Set(-1);
+						} else {
+							Winch.Set(0.0);
+						}
+					break;
+					case 5:
+						Winch.Set(0.0);
+						FrontRight.Set(0.0);
+						FrontLeft.Set(0.0);
+						BackRight.Set(0.0);
+						BackLeft.Set(0.0);
+						Shooter1.Set(-0.25);
+						Shooter2.Set(-0.25);
+					break;
+				}
+			}
+		} else if (startPosition == 2) {
+			if (gameData[0] == 'L'){
+				switch(stepCount) {
+					case 0:
+						if (leftInches <= 58){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 1:
+						if (ahrs->GetAngle() > -85){
+							FrontRight.Set(0.3);
+							BackRight.Set(0.3);
+							FrontLeft.Set(-0.3);
+							BackLeft.Set(-0.3);
+						}
+						else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 2:
+						if (leftInches <= 134){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 3:
+						if (ahrs->GetAngle() < 0){
+							FrontRight.Set(-0.3);
+							BackRight.Set(-0.3);
+							FrontLeft.Set(0.3);
+							BackLeft.Set(0.3);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+					break;
+					case 4:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (leftInches <= 64){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							stepCount++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+						}
+
+						if (winchEncoder.GetDistance() > -1880) {
+							Winch.Set(-1);
+						} else {
+							Winch.Set(0.0);
+						}
+					break;
+					case 5:
+						Winch.Set(0.0);
+						FrontRight.Set(0.0);
+						FrontLeft.Set(0.0);
+						BackRight.Set(0.0);
+						BackLeft.Set(0.0);
+						Shooter1.Set(-0.25);
+						Shooter2.Set(-0.25);
+					break;
+				}
+			} else if (gameData[0] == 'R') {
+				switch (stepCount){
+					case 0:
+						if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+							stepCount++;
+						}
+
+						if (leftInches <= 98){
+							FrontLeft.Set(-0.35);
+							FrontRight.Set(-0.35);
+							BackLeft.Set(-0.35);
+							BackRight.Set(-0.35);
+						} else {
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+							stepCount ++;
+							FrontLeft.Set(0.0);
+							FrontRight.Set(0.0);
+							BackLeft.Set(0.0);
+							BackRight.Set(0.0);
+						}
+						if (winchEncoder.GetDistance() > -1900) {
+							Winch.Set(-1);
+						} else {
+							Winch.Set(0);
+						}
+					break;
+					/*case 1:
+						if (ahrs->GetAngle() < 15){
+							FrontRight.Set(-0.35);
+							BackRight.Set(-0.35);
+						}
+						else {
+							FrontRight.Set(0.0);
+							FrontLeft.Set(0.0);
+							leftEncoder.Reset();
+							rightEncoder.Reset();
+							stepCount ++;
+						}
+					break;
+					case 2:*/
+					case 1:
+						FrontRight.Set(0.0);
+						FrontLeft.Set(0.0);
+						BackRight.Set(0.0);
+						BackLeft.Set(0.0);
+						Shooter1.Set(-0.35);
+						Shooter2.Set(-0.35);
+					break;
+				}
+			}
 		}
-		else if (velY < -0.05){
-			posVelY = false;
-		}
 	}
-	if (((posVelX && accelX < -err) || (posVelY && accelY < -err) || (!posVelX && accelX > err) || (!posVelY && accelY > err)) && x > 10) {
-		colliding = true;
-	}
-	if (!colliding) {
-		MotorSpeedLeft(0.3);
-		MotorSpeedRight(0.3);
-	}
-	else {
-		MotorSpeedLeft(0.0);
-		MotorSpeedRight(0.0);
-	}
-	frc::SmartDashboard::PutNumber("maxAccelDiffX", maxAccelDiffX);
-	frc::SmartDashboard::PutNumber("maxAccelDiffY", maxAccelDiffY);
-	frc::SmartDashboard::PutNumber("accelY", accelY);
-	frc::SmartDashboard::PutNumber("accelX", accelX);
 	lastAccelX = accelX;
 	lastAccelY = accelY;
-	x = x + 1;
-	/*if (ahrs->GetAngle() < 75) {
-		 talon0.Set(0.05);
-		 talon1.Set(0.05);
-	 } else {
-		 talon0.Set(0.0);
-		 talon1.Set(0.0);
-	 }
-	 */
-
-
-/*
-	static int ksol = -9;
-	if (ksol != frc::DoubleSolenoid::kForward) {
-		m_doubleSolenoid.Set(frc::DoubleSolenoid::kReverse);
-		ksol = frc::DoubleSolenoid::kForward;
-		cout << "forward" << endl;
-	}
-*/
-	//		m_doubleSolenoid.Set(frc::DoubleSolenoid::kReverse);
-	  // Wait for a motor update time
-	/*
-	static float wheel_circumference = 6;
-	static float pulse_per_revolution = 360;
-
-	float distanceperpulse = (M_PI*wheel_circumference/pulse_per_revolution);
-	if (autoPick <=1) {
-#ifdef LEFT
-	encoderDistanceReading = m_encoder_left.GetDistance();
-		if (encoderDistanceReading < 35) {
-			//35 before
-			MotorSpeedRight(0.27);
-			MotorSpeedLeft(0.27);
-		} else {
-			forwarddone=true;
-			MotorSpeedRight(0.0);
-			MotorSpeedLeft(0.0);
-		}
-#else
-	encoderDistanceReading = m_encoder_right.GetDistance();
-	if (encoderDistanceReading > -35) {
-		MotorSpeedRight(0.27);
-		MotorSpeedLeft(0.27);
-	}
-	else{
-		forwarddone=true;
-		MotorSpeedRight(0.0);
-		MotorSpeedLeft(0.0);
-	}
-	}
-#endif
 }
-else if(autoPick >= 1 && autoPick < 2) {
-	if(m_encoder_left.GetDistance()< 35) {
-		MotorSpeedLeft(0.3);
-		MotorSpeedRight(0.3);
-	}
-	else{
-		MotorSpeedLeft(0.0);
-		//MotorSpeedRight(0.0);
-		forwarddone = true;
-
-	if(ahrs->GetAngle() < 45 && forwarddone == true) {
-		MotorSpeedRight(0.3);
-	}
-	else {
-		//MotorSpeedRight(0.0);
-
-	if(m_encoder_left.GetDistance() < 50){
-		MotorSpeedLeft(0.3);
-		MotorSpeedRight(0.3);
-	}
-	else{
-		MotorSpeedLeft(0.0);
-		MotorSpeedRight(0.0);
-	}
-	}
-	}
-}
-else if (autoPick >= 2 && autoPick < 3){
-	if(m_encoder_left.GetDistance() < 45) {
-			MotorSpeedLeft(0.3);
-			MotorSpeedRight(0.3);
-		}
-		else{
-			//MotorSpeedLeft(0.0);
-			MotorSpeedRight(0.0);
-			forwarddone = true;
-
-		if(ahrs->GetAngle() > -55 && forwarddone == true) {
-			MotorSpeedLeft(0.3);
-		}
-		else {
-			//MotorSpeedLeft(0.0);
-
-		if(m_encoder_left.GetDistance() < 60){
-			MotorSpeedLeft(0.3);
-			MotorSpeedRight(0.3);
-		}
-		else{
-			MotorSpeedLeft(0.0);
-			MotorSpeedRight(0.0);
-		}
-		}
-		}
-}
-else if (autoPick >= 3) {
-#ifdef LEFT
-	encoderDistanceReading = m_encoder_left.GetDistance();
-		if (encoderDistanceReading < 70) {
-			//35 before
-			MotorSpeedRight(0.3);
-			MotorSpeedLeft(0.3);
-		} else {
-			forwarddone=true;
-			MotorSpeedRight(0.0);
-			MotorSpeedLeft(0.0);
-		}
-#else
-	encoderDistanceReading = m_encoder_right.GetDistance();
-	if (encoderDistanceReading > -35) {
-		MotorSpeedRight(0.3);
-		MotorSpeedLeft(0.3);
-	}
-	else{
-		forwarddone=true;
-		MotorSpeedRight(0.0);
-		MotorSpeedLeft(0.0);
-	}
-	}
-#endif
-}
-	frc::SmartDashboard::PutNumber("Encoder Left", encoderDistanceReading);
-	frc::SmartDashboard::PutNumber("Encoder Right", m_encoder_right.GetDistance());
-
-	if (autoSelected == autoNameCustom) {
-		// Custom Auto goes here
-	} else {
-		// Default Auto goes here
-	}
-/*
-	if (forwarddone)
-	{
-	if (ahrs->GetAngle() < 45) {
-		MotorSpeedRight(0.2);
-	}
-	else {
-		MotorSpeedRight(0.0);
-	}
-	}
-*/
-
-}
-
-

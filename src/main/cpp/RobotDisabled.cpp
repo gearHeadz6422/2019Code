@@ -10,17 +10,18 @@
 void
 Robot::DisabledInit()
 {
-	CameraLightOff();
-	talon_left_master.Set(0.0);
-	talon_right_master.Set(0.0);
-	talon_left_slave.Set(0.0);
-	talon_right_slave.Set(0.0);
-	talon_winch.Set(0.0);
-	talon_ballpick.Set(0.0);
-	talon_ballshoot.Set(0.0);
-	colliding = false;
-	accelX = 0.0;
-	accelY = 0.0;
-	lastAccelX = 0.0;
-	lastAccelY = 0.0;
+	//CameraLightOff();
+	FrontLeft.Set(0.0);
+	FrontRight.Set(0.0);
+	BackLeft.Set(0.0);
+	BackRight.Set(0.0);
+	//maxpwr1 = 0;
+	//maxpwr2 = 0;
+	waitper = 0;
+	winchSpeed = 0;
+	frc::SmartDashboard::PutNumber("X velocity" , 0);
+	frc::SmartDashboard::PutNumber("Y velocity" , 0);
+	//talon_winch.Set(0.0);
+	//talon_ballpick.Set(0.0);
+	//talon_ballshoot.Set(0.0);
 }

@@ -7,17 +7,17 @@ using namespace std;
 
 
 Robot::Robot() :
-		reverse(1),ahrs(nullptr), ballpickspeedval(0),
-		winchspeedval(0), talon_left_master(0), talon_left_slave(1),
-		talon_right_master(2), talon_right_slave(3),
-		talon_winch(4),
-		talon_ballpick(5),
-		talon_ballshoot(6),
-		climber(8),
-		calzone(0),
-		Diced_Tomato(0,6,7),
-		Ground_Beef(5)
-//		xboxctrl(0)
+		//left_master = front left
+		//left_slave = back left
+		//right_master = front right
+		//right_slave = back right
+		//reverse(1),
+				m_pdp(0),
+		FrontLeft(3), BackLeft(1),
+		FrontRight(4), BackRight(2),
+		//sp(1),
+		Shooter1(5), Shooter2(6), Winch(7), Climber(8),
+		Hook(0)
 {
 
 
@@ -41,8 +41,7 @@ Robot::Robot() :
 		// do this for 20 times before giving up
 		// this prevents a hangup if the board never calibrates
 		// [IsCalibrating() returns true]
-		while (n < 20)
-		{
+		while (n < 20){
 			n++;
 			if (ahrs->IsCalibrating()) {
 				sleep(1);
@@ -55,20 +54,21 @@ Robot::Robot() :
 		err_string += ex.what();
 		DriverStation::ReportError(err_string.c_str());
 	}
-	talon_left_master.SetInverted(true);
-	talon_left_slave.SetInverted(true);
+	FrontRight.SetInverted(true);
+	BackRight.SetInverted(true);
+	//InitEncoder(m_encoder_right);
 //	talon_left_slave.SetControlMode(CANSpeedController::kFollower);
 //	talon_left_slave.Set(talon_left_master.GetDeviceID());
 //	talon_right_slave.SetControlMode(CANSpeedController::kFollower);
 //	talon_right_slave.Set(talon_right_master.GetDeviceID());
 
-	talon_ballpick.SetNeutralMode(NeutralMode::Coast);
+	//talon_ballpick.SetNeutralMode(NeutralMode::Coast);
 
-	InitEncoder(m_encoder_left);
-	InitEncoder(m_encoder_right);
+	//InitEncoder(m_encoder_left);
+	//I/nitEncoder(m_encoder_right);
 	angle = ahrs->GetAngle();
 	ahrs->ZeroYaw();
-	memset(buttonpushed,0,sizeof(buttonpushed));
+	memset(maxpwr,0,sizeof(maxpwr));
 }
 
 void Robot::RobotInit() {
@@ -79,17 +79,12 @@ void Robot::RobotInit() {
 	 */
 	camera0 = CameraServer::GetInstance()->StartAutomaticCapture(0);
 	camera0.SetResolution(160, 120);
-	camera0.SetFPS(10);
-//	camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
-//	cs::UsbCamera camera =
-//			CameraServer::GetInstance()->StartAutomaticCapture(1);
-	// We need to run our vision program in a separate Thread.
-	// If not, our robot program will not run
-	std::thread visionThread(VisionThread);
-	visionThread.detach();
+	camera0.SetFPS(30);
+
+	camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
+	camera1.SetResolution(160, 120);
+	camera1.SetFPS(30);
+//frc::StartRobot<Robot>();
 }
-
-
-
-START_ROBOT_CLASS(Robot)
-
+int main() { return frc::StartRobot<Robot>(); }
+//START_ROBOT_CLASS(Robot)
