@@ -14,7 +14,6 @@ bool rbump = true;
 bool lbump = true;
 double mpwr = 0;
 
-
 int smartDashTimerTele = 0;
 
 bool raisingRamp = false;
@@ -27,9 +26,12 @@ double previousRampAngle = 0.0;
 
 double maxAccelX = 0.0;
 double maxAccelY = 0.0;
-double dpad = 0.0;
+
+double hookSpeed = 0.0;
 
 double driveType = 0.0;
+
+bool joystickMode = false;
 
 void Robot::TeleopInit() {
 	colliding = false;
@@ -51,6 +53,8 @@ void Robot::TeleopInit() {
 	Climber.SetSelectedSensorPosition(0,0,0);
 	driveType = frc::SmartDashboard::GetNumber("DB/Slider 3", 0.0);
 }
+
+
 
 void Robot::TeleopPeriodic() {
 	if (fabs(ahrs->GetWorldLinearAccelX()) > maxAccelX) {
@@ -120,12 +124,33 @@ void Robot::TeleopPeriodic() {
 
 	bool stop0 = xboxcontroller0.GetStartButton();
 	bool stop1 = xboxcontroller1.GetStartButton();
+	bool stop2 = xboxcontroller2.GetStartButton();
+
+	double rightX1 = 0.0;
+	double rightY1 = 0.0;
+	double leftX1 = 0.0;
+	double leftY1 = 0.0;
+	bool leftBumper1 = false;
+	bool rightBumper1 = false;
+	double rightTrigger1 = 0.0;
+	double leftTrigger1 = 0.0;
+	bool startButton1 = false;
 
 	//PILOT CONTROLLER BUTTONS
-	double rightX1 = xboxcontroller0.GetX(frc::Joystick::kRightHand);
-	double rightY1 = xboxcontroller0.GetY(frc::Joystick::kRightHand);
-	double leftX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
-	double leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+	if (!joystickMode) {
+		rightX1 = xboxcontroller0.GetX(frc::Joystick::kRightHand);
+		rightY1 = xboxcontroller0.GetY(frc::Joystick::kRightHand);
+		leftX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
+		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+
+		leftBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kLeftHand);
+		rightBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kRightHand);
+
+		rightTrigger1 = xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand);
+		leftTrigger1 = xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand);
+
+		startButton1 = xboxcontroller0.GetStartButton();
+	}
 
 	if (rightX1 < 0) {
 		rightX1 = ((rightX1 * rightX1) * -1);
@@ -134,47 +159,77 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if (rightY1 < 0) {
-			rightY1 = ((rightY1 * rightY1) * -1);
-		} else {
-			rightY1 = (rightY1 * rightY1);
-		}
-
-
-	bool leftBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kLeftHand);
-	bool rightBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kRightHand);
-
-	double rightTrigger1 = xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand);
-	double leftTrigger1 = xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand);
-
-	bool startButton1 = xboxcontroller0.GetStartButton();
+		rightY1 = ((rightY1 * rightY1) * -1);
+	} else {
+		rightY1 = (rightY1 * rightY1);
+	}
 
 	float big = 0.0;
 	float multiplier = leftTrigger1+1;
 
+	double rightY2 = 0.0; 
+	double rightX2 = 0.0;
+	double leftY2 = 0.0;
+	double leftX2 = 0.0;
+	bool leftBumper2 = false;
+	bool rightBumper2 = false;
+	bool xButton2 = false; 
+	bool aButton2 = false;
+	bool yButton2 = false; 
+	bool bButton2 = false;
+	double rightTrigger2 = 0.0; 
+	double leftTrigger2 = 0.0;
+	bool startButton2 = false;
+	int dpad = 0;
+
 	//CO-PILOT CONTROLLER
-	double rightY2 = xboxcontroller1.GetY(frc::Joystick::kRightHand);
-	double rightX2 = xboxcontroller1.GetX(frc::Joystick::kRightHand);
-	double leftY2 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
-	double leftX2 = xboxcontroller1.GetX(frc::Joystick::kLeftHand);
+	if (!joystickMode) {
+		rightY2 = xboxcontroller1.GetY(frc::Joystick::kRightHand);
+		rightX2 = xboxcontroller1.GetX(frc::Joystick::kRightHand);
+		leftY2 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
+		leftX2 = xboxcontroller1.GetX(frc::Joystick::kLeftHand);
 
-	bool leftBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kLeftHand);
-	bool rightBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kRightHand);
+		leftBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kLeftHand);
+		rightBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kRightHand);
 
-	bool xButton2 = xboxcontroller1.GetXButton();
-	bool aButton2 = xboxcontroller1.GetAButton();
-	bool yButton2 = xboxcontroller1.GetYButton();
-	bool bButton2 = xboxcontroller1.GetBButton();
+		xButton2 = xboxcontroller1.GetXButton();
+		aButton2 = xboxcontroller1.GetAButton();
+		yButton2 = xboxcontroller1.GetYButton();
+		bButton2 = xboxcontroller1.GetBButton();
 
-	double rightTrigger2 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kRightHand);
-	double leftTrigger2 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kLeftHand);
+		rightTrigger2 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kRightHand);
+		leftTrigger2 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kLeftHand);
 
-	bool startButton2 = xboxcontroller1.GetStartButton();
+		startButton2 = xboxcontroller1.GetStartButton();
+
+		dpad = xboxcontroller1.GetPOV();
+	} else {
+		rightY2 = xboxcontroller2.GetY(frc::Joystick::kRightHand);
+		rightX2 = xboxcontroller2.GetX(frc::Joystick::kRightHand);
+		leftY2 = xboxcontroller2.GetY(frc::Joystick::kLeftHand);
+		leftX2 = xboxcontroller2.GetX(frc::Joystick::kLeftHand);
+
+		leftBumper2 = xboxcontroller2.GetBumper(frc::Joystick::kLeftHand);
+		rightBumper2 = xboxcontroller2.GetBumper(frc::Joystick::kRightHand);
+
+		xButton2 = xboxcontroller2.GetXButton();
+		aButton2 = xboxcontroller2.GetAButton();
+		yButton2 = xboxcontroller2.GetYButton();
+		bButton2 = xboxcontroller2.GetBButton();
+
+		rightTrigger2 = xboxcontroller2.GetTriggerAxis(frc::Joystick::kRightHand);
+		leftTrigger2 = xboxcontroller2.GetTriggerAxis(frc::Joystick::kLeftHand);
+
+		startButton2 = xboxcontroller2.GetStartButton();
+
+		dpad = xboxcontroller2.GetPOV();
+	}
 
 	float rampMultiplier = leftTrigger2 +1;
 
 	double climbRotations = Climber.GetSelectedSensorPosition(0)/4096.0;
 	frc::SmartDashboard::PutNumber("ClimbRotations", climbRotations);
-	if(stop1 == false && stop0 == false) {
+	if(stop2 == false && stop1 == false && stop0 == false) {
 
 		//PILOT CONTROLLER CODE
 	if (fabs(rightX1) > fabs(rightY1) && fabs(rightX1) > fabs(leftX1)) {
@@ -185,17 +240,18 @@ void Robot::TeleopPeriodic() {
 		big = fabs(leftX1);
 	}
 
-	if(xboxcontroller1.GetPOV() == 90 && dpad < 1){
-		for (int i=0;i<5;i++){
-		dpad = dpad + .01;
+	if(dpad == 90 && hookSpeed < 1){
+		for (int i=0; i<5; i++){
+			hookSpeed = hookSpeed + .01;
 		}
 	}
-	if (xboxcontroller1.GetPOV() == 270 && dpad > 0) {
-		for (int k=0;k<5;k++){
-		dpad = dpad - .01;
+
+	if (dpad == 270 && hookSpeed > 0) {
+		for (int k=0; k<5; k++){
+			hookSpeed = hookSpeed - .01;
 		}
 	}
-	Hook.Set(dpad);
+	Hook.Set(hookSpeed);
 
 	if (startButton1){
 		FrontLeft.Set(0.0);

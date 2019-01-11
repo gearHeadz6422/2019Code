@@ -40,7 +40,8 @@ static double visionPwr __attribute__((unused)) = 0;
 class Robot: public frc::TimedRobot
 
 {
-public:
+
+  public:
 	Robot();
     virtual ~Robot(){}
 
@@ -115,6 +116,7 @@ float rampSpeed = 0.0;
 	std::string autoSelected;
 	frc::XboxController xboxcontroller0{0};
 	frc::XboxController xboxcontroller1{1};
+	frc::XboxController xboxcontroller2{2};
 bool buttonpushed[7];
 frc::PowerDistributionPanel m_pdp;
 	WPI_TalonSRX FrontLeft;
