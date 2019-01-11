@@ -13,23 +13,29 @@
     "systemCMacros": [],
     "systemCArgs": [],
     "allLibFiles": [
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-sources.zip_1d4902b8d661ea0013db03839171f570",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-sources.zip_7efd4b26972c111bd2d0da91a0d82fbf",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-sources.zip_27f7d7fa68257a63301bac2afc842ab9",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-sources.zip_b3716c5c283bde8ea06849367c6dceeb",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-sources.zip_aabd35fb3d0a8e0795e42daeb8630b18",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-sources.zip_5f7e9586978010d82528c8f2daa3f911",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-sources.zip_77141d62b3e263395a4b585628a50d3d"
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\api-cpp-5.12.0-headers.zip_4c0f1181ce667c2b1da6d536e53054ec",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cci-5.12.0-headers.zip_dcc0606199f9f03e2afc8c79f610ebba",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\core-5.12.0-headers.zip_318ff6fc4a9e78b523ef7a1e4e5003aa",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-sources.zip_1d4902b8d661ea0013db03839171f570",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-sources.zip_7efd4b26972c111bd2d0da91a0d82fbf",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-sources.zip_27f7d7fa68257a63301bac2afc842ab9",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-sources.zip_b3716c5c283bde8ea06849367c6dceeb",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-sources.zip_aabd35fb3d0a8e0795e42daeb8630b18",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-sources.zip_5f7e9586978010d82528c8f2daa3f911",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-sources.zip_77141d62b3e263395a4b585628a50d3d",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-sources.zip_af0d4bc1d0a55c158c1c5cd023cb03e9"
     ],
     "binaries": [
       {
@@ -38,7 +44,7 @@
           {
             "source": {
               "srcDirs": [
-                "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\cpp"
+                "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\cpp"
               ],
               "includes": [
                 "**/*.cpp",
@@ -48,7 +54,7 @@
             },
             "exportedHeaders": {
               "srcDirs": [
-                "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include"
+                "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
               ],
               "includes": [],
               "excludes": []
@@ -73,16 +79,21 @@
           }
         ],
         "libHeaders": [
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include"
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\api-cpp-5.12.0-headers.zip_4c0f1181ce667c2b1da6d536e53054ec",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cci-5.12.0-headers.zip_dcc0606199f9f03e2afc8c79f610ebba",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\core-5.12.0-headers.zip_318ff6fc4a9e78b523ef7a1e4e5003aa",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
         ]
       }
     ],
@@ -90,7 +101,7 @@
       {
         "source": {
           "srcDirs": [
-            "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\cpp"
+            "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\cpp"
           ],
           "includes": [
             "**/*.cpp",
@@ -120,7 +131,7 @@
       {
         "source": {
           "srcDirs": [
-            "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include"
+            "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
           ],
           "includes": [],
           "excludes": []
@@ -163,23 +174,29 @@
     "systemCMacros": [],
     "systemCArgs": [],
     "allLibFiles": [
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-sources.zip_1d4902b8d661ea0013db03839171f570",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-sources.zip_7efd4b26972c111bd2d0da91a0d82fbf",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-sources.zip_27f7d7fa68257a63301bac2afc842ab9",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-sources.zip_b3716c5c283bde8ea06849367c6dceeb",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-sources.zip_aabd35fb3d0a8e0795e42daeb8630b18",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-sources.zip_5f7e9586978010d82528c8f2daa3f911",
-      "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-sources.zip_77141d62b3e263395a4b585628a50d3d"
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\api-cpp-5.12.0-headers.zip_4c0f1181ce667c2b1da6d536e53054ec",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cci-5.12.0-headers.zip_dcc0606199f9f03e2afc8c79f610ebba",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\core-5.12.0-headers.zip_318ff6fc4a9e78b523ef7a1e4e5003aa",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-sources.zip_1d4902b8d661ea0013db03839171f570",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-sources.zip_7efd4b26972c111bd2d0da91a0d82fbf",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-sources.zip_27f7d7fa68257a63301bac2afc842ab9",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-sources.zip_b3716c5c283bde8ea06849367c6dceeb",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-sources.zip_aabd35fb3d0a8e0795e42daeb8630b18",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-sources.zip_5f7e9586978010d82528c8f2daa3f911",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-sources.zip_77141d62b3e263395a4b585628a50d3d",
+      "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-sources.zip_af0d4bc1d0a55c158c1c5cd023cb03e9"
     ],
     "binaries": [
       {
@@ -188,7 +205,7 @@
           {
             "source": {
               "srcDirs": [
-                "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\cpp"
+                "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\cpp"
               ],
               "includes": [
                 "**/*.cpp",
@@ -198,7 +215,7 @@
             },
             "exportedHeaders": {
               "srcDirs": [
-                "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include"
+                "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
               ],
               "includes": [],
               "excludes": []
@@ -221,16 +238,21 @@
           }
         ],
         "libHeaders": [
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
-          "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include"
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.1.1-headers.zip_1bbfce5e2e0c140b468a547dbc8c30e1",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.1.1-headers.zip_09b38849dbdfa883c4be908731924be2",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.1.1-headers.zip_de8bb156e7c972a7498927ac56d827f7",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.1.1-headers.zip_8872a682a8b282d24272d8aebeb3f812",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.1.1-headers.zip_8e6098f7e4e3b331e0504d2d66cebd71",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\api-cpp-5.12.0-headers.zip_4c0f1181ce667c2b1da6d536e53054ec",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cci-5.12.0-headers.zip_dcc0606199f9f03e2afc8c79f610ebba",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\core-5.12.0-headers.zip_318ff6fc4a9e78b523ef7a1e4e5003aa",
+          "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
         ]
       }
     ],
@@ -238,7 +260,7 @@
       {
         "source": {
           "srcDirs": [
-            "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\cpp"
+            "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\cpp"
           ],
           "includes": [
             "**/*.cpp",
@@ -266,7 +288,7 @@
       {
         "source": {
           "srcDirs": [
-            "C:\\Robotics\\Code\\workingCode\\2019Code\\src\\main\\include"
+            "C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
           ],
           "includes": [],
           "excludes": []

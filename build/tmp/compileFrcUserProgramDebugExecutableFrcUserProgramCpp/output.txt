@@ -1,0 +1,566 @@
+See file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramDebugExecutableFrcUserProgramCpp.
+compiling RobotDisabled.cpp failed.
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:14:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning is a GCC extension
+ #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:15:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning is a GCC extension
+ #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:16:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning is a GCC extension
+ #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:17:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning is a GCC extension
+ #warning "Encoder.h is deprecated; include frc/Encoder.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning "Encoder.h is deprecated; include frc/Encoder.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning is a GCC extension
+ #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:20:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning is a GCC extension
+ #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:21:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:22:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:23:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning is a GCC extension
+ #warning "XboxController.h is deprecated; include frc/XboxController.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning "XboxController.h is deprecated; include frc/XboxController.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:27:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning is a GCC extension
+ #warning "Timer.h is deprecated; include frc/Timer.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning "Timer.h is deprecated; include frc/Timer.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:0:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:139:2: error: 'cs' does not name a type
+  cs::UsbCamera camera0;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:140:2: error: 'cs' does not name a type
+  cs::UsbCamera camera1;
+  ^~
+
+compiling RobotAutonomous.cpp failed.
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:14:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning is a GCC extension
+ #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:15:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning is a GCC extension
+ #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:16:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning is a GCC extension
+ #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:17:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning is a GCC extension
+ #warning "Encoder.h is deprecated; include frc/Encoder.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning "Encoder.h is deprecated; include frc/Encoder.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning is a GCC extension
+ #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:20:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning is a GCC extension
+ #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:21:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:22:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:23:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning is a GCC extension
+ #warning "XboxController.h is deprecated; include frc/XboxController.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning "XboxController.h is deprecated; include frc/XboxController.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:27:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning is a GCC extension
+ #warning "Timer.h is deprecated; include frc/Timer.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning "Timer.h is deprecated; include frc/Timer.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:10:0:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SampleRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "SampleRobot.h is deprecated; include frc/SampleRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SampleRobot.h:14:2: warning: #warning "SampleRobot.h is deprecated; include frc/SampleRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:8:0:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:139:2: error: 'cs' does not name a type
+  cs::UsbCamera camera0;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:140:2: error: 'cs' does not name a type
+  cs::UsbCamera camera1;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp: In member function 'virtual void Robot::AutonomousPeriodic()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:76:14: error: incomplete type 'frc::DriverStation' used in nested name specifier
+   gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+              ^~~
+
+compiling RobotUtils.cpp failed.
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:14:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning is a GCC extension
+ #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:15:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning is a GCC extension
+ #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:16:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning is a GCC extension
+ #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:17:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning is a GCC extension
+ #warning "Encoder.h is deprecated; include frc/Encoder.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning "Encoder.h is deprecated; include frc/Encoder.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning is a GCC extension
+ #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:20:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning is a GCC extension
+ #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:21:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:22:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:23:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning is a GCC extension
+ #warning "XboxController.h is deprecated; include frc/XboxController.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning "XboxController.h is deprecated; include frc/XboxController.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:27:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning is a GCC extension
+ #warning "Timer.h is deprecated; include frc/Timer.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning "Timer.h is deprecated; include frc/Timer.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:0:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:139:2: error: 'cs' does not name a type
+  cs::UsbCamera camera0;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:140:2: error: 'cs' does not name a type
+  cs::UsbCamera camera1;
+  ^~
+
+compiling RobotTest.cpp failed.
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:14:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning is a GCC extension
+ #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:15:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning is a GCC extension
+ #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:16:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning is a GCC extension
+ #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:17:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning is a GCC extension
+ #warning "Encoder.h is deprecated; include frc/Encoder.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning "Encoder.h is deprecated; include frc/Encoder.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning is a GCC extension
+ #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:20:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning is a GCC extension
+ #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:21:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:22:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:23:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning is a GCC extension
+ #warning "XboxController.h is deprecated; include frc/XboxController.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning "XboxController.h is deprecated; include frc/XboxController.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:27:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning is a GCC extension
+ #warning "Timer.h is deprecated; include frc/Timer.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning "Timer.h is deprecated; include frc/Timer.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:0:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:139:2: error: 'cs' does not name a type
+  cs::UsbCamera camera0;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:140:2: error: 'cs' does not name a type
+  cs::UsbCamera camera1;
+  ^~
+
+compiling RobotTeleop.cpp failed.
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:14:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning is a GCC extension
+ #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:15:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning is a GCC extension
+ #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:16:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning is a GCC extension
+ #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:17:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning is a GCC extension
+ #warning "Encoder.h is deprecated; include frc/Encoder.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning "Encoder.h is deprecated; include frc/Encoder.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning is a GCC extension
+ #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:20:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning is a GCC extension
+ #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:21:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:22:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:23:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning is a GCC extension
+ #warning "XboxController.h is deprecated; include frc/XboxController.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning "XboxController.h is deprecated; include frc/XboxController.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:27:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning is a GCC extension
+ #warning "Timer.h is deprecated; include frc/Timer.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning "Timer.h is deprecated; include frc/Timer.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:7:0:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:139:2: error: 'cs' does not name a type
+  cs::UsbCamera camera0;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:140:2: error: 'cs' does not name a type
+  cs::UsbCamera camera1;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp: In member function 'virtual void Robot::TeleopPeriodic()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:96:40: error: 'Joystick' has not been declared
+  double rightX1 = xboxcontroller0.GetX(Joystick::kRightHand);
+                                        ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:97:40: error: 'Joystick' has not been declared
+  double rightY1 = xboxcontroller0.GetY(Joystick::kRightHand);
+                                        ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:98:39: error: 'Joystick' has not been declared
+  double leftX1 = xboxcontroller0.GetX(Joystick::kLeftHand);
+                                       ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:99:39: error: 'Joystick' has not been declared
+  double leftY1 = xboxcontroller0.GetY(Joystick::kLeftHand);
+                                       ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:114:47: error: 'Joystick' has not been declared
+  bool leftBumper1 = xboxcontroller0.GetBumper(Joystick::kLeftHand);
+                                               ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:115:48: error: 'Joystick' has not been declared
+  bool rightBumper1 = xboxcontroller0.GetBumper(Joystick::kRightHand);
+                                                ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:117:56: error: 'Joystick' has not been declared
+  double rightTrigger1 = xboxcontroller0.GetTriggerAxis(Joystick::kRightHand);
+                                                        ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:118:55: error: 'Joystick' has not been declared
+  double leftTrigger1 = xboxcontroller0.GetTriggerAxis(Joystick::kLeftHand);
+                                                       ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:126:40: error: 'Joystick' has not been declared
+  double rightY2 = xboxcontroller1.GetY(Joystick::kRightHand);
+                                        ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:127:40: error: 'Joystick' has not been declared
+  double rightX2 = xboxcontroller1.GetX(Joystick::kRightHand);
+                                        ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:128:39: error: 'Joystick' has not been declared
+  double leftY2 = xboxcontroller1.GetY(Joystick::kLeftHand);
+                                       ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:129:39: error: 'Joystick' has not been declared
+  double leftX2 = xboxcontroller1.GetX(Joystick::kLeftHand);
+                                       ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:131:47: error: 'Joystick' has not been declared
+  bool leftBumper2 = xboxcontroller1.GetBumper(Joystick::kLeftHand);
+                                               ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:132:48: error: 'Joystick' has not been declared
+  bool rightBumper2 = xboxcontroller1.GetBumper(Joystick::kRightHand);
+                                                ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:139:56: error: 'Joystick' has not been declared
+  double rightTrigger2 = xboxcontroller1.GetTriggerAxis(Joystick::kRightHand);
+                                                        ^~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:140:55: error: 'Joystick' has not been declared
+  double leftTrigger2 = xboxcontroller1.GetTriggerAxis(Joystick::kLeftHand);
+                                                       ^~~~~~~~
+
+compiling Robot.cpp failed.
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:14:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning is a GCC extension
+ #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/AnalogInput.h:14:2: warning: #warning "AnalogInput.h is deprecated; include frc/AnalogInput.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:15:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning is a GCC extension
+ #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/DoubleSolenoid.h:14:2: warning: #warning "DoubleSolenoid.h is deprecated; include frc/DoubleSolenoid.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:16:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning is a GCC extension
+ #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:17:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning is a GCC extension
+ #warning "Encoder.h is deprecated; include frc/Encoder.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Encoder.h:14:2: warning: #warning "Encoder.h is deprecated; include frc/Encoder.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning is a GCC extension
+ #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:14:2: warning: #warning "IterativeRobot.h is deprecated; include frc/IterativeRobot.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning is a GCC extension
+ #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/LiveWindow/LiveWindow.h:14:2: warning: #warning "LiveWindow/LiveWindow.h is deprecated; include frc/livewindow/LiveWindow.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:20:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning is a GCC extension
+ #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/PowerDistributionPanel.h:14:2: warning: #warning "PowerDistributionPanel.h is deprecated; include frc/PowerDistributionPanel.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:21:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SendableChooser.h:14:2: warning: #warning "smartdashboard/SendableChooser.h is deprecated; include frc/smartdashboard/SendableChooser.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:22:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning is a GCC extension
+ #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/SmartDashboard/SmartDashboard.h:14:2: warning: #warning "smartdashboard/SmartDashboard.h is deprecated; include frc/smartdashboard/SmartDashboard.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:23:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning is a GCC extension
+ #warning "XboxController.h is deprecated; include frc/XboxController.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/XboxController.h:14:2: warning: #warning "XboxController.h is deprecated; include frc/XboxController.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:27:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning is a GCC extension
+ #warning "Timer.h is deprecated; include frc/Timer.h instead"
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/Timer.h:14:2: warning: #warning "Timer.h is deprecated; include frc/Timer.h instead" [-Wcpp]
+In file included from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:0:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:139:2: error: 'cs' does not name a type
+  cs::UsbCamera camera0;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:140:2: error: 'cs' does not name a type
+  cs::UsbCamera camera1;
+  ^~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp: In constructor 'Robot::Robot()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:19:48: warning: 'frc::IterativeRobot::IterativeRobot()' is deprecated: Use TimedRobot instead. It's a drop-in replacement that provides more regular execution periods. [-Wdeprecated-declarations]
+   Shooter1(5), Shooter2(6), Winch(7), Climber(8)
+                                                ^
+In file included from C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:19:0,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/IterativeRobot.h:28:3: note: declared here
+   IterativeRobot();
+   ^~~~~~~~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:54:3: error: incomplete type 'frc::DriverStation' used in nested name specifier
+   DriverStation::ReportError(err_string.c_str());
+   ^~~~~~~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp: In member function 'virtual void Robot::RobotInit()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:79:2: error: 'camera0' was not declared in this scope
+  camera0 = CameraServer::GetInstance()->StartAutomaticCapture(0);
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:79:12: error: 'CameraServer' has not been declared
+  camera0 = CameraServer::GetInstance()->StartAutomaticCapture(0);
+            ^~~~~~~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:83:2: error: 'camera1' was not declared in this scope
+  camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
+  ^~~~~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:83:12: error: 'CameraServer' has not been declared
+  camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
+            ^~~~~~~~~~~~
+In file included from C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/IterativeRobotBase.h:10:0,
+                 from C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/IterativeRobot.h:10,
+                 from C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/IterativeRobot.h:19,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.h:18,
+                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp: In function 'int main()':
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/RobotBase.h:39:23: warning: 'int StartRobotClassImpl()' is deprecated: Call frc::StartRobot<Robot>() in your own main() instead of using the START_ROBOT_CLASS(Robot) macro. [-Wdeprecated-declarations]
+   int main() { return StartRobotClassImpl(); }
+                       ^
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:88:1: note: in expansion of macro 'START_ROBOT_CLASS'
+ START_ROBOT_CLASS(Robot)
+ ^~~~~~~~~~~~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/RobotBase.h:38:7: note: declared here
+   int StartRobotClassImpl() { return frc::StartRobot<_ClassName_>(); } \
+       ^
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:88:1: note: in expansion of macro 'START_ROBOT_CLASS'
+ START_ROBOT_CLASS(Robot)
+ ^~~~~~~~~~~~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/RobotBase.h:39:43: warning: 'int StartRobotClassImpl()' is deprecated: Call frc::StartRobot<Robot>() in your own main() instead of using the START_ROBOT_CLASS(Robot) macro. [-Wdeprecated-declarations]
+   int main() { return StartRobotClassImpl(); }
+                                           ^
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:88:1: note: in expansion of macro 'START_ROBOT_CLASS'
+ START_ROBOT_CLASS(Robot)
+ ^~~~~~~~~~~~~~~~~
+C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.1.1-headers.zip_bbc5901b0e22ac527e7d642f2ec68009/frc/RobotBase.h:38:7: note: declared here
+   int StartRobotClassImpl() { return frc::StartRobot<_ClassName_>(); } \
+       ^
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:88:1: note: in expansion of macro 'START_ROBOT_CLASS'
+ START_ROBOT_CLASS(Robot)
+ ^~~~~~~~~~~~~~~~~
+
+Finished compileFrcUserProgramDebugExecutableFrcUserProgramCpp, see full log file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt.

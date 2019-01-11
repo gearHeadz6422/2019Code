@@ -206,10 +206,17 @@ void Robot::TeleopPeriodic() {
 		rampSpeed = 0;
 	}
 	else {
-		FrontLeft.Set(rightY1/2.5);
-		FrontRight.Set(leftY1/2.5);
-		BackLeft.Set(rightY1/2.5);
-		BackRight.Set(leftY1/2.5);
+		// Tank drive
+		// FrontLeft.Set(rightY1/2.5);
+		// FrontRight.Set(leftY1/2.5);
+		// BackLeft.Set(rightY1/2.5);
+		// BackRight.Set(leftY1/2.5);
+
+		// Mecanum
+		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		FrontRight.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackLeft.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackRight.Set(((cos(atan2(rightY1, rightX1) - M_PI / 4) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 	}
 
 

@@ -1,0 +1,4 @@
+See file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/linkFrcUserProgramDebugExecutable/output.txt for all output for linkFrcUserProgramDebugExecutable.
+linking frcUserProgram successful.
+
+Finished linkFrcUserProgramDebugExecutable, see full log file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/linkFrcUserProgramDebugExecutable/output.txt.
