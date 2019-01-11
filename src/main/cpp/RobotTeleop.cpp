@@ -31,7 +31,7 @@ double hookSpeed = 0.0;
 
 double driveType = 0.0;
 
-bool joystickMode = false;
+bool joystickMode = true;
 
 void Robot::TeleopInit() {
 	colliding = false;
@@ -150,6 +150,13 @@ void Robot::TeleopPeriodic() {
 		leftTrigger1 = xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand);
 
 		startButton1 = xboxcontroller0.GetStartButton();
+	} else {
+		// Only use left hand - the joystick axes line up with the left controller axes
+		leftX1 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kLeftHand);
+		rightY1 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
+		rightX1 = xboxcontroller1.GetX(frc::Joystick::kLeftHand)*2;
+		// rightX1 = xboxcontroller1.GetX(frc::Joystick::kLeftHand);
+		// rightY1 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
 	}
 
 	if (rightX1 < 0) {
