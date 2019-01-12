@@ -8,7 +8,6 @@
 #ifndef SRC_ROBOT_H_
 #define SRC_ROBOT_H_
 
-
 #include "AHRS.h"
 #include <ctre/Phoenix.h>
 #include <frc/WPIlib.h>

@@ -134,6 +134,7 @@ void Robot::TeleopPeriodic() {
 	bool rightBumper1 = false;
 	double rightTrigger1 = 0.0;
 	double leftTrigger1 = 0.0;
+	bool joyAccelButton = false;
 	bool startButton1 = false;
 
 	//PILOT CONTROLLER BUTTONS
@@ -152,11 +153,29 @@ void Robot::TeleopPeriodic() {
 		startButton1 = xboxcontroller0.GetStartButton();
 	} else {
 		// Only use left hand - the joystick axes line up with the left controller axes
-		leftX1 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kLeftHand);
-		rightY1 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
-		rightX1 = xboxcontroller1.GetX(frc::Joystick::kLeftHand)*2;
-		// rightX1 = xboxcontroller1.GetX(frc::Joystick::kLeftHand);
-		// rightY1 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
+		leftX1 = sqrt(abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)/1.5));
+		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0)
+		{
+			leftX1 *= -1;
+		}
+		rightY1 = 1.3 * sqrt(abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand)));
+		if (xboxcontroller0.GetY(frc::Joystick::kLeftHand) < 0) {
+			rightY1 *= -1;
+		}
+		rightX1 = 1.3 * sqrt(abs(xboxcontroller0.GetX(frc::Joystick::kLeftHand)*1.5));
+		if (xboxcontroller0.GetX(frc::Joystick::kLeftHand) < 0)
+		{
+			rightX1 *= -1;
+		}
+		joyAccelButton = xboxcontroller0.GetAButton();
+		if (joyAccelButton) {
+			leftTrigger1 = 1.0;
+		} else {
+			leftTrigger1 = 0.0;
+		}
+		startButton1 = xboxcontroller0.GetBButton();
+		// rightX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
+		// rightY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
 	}
 
 	if (rightX1 < 0) {
@@ -247,19 +266,6 @@ void Robot::TeleopPeriodic() {
 		big = fabs(leftX1);
 	}
 
-	if(dpad == 90 && hookSpeed < 1){
-		for (int i=0; i<5; i++){
-			hookSpeed = hookSpeed + .01;
-		}
-	}
-
-	if (dpad == 270 && hookSpeed > 0) {
-		for (int k=0; k<5; k++){
-			hookSpeed = hookSpeed - .01;
-		}
-	}
-	Hook.Set(hookSpeed);
-
 	if (startButton1){
 		FrontLeft.Set(0.0);
 		FrontRight.Set(0.0);
@@ -275,7 +281,7 @@ void Robot::TeleopPeriodic() {
 		// BackLeft.Set(rightY1/2.5);
 		// BackRight.Set(leftY1/2.5);
 
-		// Mecanum
+		// Mecanum 
 		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 		FrontRight.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 		BackLeft.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
@@ -287,6 +293,19 @@ void Robot::TeleopPeriodic() {
 	if (aButton2) {
 		winchEncoder.Reset();
 	}
+
+	if(dpad == 90 && hookSpeed < 1){
+		for (int i=0; i<5; i++){
+			hookSpeed = hookSpeed + .01;
+		}
+	}
+
+	if (dpad == 270 && hookSpeed > 0) {
+		for (int k=0; k<5; k++){
+			hookSpeed = hookSpeed - .01;
+		}
+	}
+	Hook.Set(hookSpeed);
 
 	if (winchEncoder.GetDistance() != previousRampAngle) {
 		if (previousRampAngle < winchEncoder.GetDistance() && !loweringRamp && leftY2 > -0.025) {
