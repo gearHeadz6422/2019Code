@@ -33,6 +33,9 @@ double driveType = 0.0;
 
 bool joystickMode = true;
 
+bool leftTurn = false;
+bool rightTurn = false;
+
 void Robot::TeleopInit() {
 	colliding = false;
 	accelX = 0.0;
@@ -53,8 +56,6 @@ void Robot::TeleopInit() {
 	Climber.SetSelectedSensorPosition(0,0,0);
 	driveType = frc::SmartDashboard::GetNumber("DB/Slider 3", 0.0);
 }
-
-
 
 void Robot::TeleopPeriodic() {
 	if (fabs(ahrs->GetWorldLinearAccelX()) > maxAccelX) {
@@ -110,9 +111,9 @@ void Robot::TeleopPeriodic() {
 			frc::SmartDashboard::PutNumber(name, m_pdp.GetCurrent(i));
 		}
 		//left_master = front left
-				//left_slave = back left
-				//right_master = front right
-				//right_slave = back right
+		//left_slave = back left
+		//right_master = front right
+		//right_slave = back right
 
 		frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
 		frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
@@ -126,7 +127,6 @@ void Robot::TeleopPeriodic() {
 	bool stop1 = xboxcontroller1.GetStartButton();
 	bool stop2 = xboxcontroller2.GetStartButton();
 
-	double joyPov = -1.0;
 	double rightX1 = 0.0;
 	double rightY1 = 0.0;
 	double leftX1 = 0.0;
@@ -157,8 +157,7 @@ void Robot::TeleopPeriodic() {
 		
 		// 1 stick mode
 		leftX1 = sqrt(abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)/1.5));
-		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0)
-		{
+		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0) {
 			leftX1 *= -1;
 		}
 
@@ -187,18 +186,36 @@ void Robot::TeleopPeriodic() {
 		} else {
 			leftTrigger1 = 0.0;
 		}
-		
-		// startButton1 = xboxcontroller0.GetBButton();
-		// rightX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
-		// rightY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
 
-		joyPov = xboxcontroller0.GetPOV();
+		if (xboxcontroller0.GetBButton()) {
+			if (fabs(rightX1) >= fabs(rightY1)) {
+				rightY1 = 0.0;
+			} else {
+				rightX1 = 0.0;
+			}
+		}
 
-			// move directly left/right with the joystick
-		if (joyPov >= 225 && joyPov <= 315) {
-			rightX1 = -1.0;
-		} else if (joyPov >= 45 && joyPov <= 135) {
-			rightX1 = 1.0;
+		if (xboxcontroller0.GetXButton()) {
+			ahrs->ZeroYaw();
+			leftTurn = true;
+			rightTurn = false;
+		} else if (xboxcontroller0.GetYButton()) {
+			ahrs->ZeroYaw();
+			leftTurn = false;
+			rightTurn = true;
+		}
+
+		if (fabs(rightX1) > 0.2 || fabs(rightY1) > 0.2 || fabs(ahrs->GetAngle()) > 90) {
+			leftTurn = false;
+			rightTurn = false;
+		}
+
+		frc::SmartDashboard::PutBoolean("leftTurning", leftTurn);
+
+		if (leftTurn) {
+			leftX1 = -1.0;
+		} else if (rightTurn) {
+			leftX1 = 1.0;
 		}
 	}
 
