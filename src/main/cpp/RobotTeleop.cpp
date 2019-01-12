@@ -126,6 +126,7 @@ void Robot::TeleopPeriodic() {
 	bool stop1 = xboxcontroller1.GetStartButton();
 	bool stop2 = xboxcontroller2.GetStartButton();
 
+	double joyPov = -1.0;
 	double rightX1 = 0.0;
 	double rightY1 = 0.0;
 	double leftX1 = 0.0;
@@ -153,29 +154,52 @@ void Robot::TeleopPeriodic() {
 		startButton1 = xboxcontroller0.GetStartButton();
 	} else {
 		// Only use left hand - the joystick axes line up with the left controller axes
+		
+		// 1 stick mode
 		leftX1 = sqrt(abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)/1.5));
 		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0)
 		{
 			leftX1 *= -1;
 		}
+
+		// 2 stick mode
+		// leftX1 = sqrt(abs(xboxcontroller1.GetX(frc::Joystick::kLeftHand) / 1.5));
+		// if (xboxcontroller1.GetX(frc::Joystick::kLeftHand) < 0)
+		// {
+		// 	leftX1 *= -1;
+		// }
+
+
 		rightY1 = 1.3 * sqrt(abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand)));
 		if (xboxcontroller0.GetY(frc::Joystick::kLeftHand) < 0) {
 			rightY1 *= -1;
 		}
+
 		rightX1 = 1.3 * sqrt(abs(xboxcontroller0.GetX(frc::Joystick::kLeftHand)*1.5));
 		if (xboxcontroller0.GetX(frc::Joystick::kLeftHand) < 0)
 		{
 			rightX1 *= -1;
 		}
+
 		joyAccelButton = xboxcontroller0.GetAButton();
 		if (joyAccelButton) {
 			leftTrigger1 = 1.0;
 		} else {
 			leftTrigger1 = 0.0;
 		}
-		startButton1 = xboxcontroller0.GetBButton();
+		
+		// startButton1 = xboxcontroller0.GetBButton();
 		// rightX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
 		// rightY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+
+		joyPov = xboxcontroller0.GetPOV();
+
+			// move directly left/right with the joystick
+		if (joyPov >= 225 && joyPov <= 315) {
+			rightX1 = -1.0;
+		} else if (joyPov >= 45 && joyPov <= 135) {
+			rightX1 = 1.0;
+		}
 	}
 
 	if (rightX1 < 0) {
@@ -273,15 +297,14 @@ void Robot::TeleopPeriodic() {
 		BackRight.Set(0.0);
 		winchSpeed = 0;
 		rampSpeed = 0;
-	}
-	else {
+	} else {
 		// Tank drive
 		// FrontLeft.Set(rightY1/2.5);
 		// FrontRight.Set(leftY1/2.5);
 		// BackLeft.Set(rightY1/2.5);
 		// BackRight.Set(leftY1/2.5);
 
-		// Mecanum 
+		// Mecanum
 		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 		FrontRight.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 		BackLeft.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
