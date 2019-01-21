@@ -470,15 +470,11 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if(dpad == 90 && hookSpeed < 1){
-		for (int i=0; i<5; i++){
-			hookSpeed = hookSpeed + .01;
-		}
+		hookSpeed += .05;
 	}
 
 	if (dpad == 270 && hookSpeed > 0) {
-		for (int k=0; k<5; k++){
-			hookSpeed = hookSpeed - .01;
-		}
+		hookSpeed -= .05;
 	}
 	Hook.Set(hookSpeed);
 
