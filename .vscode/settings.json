@@ -11,9 +11,14 @@
     ".classpath": true,
     ".project": true
   },
-  "C_Cpp.default.configurationProvider": "vscode-wpilib",
   "wpilib.online": true,
   "files.associations": {
-    "*.inc": "cpp"
-  }
+    "*.inc": "cpp",
+    "string": "cpp",
+    "memory": "cpp",
+    "iostream": "cpp"
+  },
+  "python.linting.pylintEnabled": false,
+  "python.formatting.provider": "black",
+  "python.pythonPath": "C:\\Python30\\python.exe"
 }

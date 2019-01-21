@@ -21,6 +21,9 @@ float leftInches = 0; //This variable acTually uses the right encoder because of
 float rightInches = 0;
 int stepCount = 0;
 
+// Network Tables
+nt::NetworkTableEntry cameraOut;
+
 /*
  * This autonomous (along with the chooser code above) shows how to select
  * between different autonomous modes using the dashboard. The sendable
@@ -32,7 +35,9 @@ int stepCount = 0;
  * if-else structure below with additional strings. If using the
  * SendableChooser make sure to add them to the chooser code above as well.
  */
-void Robot::AutonomousInit() {
+	void
+	Robot::AutonomousInit()
+{
 	autoDelayTimer = 0;
 	desAutoDelay = 0.0;
 
@@ -43,7 +48,9 @@ void Robot::AutonomousInit() {
 	lastAccelY = 0.0;
 
 	startPosition = SmartDashboard::GetNumber("DB/Slider 0", 0.0);
+	startPosition = -40000.0; // TEMP
 	desAutoDelay = SmartDashboard::GetNumber("DB/Slider 1", 0.0);
+
 	cout << desAutoDelay;
 
 	leftEncoder.Reset();

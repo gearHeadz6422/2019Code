@@ -27,14 +27,27 @@ double previousRampAngle = 0.0;
 double maxAccelX = 0.0;
 double maxAccelY = 0.0;
 
+double accelX = 0.0;
+double accelY = 0.0;
+
 double hookSpeed = 0.0;
 
 double driveType = 0.0;
 
 bool joystickMode = true;
 
+double prevAnlge = 0.0;
+double currentAnlge = 0.0;
+
 bool leftTurn = false;
 bool rightTurn = false;
+int targetAngle = -1;
+
+double polyCount = 0.0;
+double cameraOutput = 0.0;
+int alignLoopCount = 0;
+bool networkUpdating = false;
+std::string autoLineUp = "none";
 
 void Robot::TeleopInit() {
 	colliding = false;
@@ -54,24 +67,31 @@ void Robot::TeleopInit() {
 	BackRight.Set(ControlMode::PercentOutput, 0);
 
 	Climber.SetSelectedSensorPosition(0,0,0);
-	driveType = frc::SmartDashboard::GetNumber("DB/Slider 3", 0.0);
+	// driveType = frc::SmartDashboard::GetNumber("DB/Slider 3", 0.0);
+
+	currentAnlge = 0;
+
+	autoLineUp = "none";
 }
 
 void Robot::TeleopPeriodic() {
-	if (fabs(ahrs->GetWorldLinearAccelX()) > maxAccelX) {
-		maxAccelX = fabs(ahrs->GetWorldLinearAccelX()) * 100;
-	}
+	// These don't appear to be important but I don't know why we put them here in the first place so I'll leave them commented
+	// if (fabs(ahrs->GetWorldLinearAccelX()) > maxAccelX) {
+	// 	maxAccelX = fabs(ahrs->GetWorldLinearAccelX()) * 100;
+	// }
 
-	if (fabs(ahrs->GetWorldLinearAccelY()) > maxAccelY) {
-		maxAccelY = fabs(ahrs->GetWorldLinearAccelX()) * 100;
-	}
+	// if (fabs(ahrs->GetWorldLinearAccelY()) > maxAccelY) {
+	// 	maxAccelY = fabs(ahrs->GetWorldLinearAccelX()) * 100;
+	// }
 
-	frc::SmartDashboard::PutNumber("X velocity", maxAccelX);
-	frc::SmartDashboard::PutNumber("Y velocity", maxAccelY);
-	frc::SmartDashboard::PutNumber("angle", ahrs->GetAngle());
+	accelX = fabs(ahrs->GetWorldLinearAccelX()) * 100;
+	accelY = fabs(ahrs->GetWorldLinearAccelX()) * 100;
 
-	frc::SmartDashboard::PutNumber("Timer", smartDashTimerTele);
-	if (smartDashTimerTele < 10){
+	frc::SmartDashboard::PutNumber("X velocity", accelX);
+	frc::SmartDashboard::PutNumber("Y velocity", accelY);
+
+	// frc::SmartDashboard::PutNumber("Timer", smartDashTimerTele);
+	if (smartDashTimerTele < 10) {
 		smartDashTimerTele += 1;
 	} else {
 		smartDashTimerTele = 0;
@@ -94,12 +114,12 @@ void Robot::TeleopPeriodic() {
 		if (m_pdp.GetCurrent(15) > maxpwr[5]) {
 			maxpwr[5] = m_pdp.GetCurrent(15);
 		}
-		frc::SmartDashboard::PutNumber("Max current 0", maxpwr[0]);
-		frc::SmartDashboard::PutNumber("Max current 1", maxpwr[1]);
-		frc::SmartDashboard::PutNumber("Max current 2", maxpwr[2]);
-		frc::SmartDashboard::PutNumber("Max current 3", maxpwr[3]);
-		frc::SmartDashboard::PutNumber("Max current 14", maxpwr[4]);
-		frc::SmartDashboard::PutNumber("Max current 15", maxpwr[5]);
+		// frc::SmartDashboard::PutNumber("Max current 0", maxpwr[0]);
+		// frc::SmartDashboard::PutNumber("Max current 1", maxpwr[1]);
+		// frc::SmartDashboard::PutNumber("Max current 2", maxpwr[2]);
+		// frc::SmartDashboard::PutNumber("Max current 3", maxpwr[3]);
+		// frc::SmartDashboard::PutNumber("Max current 14", maxpwr[4]);
+		// frc::SmartDashboard::PutNumber("Max current 15", maxpwr[5]);
 		for (int i = 0; i < 3; i++) {
 			char name[100];
 			sprintf(name, "Current Channel %d", i);
@@ -115,12 +135,10 @@ void Robot::TeleopPeriodic() {
 		//right_master = front right
 		//right_slave = back right
 
-		frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
-		frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
-		frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
-		frc::SmartDashboard::PutNumber("Climber encoder", climberEncoder.GetDistance());
-
-
+		// frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
+		// frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
+		// frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
+		// frc::SmartDashboard::PutNumber("Climber encoder", climberEncoder.GetDistance());
 	}
 
 	bool stop0 = xboxcontroller0.GetStartButton();
@@ -137,9 +155,12 @@ void Robot::TeleopPeriodic() {
 	double leftTrigger1 = 0.0;
 	bool joyAccelButton = false;
 	bool startButton1 = false;
+	double joyPov = 0.0;
+
+	currentAnlge += ahrs->GetAngle() - prevAnlge;
 
 	//PILOT CONTROLLER BUTTONS
-	if (!joystickMode) {
+	if (!joystickMode)	{
 		rightX1 = xboxcontroller0.GetX(frc::Joystick::kRightHand);
 		rightY1 = xboxcontroller0.GetY(frc::Joystick::kRightHand);
 		leftX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
@@ -152,9 +173,7 @@ void Robot::TeleopPeriodic() {
 		leftTrigger1 = xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand);
 
 		startButton1 = xboxcontroller0.GetStartButton();
-	} else {
-		// Only use left hand - the joystick axes line up with the left controller axes
-		
+	} else {		
 		// 1 stick mode
 		leftX1 = sqrt(abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)/1.5));
 		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0) {
@@ -175,17 +194,19 @@ void Robot::TeleopPeriodic() {
 		}
 
 		rightX1 = 1.3 * sqrt(abs(xboxcontroller0.GetX(frc::Joystick::kLeftHand)*1.5));
-		if (xboxcontroller0.GetX(frc::Joystick::kLeftHand) < 0)
-		{
+		if (xboxcontroller0.GetX(frc::Joystick::kLeftHand) < 0) {
 			rightX1 *= -1;
 		}
 
 		joyAccelButton = xboxcontroller0.GetAButton();
+
+		leftTrigger1 = fabs(1 - (xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand)/2 + 0.5));
+
 		if (joyAccelButton) {
 			leftTrigger1 = 1.0;
-		} else {
-			leftTrigger1 = 0.0;
 		}
+
+		frc::SmartDashboard::PutNumber("leftTrigger1", leftTrigger1);
 
 		if (xboxcontroller0.GetBButton()) {
 			if (fabs(rightX1) >= fabs(rightY1)) {
@@ -196,28 +217,143 @@ void Robot::TeleopPeriodic() {
 		}
 
 		if (xboxcontroller0.GetXButton()) {
-			ahrs->ZeroYaw();
+			targetAngle = ahrs->GetAngle() + 90;
 			leftTurn = true;
 			rightTurn = false;
 		} else if (xboxcontroller0.GetYButton()) {
-			ahrs->ZeroYaw();
+			targetAngle = ahrs->GetAngle() - 90;
 			leftTurn = false;
 			rightTurn = true;
 		}
 
-		if (fabs(rightX1) > 0.2 || fabs(rightY1) > 0.2 || fabs(ahrs->GetAngle()) > 90) {
+		if ((leftTurn || rightTurn) && (fabs(rightX1) > 0.2 || fabs(rightY1) > 0.2 || (rightTurn && ahrs->GetAngle() > targetAngle) || (leftTurn && ahrs->GetAngle() < targetAngle) || targetAngle == -1)) {
+			targetAngle = -1;
 			leftTurn = false;
 			rightTurn = false;
 		}
-
-		frc::SmartDashboard::PutBoolean("leftTurning", leftTurn);
 
 		if (leftTurn) {
 			leftX1 = -1.0;
 		} else if (rightTurn) {
 			leftX1 = 1.0;
 		}
+
+		joyPov = xboxcontroller0.GetPOV();
 	}
+
+	float multiplier = leftTrigger1 + 1;
+
+	while (currentAnlge >= 360)	{
+		currentAnlge -= 360;
+	}
+	while (currentAnlge <= -360) {
+		currentAnlge += 360;
+	}
+
+	if (currentAnlge < -180 || currentAnlge > 180) {
+		currentAnlge = -currentAnlge;
+	}
+
+	frc::SmartDashboard::PutNumber("Angle", floor(currentAnlge * 100) / 100);
+	frc::SmartDashboard::PutString("autoLineUp", autoLineUp);
+	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
+	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
+
+	if (fabs(rightX1) > 0.5 || fabs(rightY1) > 0.5) {
+		autoLineUp = "none";
+	}
+
+		// Left = Negative
+	if (joyPov != -1.0) {
+			// Slide the robot
+		alignLoopCount++;
+		if (alignLoopCount >= 15) {
+			if (!networkUpdating) {
+				networkUpdating = true;
+			} else {
+				networkUpdating = false;
+			}
+			alignLoopCount = 0;
+		}
+		
+
+		if (cameraOutput > 50 && !networkUpdating) {
+			rightX1 = -1.25;
+			multiplier = fabs(cameraOutput) * 0.01;
+		} else if (cameraOutput < -50 && !networkUpdating) {
+			rightX1 = 1.25;
+			multiplier = fabs(cameraOutput) * 0.01;
+		} else if (!networkUpdating) {
+			rightY1 = -1.25;
+		}
+
+		if (multiplier >= 2) {
+			multiplier = 2;
+		}
+
+		if (currentAnlge < -5) {
+			leftX1 = 1.0 / multiplier;
+		} else if (currentAnlge > 5) {
+			leftX1 = -1.0 / multiplier;
+		}
+	}
+
+		// Angle the robot
+	// if (autoLineUp == "top") {
+	// 	if (currentAnlge >= 0) {
+	// 		if (118.75 - 5 >= currentAnlge || currentAnlge >= 118.75 + 5) {
+	// 			if (currentAnlge <= 118.75) {
+	// 				leftX1 = 1.0;
+	// 			} else {
+	// 				leftX1 = -1.0;
+	// 			}		
+	// 		}					
+	// 	} else {
+	// 		if (-118.75 - 5 >= currentAnlge || currentAnlge >= -118.75 + 5) {
+	// 			if (currentAnlge <= -118.75) {
+	// 				leftX1 = 1.0;
+	// 			} else {
+	// 				leftX1 = -1.0;
+	// 			}
+	// 		}	
+	// 	}
+	// } else if (autoLineUp == "side") {
+	// 	if (currentAnlge >= 0) {
+	// 		if (90 - 5 >= currentAnlge || currentAnlge >= 90 + 5) {
+	// 			if (currentAnlge <= 90) {
+	// 				leftX1 = 1.0;
+	// 			} else {
+	// 				leftX1 = -1.0;
+	// 			}
+	// 		}
+	// 	} else {
+	// 		if (-90 - 5 >= currentAnlge || currentAnlge >= -90 + 5) {
+	// 			if (currentAnlge <= -90) {
+	// 				leftX1 = 1.0;
+	// 			} else {
+	// 				leftX1 = -1.0;
+	// 			}
+	// 		}	
+	// 	}
+	// } else if (autoLineUp == "bottom") {
+	// 	if (currentAnlge >= 0) {
+	// 		if (61.25 - 5 >= currentAnlge || currentAnlge >= 61.25 + 5) {
+	// 			if (currentAnlge <= 61.25) {
+	// 				leftX1 = 1.0;
+	// 			} else {
+	// 				leftX1 = -1.0;
+	// 			}
+	// 		}	
+	// 	} else {
+	// 		if (-61.25 - 5 >= currentAnlge || currentAnlge >= -61.25 + 5) {
+	// 			if (currentAnlge <= -61.25) {
+	// 				leftX1 = 1.0;
+	// 			} else {
+	// 				leftX1 = -1.0;
+	// 			}
+	// 		}	
+	// 	}
+	// }
 
 	if (rightX1 < 0) {
 		rightX1 = ((rightX1 * rightX1) * -1);
@@ -232,7 +368,6 @@ void Robot::TeleopPeriodic() {
 	}
 
 	float big = 0.0;
-	float multiplier = leftTrigger1+1;
 
 	double rightY2 = 0.0; 
 	double rightX2 = 0.0;
@@ -477,5 +612,6 @@ void Robot::TeleopPeriodic() {
 	}
 	*/
 	frc::SmartDashboard::PutNumber("ClimbEncoder", climberEncoder.GetDistance());
+	prevAnlge = ahrs->GetAngle();
 }
 

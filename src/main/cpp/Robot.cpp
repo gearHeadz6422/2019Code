@@ -71,20 +71,22 @@ Robot::Robot() :
 }
 
 void Robot::RobotInit() {
-	/*
-	 chooser.AddDefault(autoNameDefault, autoNameDefault);
-	 chooser.AddObject(autoNameCustom, autoNameCustom);
-	 frc::SmartDashboard::PutData("Auto Modes", &chooser);
-	 */
-	camera0 = CameraServer::GetInstance()->StartAutomaticCapture(0);
-	camera0.SetResolution(160, 120);
-	camera0.SetFPS(30);
+	//  chooser.AddDefault(autoNameDefault, autoNameDefault);
+	//  chooser.AddObject(autoNameCustom, autoNameCustom);
+	//  frc::SmartDashboard::PutData("Auto Modes", &chooser);
 
-	camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
-	camera1.SetResolution(160, 120);
-	camera1.SetFPS(30);
+	// camera0 = CameraServer::GetInstance()->StartAutomaticCapture(0);
+	// camera0.SetResolution(160, 120);
+	// camera0.SetFPS(30);
+
+	// camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
+	// camera1.SetResolution(160, 120);
+	// camera1.SetFPS(30);
 //frc::StartRobot<Robot>();
 
+	auto netTable = nt::NetworkTableInstance::GetDefault().GetTable("SmartDashboard");
+	auto cameraOut = netTable->GetEntry("cameraOut");
+	cameraOut.SetString("Left");
 }
 int main() { return frc::StartRobot<Robot>(); }
 //START_ROBOT_CLASS(Robot)

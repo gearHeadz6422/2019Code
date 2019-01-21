@@ -16,6 +16,9 @@
 #include <string>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTableInstance.h"
 /*button codes
 1 - A
 2 - B
@@ -40,7 +43,7 @@ class Robot: public frc::TimedRobot
 
 {
 
-  public:
+  public: 
 	Robot();
     virtual ~Robot(){}
 
@@ -77,34 +80,33 @@ class Robot: public frc::TimedRobot
 
 	//void AutonomousInit() override;
 
-//	void Autonomous();
+	//	void Autonomous();
 
-//	void AutonomousPeriodic();
-//	void TeleopInit();
-//	void TeleopPeriodic();
-//	void TestPeriodic();
-void InitEncoder(frc::Encoder &enc);
-void CameraLightOn();
-void CameraLightOff();
+	//	void AutonomousPeriodic();
+	//	void TeleopInit();
+	//	void TeleopPeriodic();
+	//	void TestPeriodic();
+	void InitEncoder(frc::Encoder &enc);
+	void CameraLightOn();
+	void CameraLightOff();
 
+  private:
+	static void VisionThread();
+	void MotorSpeedLeft(const float val);
+	void MotorSpeedRight(const float val);
+	int kUltrasonicPort = 0;
+	//int reverse;
+	//double maxpwr1 = 0;
+	//double maxpwr2 = 0;
+	double maxpwr[6];
+	int waitper = 0;
+	frc::Encoder leftEncoder { 2, 3, true, Encoder::k4X };
+	frc::Encoder rightEncoder { 0, 1, false, Encoder::k4X };
+	frc::Encoder winchEncoder { 4, 5, false, Encoder::k4X };
+	frc::Encoder climberEncoder { 6, 7, false, Encoder::k4X };
 
-private:
-static void VisionThread();
-void MotorSpeedLeft(const float val);
-void MotorSpeedRight(const float val);
-int kUltrasonicPort = 0;
-//int reverse;
-//double maxpwr1 = 0;
-//double maxpwr2 = 0;
-double maxpwr[6];
-int waitper = 0;
-frc::Encoder leftEncoder { 2, 3, true, Encoder::k4X };
-frc::Encoder rightEncoder { 0, 1, false, Encoder::k4X };
-frc::Encoder winchEncoder { 4, 5, false, Encoder::k4X };
-frc::Encoder climberEncoder { 6, 7, false, Encoder::k4X };
-
-float winchSpeed = 0.0;
-float rampSpeed = 0.0;
+	float winchSpeed = 0.0;
+	float rampSpeed = 0.0;
 
 //Compressor *compressor;
 //   frc::LiveWindow* lw = LiveWindow::GetInstance();
@@ -116,8 +118,8 @@ float rampSpeed = 0.0;
 	frc::XboxController xboxcontroller0{0};
 	frc::XboxController xboxcontroller1{1};
 	frc::XboxController xboxcontroller2{2};
-bool buttonpushed[7];
-frc::PowerDistributionPanel m_pdp;
+	bool buttonpushed[7];
+	frc::PowerDistributionPanel m_pdp;
 	WPI_TalonSRX FrontLeft;
 	WPI_TalonSRX BackLeft;
 	WPI_TalonSRX FrontRight;
