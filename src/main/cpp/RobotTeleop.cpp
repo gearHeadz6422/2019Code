@@ -217,25 +217,25 @@ void Robot::TeleopPeriodic() {
 		}
 
 		if (xboxcontroller0.GetXButton()) {
-			targetAngle = ahrs->GetAngle() + 90;
-			leftTurn = true;
-			rightTurn = false;
-		} else if (xboxcontroller0.GetYButton()) {
-			targetAngle = ahrs->GetAngle() - 90;
+			targetAngle = ahrs->GetAngle() - 85;
 			leftTurn = false;
 			rightTurn = true;
+		} else if (xboxcontroller0.GetYButton()) {
+			targetAngle = ahrs->GetAngle() + 85;
+			leftTurn = true;
+			rightTurn = false;
 		}
 
-		if ((leftTurn || rightTurn) && (fabs(rightX1) > 0.2 || fabs(rightY1) > 0.2 || (rightTurn && ahrs->GetAngle() > targetAngle) || (leftTurn && ahrs->GetAngle() < targetAngle) || targetAngle == -1)) {
+		if ((leftTurn || rightTurn) && (fabs(rightX1) > 0.2 || fabs(rightY1) > 0.2 || (rightTurn && ahrs->GetAngle() < targetAngle) || (leftTurn && ahrs->GetAngle() > targetAngle) || targetAngle == -1)) {
 			targetAngle = -1;
 			leftTurn = false;
 			rightTurn = false;
 		}
 
 		if (leftTurn) {
-			leftX1 = -1.0;
-		} else if (rightTurn) {
 			leftX1 = 1.0;
+		} else if (rightTurn) {
+			leftX1 = -1.0;
 		}
 
 		joyPov = xboxcontroller0.GetPOV();
@@ -414,7 +414,7 @@ void Robot::TeleopPeriodic() {
 		leftBumper2 = xboxcontroller2.GetBumper(frc::Joystick::kLeftHand);
 		rightBumper2 = xboxcontroller2.GetBumper(frc::Joystick::kRightHand);
 
-		xButton2 = xboxcontroller2.GetXButton();
+  		xButton2 = xboxcontroller2.GetXButton();
 		aButton2 = xboxcontroller2.GetAButton();
 		yButton2 = xboxcontroller2.GetYButton();
 		bButton2 = xboxcontroller2.GetBButton();
@@ -431,7 +431,6 @@ void Robot::TeleopPeriodic() {
 
 	double climbRotations = Climber.GetSelectedSensorPosition(0)/4096.0;
 	frc::SmartDashboard::PutNumber("ClimbRotations", climbRotations);
-	if(stop2 == false && stop1 == false && stop0 == false) {
 
 		//PILOT CONTROLLER CODE
 	if (fabs(rightX1) > fabs(rightY1) && fabs(rightX1) > fabs(leftX1)) {
@@ -442,7 +441,7 @@ void Robot::TeleopPeriodic() {
 		big = fabs(leftX1);
 	}
 
-	if (startButton1){
+	if (stop0 || stop1){
 		FrontLeft.Set(0.0);
 		FrontRight.Set(0.0);
 		BackLeft.Set(0.0);
@@ -457,10 +456,10 @@ void Robot::TeleopPeriodic() {
 		// BackRight.Set(leftY1/2.5);
 
 		// Mecanum
-		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		FrontRight.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackLeft.Set(((sin(atan2(rightY1, rightX1) - M_PI / 4) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackRight.Set(((cos(atan2(rightY1, rightX1) - M_PI / 4) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 	}
 
 
@@ -584,8 +583,7 @@ void Robot::TeleopPeriodic() {
 	if(yButton2) {
 		climberEncoder.Reset();
 	}
-	}
-	else {
+	if (stop1 || stop2) {
 		FrontLeft.Set(0.0);
 		FrontRight.Set(0.0);
 		BackLeft.Set(0.0);
