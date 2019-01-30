@@ -1,10 +1,3 @@
-/*
- * Robot.h
- *
- *  Created on: Jan 21, 2017
- *      Author: pinkenbu
- */
-
 #ifndef SRC_ROBOT_H_
 #define SRC_ROBOT_H_
 
@@ -37,7 +30,6 @@ const float kValueToCM = 0.144;
 
 static bool reverseControl __attribute__((unused)) = false;
 static double visionPwr __attribute__((unused)) = 0;
-//static std::vector<std::vector<cv::Point> > B;
 
 class Robot: public frc::TimedRobot
 
@@ -58,7 +50,6 @@ class Robot: public frc::TimedRobot
 	 * if-else structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
-//	  void StartCompetition()  override {}
 
 	  void DisabledInit()  override;
 	  void DisabledPeriodic()  override {}
@@ -78,14 +69,6 @@ class Robot: public frc::TimedRobot
 	  void TestInit() override;
   	  void TestPeriodic() override;
 
-	//void AutonomousInit() override;
-
-	//	void Autonomous();
-
-	//	void AutonomousPeriodic();
-	//	void TeleopInit();
-	//	void TeleopPeriodic();
-	//	void TestPeriodic();
 	void InitEncoder(frc::Encoder &enc);
 	void CameraLightOn();
 	void CameraLightOff();
@@ -95,9 +78,7 @@ class Robot: public frc::TimedRobot
 	void MotorSpeedLeft(const float val);
 	void MotorSpeedRight(const float val);
 	int kUltrasonicPort = 0;
-	//int reverse;
-	//double maxpwr1 = 0;
-	//double maxpwr2 = 0;
+
 	double maxpwr[6];
 	int waitper = 0;
 	frc::Encoder leftEncoder { 2, 3, true, Encoder::k4X };
@@ -108,8 +89,6 @@ class Robot: public frc::TimedRobot
 	float winchSpeed = 0.0;
 	float rampSpeed = 0.0;
 
-//Compressor *compressor;
-//   frc::LiveWindow* lw = LiveWindow::GetInstance();
 	frc::SendableChooser<std::string> chooser;
 
 	const std::string autoNameDefault = "Default";
@@ -128,18 +107,12 @@ class Robot: public frc::TimedRobot
 	WPI_TalonSRX Shooter2;
 	WPI_TalonSRX Winch;
 	WPI_TalonSRX Climber;
-	//frc::Encoder m_encoder_right { 0, 1, false, Encoder::k4X };
+
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
     AHRS *ahrs;
     float angle;
     Servo Hook;
-
-    bool colliding;
-    double accelX;
-    double accelY;
-    double lastAccelX;
-    double lastAccelY;
 };
 
 

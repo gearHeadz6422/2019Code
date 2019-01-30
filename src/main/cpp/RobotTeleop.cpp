@@ -1,9 +1,3 @@
-/*
- * RobotTeleop.cpp
- *
- *  Created on: Jan 30, 2017
- *      Author: pinkenbu
- */
 #include "Robot.h"
 #include <cmath>
 
@@ -24,15 +18,12 @@ double rampAngleProgress = 0.0;
 
 double previousRampAngle = 0.0;
 
-double maxAccelX = 0.0;
-double maxAccelY = 0.0;
-
 double accelX = 0.0;
 double accelY = 0.0;
+double lastAccelX = 0.0;
+double lastAccelY = 0.0;
 
 double hookSpeed = 0.0;
-
-double driveType = 0.0;
 
 bool joystickMode = true;
 
@@ -50,11 +41,8 @@ bool networkUpdating = false;
 std::string autoLineUp = "none";
 
 void Robot::TeleopInit() {
-	colliding = false;
 	accelX = 0.0;
 	accelY = 0.0;
-	lastAccelX = 0.0;
-	lastAccelY = 0.0;
 
 	rightEncoder.Reset();
 	leftEncoder.Reset();
@@ -67,7 +55,6 @@ void Robot::TeleopInit() {
 	BackRight.Set(ControlMode::PercentOutput, 0);
 
 	Climber.SetSelectedSensorPosition(0,0,0);
-	// driveType = frc::SmartDashboard::GetNumber("DB/Slider 3", 0.0);
 
 	currentAnlge = 0;
 
@@ -75,22 +62,12 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-	// These don't appear to be important but I don't know why we put them here in the first place so I'll leave them commented
-	// if (fabs(ahrs->GetWorldLinearAccelX()) > maxAccelX) {
-	// 	maxAccelX = fabs(ahrs->GetWorldLinearAccelX()) * 100;
-	// }
-
-	// if (fabs(ahrs->GetWorldLinearAccelY()) > maxAccelY) {
-	// 	maxAccelY = fabs(ahrs->GetWorldLinearAccelX()) * 100;
-	// }
-
 	accelX = fabs(ahrs->GetWorldLinearAccelX()) * 100;
 	accelY = fabs(ahrs->GetWorldLinearAccelX()) * 100;
 
 	frc::SmartDashboard::PutNumber("X velocity", accelX);
 	frc::SmartDashboard::PutNumber("Y velocity", accelY);
 
-	// frc::SmartDashboard::PutNumber("Timer", smartDashTimerTele);
 	if (smartDashTimerTele < 10) {
 		smartDashTimerTele += 1;
 	} else {
@@ -114,12 +91,7 @@ void Robot::TeleopPeriodic() {
 		if (m_pdp.GetCurrent(15) > maxpwr[5]) {
 			maxpwr[5] = m_pdp.GetCurrent(15);
 		}
-		// frc::SmartDashboard::PutNumber("Max current 0", maxpwr[0]);
-		// frc::SmartDashboard::PutNumber("Max current 1", maxpwr[1]);
-		// frc::SmartDashboard::PutNumber("Max current 2", maxpwr[2]);
-		// frc::SmartDashboard::PutNumber("Max current 3", maxpwr[3]);
-		// frc::SmartDashboard::PutNumber("Max current 14", maxpwr[4]);
-		// frc::SmartDashboard::PutNumber("Max current 15", maxpwr[5]);
+		
 		for (int i = 0; i < 3; i++) {
 			char name[100];
 			sprintf(name, "Current Channel %d", i);
@@ -134,11 +106,6 @@ void Robot::TeleopPeriodic() {
 		//left_slave = back left
 		//right_master = front right
 		//right_slave = back right
-
-		// frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
-		// frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
-		// frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
-		// frc::SmartDashboard::PutNumber("Climber encoder", climberEncoder.GetDistance());
 	}
 
 	bool stop0 = xboxcontroller0.GetStartButton();
@@ -559,26 +526,12 @@ void Robot::TeleopPeriodic() {
 		Climber.Set(0);
 		}
 		else if (bButton2){
-			//if ((climberEncoder.GetDistance() <= 0 && climberEncoder.GetDistance() > -6650 )|| (climberEncoder.GetDistance() > 0 && leftY2 > .05) || (climberEncoder.GetDistance() < -6650 && leftY2 < -.05)){
 			if(yButton2 || climbRotations > -3.35 || leftY2 > 0){
 				Climber.Set(leftY2);
 			}
 			else {
 				Climber.Set(0);
 			}
-			//}
-			//else {
-				//if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand) > .05){
-				//	Climber.Set(leftY2);
-				//}
-				//else {
-					//Climber.Set(0);
-				//}
-			//}
-		}
-		//else if ((aButton2 && climberEncoder.GetDistance() >= 0) || (aButton2 && rightBumper2)){
-			//Climber.Set(leftY2);
-		//}
 	}
 	if(yButton2) {
 		climberEncoder.Reset();
@@ -594,17 +547,6 @@ void Robot::TeleopPeriodic() {
 		Shooter2.Set(0.0);
 	}
 
-
-/*	if (yButton2) {
-		Climber.Set(0.5);
-	} else if (bButton2) {
-		Climber.Set(-0.5);
-	}
-	else
-	{
-		Climber.Set(0);
-	}
-	*/
 	frc::SmartDashboard::PutNumber("ClimbEncoder", climberEncoder.GetDistance());
 	prevAnlge = ahrs->GetAngle();
 }
