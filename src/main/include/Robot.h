@@ -39,33 +39,15 @@ class Robot: public frc::TimedRobot
 	Robot();
     virtual ~Robot(){}
 
-	/*
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * GetString line to get the auto name from the text box below the Gyro.
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the
-	 * if-else structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
-
+		// FRC built in functions - never delete thsese
 	  void DisabledInit()  override;
 	  void DisabledPeriodic()  override {}
-
-	  // RobotInit is executed at power on
 	  void RobotInit()  override;
-      // RobotPeriodic is executed after the current mode Periodic is executed
-	  // (means it is called in every mode)
 	  void RobotPeriodic()  override {}
-
 	  void AutonomousInit() override;
 	  void AutonomousPeriodic() override;
-
 	  void TeleopInit() override;
 	  void TeleopPeriodic() override;
-
 	  void TestInit() override;
   	  void TestPeriodic() override;
 
@@ -97,7 +79,7 @@ class Robot: public frc::TimedRobot
 	frc::XboxController xboxcontroller0{0};
 	frc::XboxController xboxcontroller1{1};
 	frc::XboxController xboxcontroller2{2};
-	bool buttonpushed[7];
+	
 	frc::PowerDistributionPanel m_pdp;
 	WPI_TalonSRX FrontLeft;
 	WPI_TalonSRX BackLeft;
@@ -108,14 +90,13 @@ class Robot: public frc::TimedRobot
 	WPI_TalonSRX Winch;
 	WPI_TalonSRX Climber;
 
+		// Driver station cameras get initialized here
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
+	
     AHRS *ahrs;
     float angle;
     Servo Hook;
 };
-
-
-
 
 #endif /* SRC_ROBOT_H_ */

@@ -1,13 +1,45 @@
 #include "Robot.h"
 #include <cmath>
+
 using namespace std;
 
 #define LEFT
+
+bool raisingRamp = false;
+bool loweringRamp = false;
+double desRampAngle = 0.0;
+double rampAngleProgress = 0.0;
+double previousRampAngle = 0.0;
+double hookSpeed = 0.0;
+
+double accelX = 0.0;
+double accelY = 0.0;
+double lastAccelX = 0.0;
+double lastAccelY = 0.0;
+
+bool joystickMode = true;
+bool mecanumDrive = true;
+
+double prevAnlge = 0.0;
+double currentAnlge = 0.0;
+
+bool leftTurn = false;
+bool rightTurn = false;
+int targetAngle = -1;
+
+double polyCount = 0.0;
+double cameraOutput = 0.0;
+int alignLoopCount = 0;
+bool networkUpdating = false;
+std::string autoLineUp = "none";
+
+bool autoCompleted = false;
+
 int startPosition = 0;
 double desAutoDelay = 0;
 double smartDashTimerAuto = 0;
 double autoDelayTimer = 0;
-float leftInches = 0; //This variable acTually uses the right encoder because of an emergancy fix
+float leftInches = 0; //This variable accually uses the right encoder for now because of an emergancy fix
 float rightInches = 0;
 int stepCount = 0;
 float accelX = 0.0;
@@ -18,90 +50,97 @@ bool colliding = false;
 // Network Tables
 nt::NetworkTableEntry cameraOut;
 
-/*
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable
- * chooser code works with the Java SmartDashboard. If you prefer the
- * LabVIEW Dashboard, remove all of the chooser code and uncomment the
- * GetString line to get the auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the
- * SendableChooser make sure to add them to the chooser code above as well.
- */
 void Robot::AutonomousInit() {
+		// Set the initial state for our autonomous variables, and pull some data from the driver station
 	autoDelayTimer = 0;
-	desAutoDelay = 0.0;
-
+	startPosition = SmartDashboard::GetNumber("DB/Slider 0", 0.0);
+	desAutoDelay = SmartDashboard::GetNumber("DB/Slider 1", 0.0);
+	stepCount = 0;
 	accelX = 0.0;
 	accelY = 0.0;
 	lastAccelX = 0.0;
 	lastAccelY = 0.0;
-
-	startPosition = SmartDashboard::GetNumber("DB/Slider 0", 0.0);
-	desAutoDelay = SmartDashboard::GetNumber("DB/Slider 1", 0.0);
-
-	cout << desAutoDelay;
-
 	leftEncoder.Reset();
 	rightEncoder.Reset();
 	winchEncoder.Reset();
-
+	rightEncoder.Reset();
+	leftEncoder.Reset();
+	winchEncoder.Reset();
+	climberEncoder.Reset();
 	ahrs->ZeroYaw();
+	currentAnlge = 0;
 
-	stepCount = 0;
+		// I literally have no idea what this does... I wouldn't touch it
+	FrontLeft.Set(ControlMode::PercentOutput, 0);
+	FrontRight.Set(ControlMode::PercentOutput, 0);
+	BackLeft.Set(ControlMode::PercentOutput, 0);
+	BackRight.Set(ControlMode::PercentOutput, 0);
+	Climber.SetSelectedSensorPosition(0, 0, 0);
+
+		// This variable is used to track which side of the rocket we are trying to line up with
+	autoLineUp = "none";
 }
 
 void Robot::AutonomousPeriodic() {
-	frc::SmartDashboard::PutNumber("Linear accel X", accelX * 1000);
-	frc::SmartDashboard::PutNumber("Linear accel Y", accelY * 1000);
+		// This is exclusively used for debuging
+	// if (smartDashTimerAuto < 10) {
+	// 	smartDashTimerAuto += 1;
+	// } else {
+	// 	smartDashTimerAuto = 0;
+	// 	frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
+	// 	frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
+	// 	frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
+	// 	frc::SmartDashboard::PutNumber("Current step num", stepCount);
+	// }
 
+		// Now that we know the robot is running, we collect all of the data our sensors are spitting out and display some of it on the smart dashboard
 	accelX = ahrs->GetWorldLinearAccelX() * 1000;
 	accelY = ahrs->GetWorldLinearAccelY() * 1000;
-
-	//waitper = 0;
-	frc::SmartDashboard::PutNumber("Gyro" , ahrs->GetAngle());
 	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
 	frc::SmartDashboard::PutNumber("startPosition", startPosition);
-	frc::SmartDashboard::PutNumber("autoDelayTimer", autoDelayTimer);
-
 	startPosition = frc::SmartDashboard::GetNumber("startPosition", 0.0);
-	if (smartDashTimerAuto < 10) {
-		smartDashTimerAuto += 1;
-	} else {
-		smartDashTimerAuto = 0;
-		frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
-		frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
-		frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
-		frc::SmartDashboard::PutNumber("Current step numb", stepCount);
-	}
-
-	leftInches = rightEncoder.GetDistance() / (6*M_PI); //changed to right, it should be left!
+	leftInches = rightEncoder.GetDistance() / (6 * M_PI); //changed to right, it should be left!
 	rightInches = rightEncoder.GetDistance() / (6 * M_PI);
-
 	if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
 		colliding = true;
 	}
+	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
+	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
+	currentAnlge += ahrs->GetAngle() - prevAnlge;
 
-	if (autoDelayTimer < desAutoDelay){
-		autoDelayTimer += 0.05;
-		cout << autoDelayTimer;
-		cout << desAutoDelay;
-	} else {
-		if (startPosition == 1) {
-			if (leftInches <= 220) {
-				FrontLeft.Set(-0.35);
-				FrontRight.Set(-0.35);
-				BackLeft.Set(-0.35);
-				BackRight.Set(-0.35);
-			} else {
-				FrontLeft.Set(0);
-				FrontRight.Set(0);
-				BackLeft.Set(0);
-			 	BackRight.Set(0);
+		// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
+	while (currentAnlge >= 360)	{
+		currentAnlge -= 360;
+	}
+	while (currentAnlge <= -360) {
+		currentAnlge += 360;
+	}
+	if (currentAnlge < -180 || currentAnlge > 180) {
+		currentAnlge = -currentAnlge;
+	}
+
+		// This if block wraps all of the autonomous code. Driver inputs are not even measured, so be careful to keep that code outside (The end is marked with another comment)
+	if (!autoCompleted) {
+		if (autoDelayTimer < desAutoDelay){
+			autoDelayTimer += 0.05;
+		} else {
+			if (startPosition == 1) {
+				if (leftInches <= 220) {
+					FrontLeft.Set(-0.35);
+					FrontRight.Set(-0.35);
+					BackLeft.Set(-0.35);
+					BackRight.Set(-0.35);
+				} else {
+					FrontLeft.Set(0);
+					FrontRight.Set(0);
+					BackLeft.Set(0);
+					BackRight.Set(0);
+				}
 			}
 		}
+		return;
 	}
-	lastAccelX = accelX;
-	lastAccelY = accelY;
+
+	// End auto code-----------------------------------------------------------------------------------------------------------------------------------------------------
+	
 }
