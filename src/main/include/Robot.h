@@ -12,18 +12,6 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
-/*button codes
-1 - A
-2 - B
-3 - X
-4 - Y
-5 - LB
-6 - RB
-7 - SELECT
-8 - START
-9 - L STICK
-10 - R STICK
-*/
 
 const float kUpdatePeriod = 0.005;
 const float kValueToCM = 0.144;
@@ -31,9 +19,40 @@ const float kValueToCM = 0.144;
 static bool reverseControl __attribute__((unused)) = false;
 static double visionPwr __attribute__((unused)) = 0;
 
-class Robot: public frc::TimedRobot
+static bool joystickMode = true;
+static bool mecanumDrive = true;
 
-{
+static double prevAnlge = 0.0;
+static double currentAnlge = 0.0;
+
+static bool leftTurn = false;
+static bool rightTurn = false;
+static int targetAngle = -1;
+
+static double polyCount = 0.0;
+static double cameraOutput = 0.0;
+static int alignLoopCount = 0;
+static bool networkUpdating = false;
+static std::string autoLineUp = "none";
+
+static bool autoCompleted = false;
+
+static int startPosition = 0;
+static double desAutoDelay = 0;
+static double smartDashTimerAuto = 0;
+static double autoDelayTimer = 0;
+static float leftInches = 0; //This variable accually uses the right encoder for now because of an emergancy fix
+static float rightInches = 0;
+static int stepCount = 0;
+static float accelX = 0.0;
+static float accelY = 0.0;
+static float lastAccelX = 0.0;
+static float lastAccelY = 0.0;
+static bool colliding = false;
+// Network Tables
+// static nt::NetworkTableEntry cameraOut;
+
+class Robot: public frc::TimedRobot {
 
   public: 
 	Robot();
