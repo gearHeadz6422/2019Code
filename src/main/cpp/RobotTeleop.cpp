@@ -3,45 +3,8 @@
 
 using namespace std;
 
-// bool joystickMode = true;
-// bool mecanumDrive = true;
-
-// double prevAnlge = 0.0;
-// double currentAnlge = 0.0;
-
-// bool leftTurn = false;
-// bool rightTurn = false;
-// int targetAngle = -1;
-
-// double polyCount = 0.0;
-// double cameraOutput = 0.0;
-// int alignLoopCount = 0;
-// bool networkUpdating = false;
-// std::string autoLineUp = "none";
-
-// bool autoCompleted = false;
-
-// int startPosition = 0;
-// double desAutoDelay = 0;
-// double smartDashTimerAuto = 0;
-// double autoDelayTimer = 0;
-// float leftInches = 0; //This variable accually uses the right encoder for now because of an emergancy fix
-// float rightInches = 0;
-// int stepCount = 0;
-// float accelX = 0.0;
-// float accelY = 0.0;
-// float lastAccelX = 0.0;
-// float lastAccelY = 0.0;
-// bool colliding = false;
-// // Network Tables
-// nt::NetworkTableEntry cameraOut;
-
 void Robot::TeleopInit() {
-	// Set the initial state for our autonomous variables, and pull some data from the driver station
-	autoDelayTimer = 0;
-	startPosition = SmartDashboard::GetNumber("DB/Slider 0", 0.0);
-	desAutoDelay = SmartDashboard::GetNumber("DB/Slider 1", 0.0);
-	stepCount = 0;
+		// Set the initial state for our variables, and pull some data from the driver station
 	accelX = 0.0;
 	accelY = 0.0;
 	lastAccelX = 0.0;
@@ -55,20 +18,23 @@ void Robot::TeleopInit() {
 	climberEncoder.Reset();
 	ahrs->ZeroYaw();
 	currentAnlge = 0;
+	prevAnlge = 0;
 
-		// I literally have no idea what this does... I wouldn't touch it
+		// Sets the way that the TALONs will recieve input
 	FrontLeft.Set(ControlMode::PercentOutput, 0);
 	FrontRight.Set(ControlMode::PercentOutput, 0);
 	BackLeft.Set(ControlMode::PercentOutput, 0);
 	BackRight.Set(ControlMode::PercentOutput, 0);
+		// I literally have no idea what this does... I wouldn't touch it
 	Climber.SetSelectedSensorPosition(0, 0, 0);
 
 		// This variable is used to track which side of the rocket we are trying to line up with, or if we are centered
 	autoLineUp = "none";
+	targetAngle = -1;
 }
 
 void Robot::TeleopPeriodic() {
-		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works
+		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
 	bool stop0 = xboxcontroller0.GetStartButton();
 	bool stop1 = xboxcontroller1.GetStartButton();
 	bool stop2 = xboxcontroller2.GetStartButton();
@@ -84,18 +50,7 @@ void Robot::TeleopPeriodic() {
 		return;
 	}
 
-		// This is exclusively used for debuging
-	// if (smartDashTimerAuto < 10) {
-	// 	smartDashTimerAuto += 1;
-	// } else {
-	// 	smartDashTimerAuto = 0;
-	// 	frc::SmartDashboard::PutNumber("Left encoder", leftEncoder.GetDistance());
-	// 	frc::SmartDashboard::PutNumber("Right encoder", rightEncoder.GetDistance());
-	// 	frc::SmartDashboard::PutNumber("Winch encoder", winchEncoder.GetDistance());
-	// 	frc::SmartDashboard::PutNumber("Current step num", stepCount);
-	// }
-
-		// Now that we know the robot is running, we collect all of the data our sensors are spitting out and display some of it on the smart dashboard
+	// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
 	accelX = ahrs->GetWorldLinearAccelX() * 1000;
 	accelY = ahrs->GetWorldLinearAccelY() * 1000;
 	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
@@ -105,7 +60,10 @@ void Robot::TeleopPeriodic() {
 	rightInches = rightEncoder.GetDistance() / (6 * M_PI);
 	if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
 		colliding = true;
+	} else {
+		colliding = false;
 	}
+	
 	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
 	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
 	currentAnlge += ahrs->GetAngle() - prevAnlge;
@@ -120,7 +78,7 @@ void Robot::TeleopPeriodic() {
 	if (currentAnlge < -180 || currentAnlge > 180) {
 		currentAnlge = -currentAnlge;
 	}
-
+	frc::SmartDashboard::PutNumber("Angle", currentAnlge);
 
 		// Next, we reset all of the gamepad inputs. Variables labeld 1 coordespond to the driver, and 2 to attatchments, regardless of the actual number for each gamepad
 	double rightX1 = 0.0;
@@ -185,7 +143,7 @@ void Robot::TeleopPeriodic() {
 		aButton1 = xboxcontroller0.GetAButton();
 		bButton1 = xboxcontroller0.GetBButton();
 
-		leftX1 = sqrt(abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)/1.5)); // All driver stick inputs are curved. These can be adjusted to your liking. I recomend using some sort of visualizer like https://www.desmos.com/calculator
+		leftX1 = sqrt(abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)/1.5)); // All driver stick inputs are curved. These can be adjusted to your liking. I recomend using a graphing utility to visualize it, such as https://www.desmos.com/calculator
 
 			// Measures the stick inputs related to moving and turning
 		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0) {
@@ -206,6 +164,7 @@ void Robot::TeleopPeriodic() {
 			stickMoved = true;
 		}
 
+			// Again, curves the stick input, and makes sure the sign is not lost
 		if (rightX1 < 0) {
 			rightX1 = ((rightX1 * rightX1) * -1);
 		} else {
@@ -221,7 +180,7 @@ void Robot::TeleopPeriodic() {
 		dpad1 = xboxcontroller0.GetPOV();
 	}
 
-		// This later is synched with the multiplier
+		// This later is used to calculate the speed multiplier
 	leftTrigger1 = fabs(1 - (xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand) / 2 + 0.5));
 	if (aButton1) {
 		leftTrigger1 = 1.0;
@@ -229,7 +188,7 @@ void Robot::TeleopPeriodic() {
 
 	float multiplier = leftTrigger1 + 1;
 
-	// Enables linear only movement
+		// Enables linear-only movement
 	if (bButton1) {
 		if (fabs(rightX1) >= fabs(rightY1)) {
 			rightY1 = 0.0;
@@ -238,115 +197,49 @@ void Robot::TeleopPeriodic() {
 		}
 	}
 
-		// Handles the 90 degree turn feature
-	if (xButton1) {
-		targetAngle = ahrs->GetAngle() - 85;
-		leftTurn = false;
-		rightTurn = true;
-	} else if (yButton1) {
-		targetAngle = ahrs->GetAngle() + 85;
-		leftTurn = true;
-		rightTurn = false;
-	}
-	if ((leftTurn || rightTurn) && ((rightTurn && ahrs->GetAngle() < targetAngle) || (leftTurn && ahrs->GetAngle() > targetAngle) || targetAngle == -1)) {
-		targetAngle = -1;
-		leftTurn = false;
-		rightTurn = false;
-	}
-	if (leftTurn) {
-		leftX1 = 1.2;
-	} else if (rightTurn) {
-		leftX1 = -1.2;
-	}
-
 		// Determines the desired line based on the current direction of the robot, and the joystick dpad
+	const int lineErrorMagrin = 5;
 	if (dpad1 != -1) {
-		// if (dpad1 == 0) {
-		// 	autoLineUp = "top";
-		// } else if (dpad1 == 90 || dpad1 == 270) {
-		// 	autoLineUp = "side";
-		// } else {
-		// 	autoLineUp = "bottom";
-		// }
-
-		autoLineUp = "angled"; // TEMP
+		autoLineUp = "angle";
+		if (dpad1 == 0) {
+			if (currentAnlge >= 0) {
+				targetAngle = 150;
+			} else {
+				targetAngle = -150;
+			}
+		} else if (dpad1 == 90 || dpad1 == 270) {
+			if (currentAnlge >= 0) {
+				targetAngle = 90;
+			} else {
+				targetAngle = -90;
+			}
+		} else {
+			if (currentAnlge >= 0) {
+				targetAngle = 30;
+			} else {
+				targetAngle = -30;
+			}
+		}
 	}
-	if (stickMoved) {
+
+	if (stickMoved)	{
 		autoLineUp = "none";
+		targetAngle= -1;
 	}
 
 		//Turns the robot to be aligned with the selected line
-	// if (autoLineUp == "top") {
-	// 	if (currentAnlge >= 0) {
-	// 		if (118.75 - 5 >= currentAnlge || currentAnlge >= 118.75 + 5) {
-	// 			if (currentAnlge <= 118.75) {
-	// 				leftX1 = 1.0;
-	// 			} else {
-	// 				leftX1 = -1.0;
-	// 			}
-	// 		} else {
-	// 			autoLineUp = "angled";
-	// 		}	
-	// 	} else {
-	// 		if (-118.75 - 5 >= currentAnlge || currentAnlge >= -118.75 + 5) {
-	// 			if (currentAnlge <= -118.75) {
-	// 				leftX1 = 1.0;
-	// 			} else {
-	// 				leftX1 = -1.0;
-	// 			}
-	// 		} else {
-	// 			autoLineUp = "angled";
-	// 		}
-	// 	}
-	// } else if (autoLineUp == "side") {
-	// 	if (currentAnlge >= 0) {
-	// 		if (90 - 5 >= currentAnlge || currentAnlge >= 90 + 5) {
-	// 			if (currentAnlge <= 90) {
-	// 				leftX1 = 1.0;
-	// 			} else {
-	// 				leftX1 = -1.0;
-	// 			}
-	// 		} else {
-	// 			autoLineUp = "angled";
-	// 		}
-	// 	} else {
-	// 		if (-90 - 5 >= currentAnlge || currentAnlge >= -90 + 5) {
-	// 			if (currentAnlge <= -90) {
-	// 				leftX1 = 1.0;
-	// 			} else {
-	// 				leftX1 = -1.0;
-	// 			}
-	// 		} else {
-	// 			autoLineUp = "angled";
-	// 		}
-	// 	}
-	// } else if (autoLineUp == "bottom") {
-	// 	if (currentAnlge >= 0) {
-	// 		if (61.25 - 5 >= currentAnlge || currentAnlge >= 61.25 + 5) {
-	// 			if (currentAnlge <= 61.25) {
-	// 				leftX1 = 1.0;
-	// 			} else {
-	// 				leftX1 = -1.0;
-	// 			}
-	// 		} else {
-	// 			autoLineUp = "angled";
-	// 		}
-	// 	} else {
-	// 		if (-61.25 - 5 >= currentAnlge || currentAnlge >= -61.25 + 5) {
-	// 			if (currentAnlge <= -61.25) {
-	// 				leftX1 = 1.0;
-	// 			} else {
-	// 				leftX1 = -1.0;
-	// 			}
-	// 		} else {
-	// 			autoLineUp = "angled";
-	// 		}
-	// 	}
-	// }
+	if (autoLineUp == "angle" && (targetAngle - lineErrorMagrin >= currentAnlge || currentAnlge >= targetAngle + lineErrorMagrin)) {
+		if (currentAnlge <= targetAngle) {
+			leftX1 = 1.0;
+		} else {
+			leftX1 = -1.0;
+		}
+	} else if (autoLineUp == "angle" && targetAngle != -1) {
+		autoLineUp = "slide";
+	}
 
-		// Align the robot to a rocket
-	frc::SmartDashboard::PutNumber("Angle", currentAnlge);
-	if (autoLineUp == "angled") {
+		 // Align the robot to a rocket
+	if (autoLineUp == "slide") {
 			// Theres an inherent delay in camera updates, so we stop the robot to allow the network tables to update about once 1500ms
 		alignLoopCount++;
 		if (alignLoopCount >= 15) {
@@ -359,26 +252,43 @@ void Robot::TeleopPeriodic() {
 		}
 
 			// Pulls camera outputs from the net tables, detirmines what direction to drive in, and scales the speed of the robot based on the distance
-		if (cameraOutput > 50 && !networkUpdating) {
+		if (cameraOutput > 20 && !networkUpdating) {
 			rightX1 = -1.25;
 			multiplier = fabs(cameraOutput) * 0.01;
-		} else if (cameraOutput < -50 && !networkUpdating) {
+		} else if (cameraOutput < -20 && !networkUpdating) {
 			rightX1 = 1.25;
 			multiplier = fabs(cameraOutput) * 0.01;
 		} else if (!networkUpdating) {
-			rightY1 = -1.25;
+			autoLineUp = "straight";
 		}
 
 			// Limits the maximum speed of the algorithim to prevent excess power draw and smooth movement
 		if (multiplier >= 1.75) {
 			multiplier = 1.75;
+		} else if (multiplier <= 0.5) {
+			multiplier = 0.5;
 		}
 
 			// Maintains the angle of the robot as it slides
-		if (currentAnlge < -5) {
+		if (currentAnlge < targetAngle - lineErrorMagrin) {
 			leftX1 = 1.0 / multiplier;
-		} else if (currentAnlge > 5) {
+		} else if (currentAnlge > targetAngle + lineErrorMagrin) {
 			leftX1 = -1.0 / multiplier;
+		}
+	} else if (autoLineUp == "straight") {
+		rightY1 = -0.80;
+
+			// Maintains the angle of the robot as it drives forward
+		if (currentAnlge < targetAngle - lineErrorMagrin) {
+			leftX1 = 1.0 / multiplier;
+		} else if (currentAnlge > targetAngle + lineErrorMagrin) {
+			leftX1 = -1.0 / multiplier;
+		}
+
+			// detect when we reach the rocket
+		if (colliding) {
+			autoLineUp = "none";
+			targetAngle = -1;
 		}
 	}
 
@@ -453,4 +363,7 @@ void Robot::TeleopPeriodic() {
 	lastAccelX = accelX;
 	lastAccelY = accelY;
 	prevAnlge = ahrs->GetAngle();
+
+		// Put your debugging code here
+	frc::SmartDashboard::PutString("autoLineupString", autoLineUp);
 }

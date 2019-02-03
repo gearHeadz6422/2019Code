@@ -33,6 +33,8 @@ c++
 -I
 "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176"
 -I
+"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\adis16448-cpp-2019-r1-headers.zip_1e1d60e2b3b7bd5a971a9afe6c9ff8d5"
+-I
 "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd"
 -I
 "C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54"

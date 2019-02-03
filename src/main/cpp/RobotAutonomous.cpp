@@ -5,39 +5,6 @@ using namespace std;
 
 #define LEFT
 
-// bool joystickMode = true;
-// bool mecanumDrive = true;
-
-// double prevAnlge = 0.0;
-// double currentAnlge = 0.0;
-
-// bool leftTurn = false;
-// bool rightTurn = false;
-// int targetAngle = -1;
-
-// double polyCount = 0.0;
-// double cameraOutput = 0.0;
-// int alignLoopCount = 0;
-// bool networkUpdating = false;
-// std::string autoLineUp = "none";
-
-// bool autoCompleted = false;
-
-// int startPosition = 0;
-// double desAutoDelay = 0;
-// double smartDashTimerAuto = 0;
-// double autoDelayTimer = 0;
-// float leftInches = 0; //This variable accually uses the right encoder for now because of an emergancy fix
-// float rightInches = 0;
-// int stepCount = 0;
-// float accelX = 0.0;
-// float accelY = 0.0;
-// float lastAccelX = 0.0;
-// float lastAccelY = 0.0;
-// bool colliding = false;
-// // Network Tables
-// nt::NetworkTableEntry cameraOut;
-
 void Robot::AutonomousInit() {
 		// Set the initial state for our autonomous variables, and pull some data from the driver station
 	autoDelayTimer = 0;

@@ -16,7 +16,9 @@
     "*.inc": "cpp",
     "string": "cpp",
     "memory": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "atomic": "cpp",
+    "thread": "cpp"
   },
   "python.linting.pylintEnabled": false,
   "python.formatting.provider": "black",

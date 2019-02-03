@@ -24,9 +24,6 @@ static bool mecanumDrive = true;
 
 static double prevAnlge = 0.0;
 static double currentAnlge = 0.0;
-
-static bool leftTurn = false;
-static bool rightTurn = false;
 static int targetAngle = -1;
 
 static double polyCount = 0.0;
