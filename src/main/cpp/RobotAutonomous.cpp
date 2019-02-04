@@ -33,7 +33,7 @@ void Robot::AutonomousInit() {
 	Climber.SetSelectedSensorPosition(0, 0, 0);
 
 		// This variable is used to track which side of the rocket we are trying to line up with
-	autoLineUp = "none";
+	alignState = "none";
 }
 
 void Robot::AutonomousPeriodic() {

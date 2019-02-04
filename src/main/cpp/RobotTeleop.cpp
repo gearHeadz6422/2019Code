@@ -4,7 +4,7 @@
 using namespace std;
 
 void Robot::TeleopInit() {
-		// Set the initial state for our variables, and pull some data from the driver station
+	// Set the initial state for our variables, and pull some data from the driver station
 	accelX = 0.0;
 	accelY = 0.0;
 	lastAccelX = 0.0;
@@ -16,7 +16,8 @@ void Robot::TeleopInit() {
 	leftEncoder.Reset();
 	winchEncoder.Reset();
 	climberEncoder.Reset();
-	ahrs->ZeroYaw();
+	// ahrs->ZeroYaw();
+	sensorBoard.Reset();
 	currentAnlge = 0;
 	prevAnlge = 0;
 
@@ -29,8 +30,11 @@ void Robot::TeleopInit() {
 	Climber.SetSelectedSensorPosition(0, 0, 0);
 
 		// This variable is used to track which side of the rocket we are trying to line up with, or if we are centered
-	autoLineUp = "none";
+	alignState = "none";
 	targetAngle = -1;
+
+		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
+	ultraSonic = new AnalogInput(0);
 }
 
 void Robot::TeleopPeriodic() {
@@ -50,9 +54,15 @@ void Robot::TeleopPeriodic() {
 		return;
 	}
 
-	// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
-	accelX = ahrs->GetWorldLinearAccelX() * 1000;
-	accelY = ahrs->GetWorldLinearAccelY() * 1000;
+		// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
+	// accelX = ahrs->GetWorldLinearAccelX() * 1000;
+	// accelY = ahrs->GetWorldLinearAccelY() * 1000;
+	accelX = sensorBoard.GetAccelX() * 1000;
+	accelY = sensorBoard.GetAccelY() * 1000;
+	wallDistance = ultraSonic->GetValue();
+	frc::SmartDashboard::PutNumber("Wall distance", wallDistance);
+	frc::SmartDashboard::PutNumber("X velocity", accelX);
+	frc::SmartDashboard::PutNumber("Y velocity", accelX);
 	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
 	frc::SmartDashboard::PutNumber("startPosition", startPosition);
 	startPosition = frc::SmartDashboard::GetNumber("startPosition", 0.0);
@@ -66,7 +76,8 @@ void Robot::TeleopPeriodic() {
 	
 	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
 	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
-	currentAnlge += ahrs->GetAngle() - prevAnlge;
+	// currentAnlge += ahrs->GetAngle() - prevAnlge;
+	currentAnlge += sensorBoard.GetAngle() - prevAnlge;
 
 		// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
 	while (currentAnlge >= 360)	{
@@ -180,12 +191,11 @@ void Robot::TeleopPeriodic() {
 		dpad1 = xboxcontroller0.GetPOV();
 	}
 
-		// This later is used to calculate the speed multiplier
+		// Calculates the robot's speed multiplier
 	leftTrigger1 = fabs(1 - (xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand) / 2 + 0.5));
 	if (aButton1) {
 		leftTrigger1 = 1.0;
 	}
-
 	float multiplier = leftTrigger1 + 1;
 
 		// Enables linear-only movement
@@ -200,7 +210,7 @@ void Robot::TeleopPeriodic() {
 		// Determines the desired line based on the current direction of the robot, and the joystick dpad
 	const int lineErrorMagrin = 5;
 	if (dpad1 != -1) {
-		autoLineUp = "angle";
+		alignState = "angle";
 		if (dpad1 == 0) {
 			if (currentAnlge >= 0) {
 				targetAngle = 150;
@@ -223,23 +233,23 @@ void Robot::TeleopPeriodic() {
 	}
 
 	if (stickMoved)	{
-		autoLineUp = "none";
+		alignState = "none";
 		targetAngle= -1;
 	}
 
 		//Turns the robot to be aligned with the selected line
-	if (autoLineUp == "angle" && (targetAngle - lineErrorMagrin >= currentAnlge || currentAnlge >= targetAngle + lineErrorMagrin)) {
+	if (alignState == "angle" && (targetAngle - lineErrorMagrin >= currentAnlge || currentAnlge >= targetAngle + lineErrorMagrin)) {
 		if (currentAnlge <= targetAngle) {
 			leftX1 = 1.0;
 		} else {
 			leftX1 = -1.0;
 		}
-	} else if (autoLineUp == "angle" && targetAngle != -1) {
-		autoLineUp = "slide";
+	} else if (alignState == "angle" && targetAngle != -1) {
+		alignState = "slide";
 	}
 
 		 // Align the robot to a rocket
-	if (autoLineUp == "slide") {
+	if (alignState == "slide") {
 			// Theres an inherent delay in camera updates, so we stop the robot to allow the network tables to update about once 1500ms
 		alignLoopCount++;
 		if (alignLoopCount >= 15) {
@@ -259,7 +269,7 @@ void Robot::TeleopPeriodic() {
 			rightX1 = 1.25;
 			multiplier = fabs(cameraOutput) * 0.01;
 		} else if (!networkUpdating) {
-			autoLineUp = "straight";
+			alignState = "straight";
 		}
 
 			// Limits the maximum speed of the algorithim to prevent excess power draw and smooth movement
@@ -275,21 +285,29 @@ void Robot::TeleopPeriodic() {
 		} else if (currentAnlge > targetAngle + lineErrorMagrin) {
 			leftX1 = -1.0 / multiplier;
 		}
-	} else if (autoLineUp == "straight") {
-		rightY1 = -0.80;
-
-			// Maintains the angle of the robot as it drives forward
-		if (currentAnlge < targetAngle - lineErrorMagrin) {
-			leftX1 = 1.0 / multiplier;
-		} else if (currentAnlge > targetAngle + lineErrorMagrin) {
-			leftX1 = -1.0 / multiplier;
+	} else if (alignState == "straight") {
+		rightY1 = (sqrt(wallDistance - 350) / -20);
+		if (rightY1 > 0.5) {
+			rightY1 = 0;
 		}
+		if (wallDistance <= 350) {
+			alignState = "lift";
+		}
+
+		// Maintains the angle of the robot as it drives forward
+		// if (currentAnlge < targetAngle - lineErrorMagrin) {
+		// 	leftX1 = 1.0 / multiplier;
+		// } else if (currentAnlge > targetAngle + lineErrorMagrin) {
+		// 	leftX1 = -1.0 / multiplier;
+		// }
 
 			// detect when we reach the rocket
-		if (colliding) {
-			autoLineUp = "none";
-			targetAngle = -1;
-		}
+		// if (colliding) {
+		// 	alignState = "none";
+		// 	targetAngle = -1;
+		// }
+	} else if (alignState == "lift") {
+		rightY1 = -0.5;
 	}
 
 	// End driver code; Begin attatchment code---------------------------------------------------------------------------------------------------------------------------
@@ -362,8 +380,9 @@ void Robot::TeleopPeriodic() {
 		// Finally update our variables that track data from previous robot ticks
 	lastAccelX = accelX;
 	lastAccelY = accelY;
-	prevAnlge = ahrs->GetAngle();
+	// prevAnlge = ahrs->GetAngle();
+	prevAnlge = sensorBoard.GetAngle();
 
 		// Put your debugging code here
-	frc::SmartDashboard::PutString("autoLineupString", autoLineUp);
+	frc::SmartDashboard::PutString("alignStateString", alignState);
 }

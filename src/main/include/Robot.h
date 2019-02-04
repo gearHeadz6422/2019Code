@@ -12,6 +12,7 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
+#include <adi/ADIS16448_IMU.h>
 
 const float kUpdatePeriod = 0.005;
 const float kValueToCM = 0.144;
@@ -30,7 +31,7 @@ static double polyCount = 0.0;
 static double cameraOutput = 0.0;
 static int alignLoopCount = 0;
 static bool networkUpdating = false;
-static std::string autoLineUp = "none";
+static std::string alignState = "none";
 
 static bool autoCompleted = false;
 
@@ -46,8 +47,7 @@ static float accelY = 0.0;
 static float lastAccelX = 0.0;
 static float lastAccelY = 0.0;
 static bool colliding = false;
-// Network Tables
-// static nt::NetworkTableEntry cameraOut;
+static double wallDistance = 0.0;
 
 class Robot: public frc::TimedRobot {
 
@@ -111,7 +111,13 @@ class Robot: public frc::TimedRobot {
 	cs::UsbCamera camera1;
 	
     AHRS *ahrs;
-    float angle;
+	AnalogInput *ultraSonic;
+	frc::ADIS16448_IMU sensorBoard{
+		frc::ADIS16448_IMU::kZ,
+		frc::ADIS16448_IMU::kComplementary,
+		frc::SPI::kMXP
+	};
+	float angle;
     Servo Hook;
 };
 
