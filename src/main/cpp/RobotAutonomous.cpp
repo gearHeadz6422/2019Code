@@ -22,7 +22,7 @@ void Robot::AutonomousInit() {
 	leftEncoder.Reset();
 	winchEncoder.Reset();
 	climberEncoder.Reset();
-	ahrs->ZeroYaw();
+	navx->ZeroYaw();
 	currentAnlge = 0;
 
 		// I literally have no idea what this does... I wouldn't touch it
@@ -49,8 +49,8 @@ void Robot::AutonomousPeriodic() {
 	// }
 
 		// Now that we know the robot is running, we collect all of the data our sensors are spitting out and display some of it on the smart dashboard
-	accelX = ahrs->GetWorldLinearAccelX() * 1000;
-	accelY = ahrs->GetWorldLinearAccelY() * 1000;
+	accelX = navx->GetWorldLinearAccelX() * 1000;
+	accelY = navx->GetWorldLinearAccelY() * 1000;
 	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
 	frc::SmartDashboard::PutNumber("startPosition", startPosition);
 	startPosition = frc::SmartDashboard::GetNumber("startPosition", 0.0);
@@ -61,7 +61,7 @@ void Robot::AutonomousPeriodic() {
 	}
 	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
 	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
-	currentAnlge += ahrs->GetAngle() - prevAnlge;
+	currentAnlge += navx->GetAngle() - prevAnlge;
 
 		// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
 	while (currentAnlge >= 360)	{

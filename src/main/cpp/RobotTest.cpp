@@ -11,12 +11,12 @@ using namespace std;
 double last_accel_x;
 double last_accel_y;
 void Robot::TestInit() {
-	ahrs->ZeroYaw();
+	navx->ZeroYaw();
 }
 void Robot::TestPeriodic() {
 
 //	lw->Run();
-	//cout << "angle " << ahrs->GetAngle() << endl;
+	//cout << "angle " << navx->GetAngle() << endl;
 
 //	if (m_encoder_right.GetDistance() > 10) {
 //		FrontLeft.Set(0.);
@@ -38,21 +38,21 @@ void Robot::TestPeriodic() {
 	// Retrieve the current rate of the encoder.
 	//frc::SmartDashboard::PutNumber("Encoder Rate L", m_encoder_left.GetRate());
 	//frc::SmartDashboard::PutNumber("Encoder Rate R", m_encoder_right.GetRate());
-	//frc::SmartDashboard::PutNumber("Angle", ahrs->GetAngle());
+	//frc::SmartDashboard::PutNumber("Angle", navx->GetAngle());
 	bool collisionDetection = false;
-	double curr_accel_x = ahrs->GetWorldLinearAccelX();
+	double curr_accel_x = navx->GetWorldLinearAccelX();
 	double currentJerkX = curr_accel_x - last_accel_x;
 	last_accel_x = curr_accel_x;
-	double curr_accel_y = ahrs->GetWorldLinearAccelY();
+	double curr_accel_y = navx->GetWorldLinearAccelY();
 	double currentJerkY = curr_accel_y - last_accel_y;
 	last_accel_y = curr_accel_y;
-	double Vx = ahrs->GetVelocityX();
-	double Vy = ahrs->GetVelocityY();
+	double Vx = navx->GetVelocityX();
+	double Vy = navx->GetVelocityY();
 
-	frc::SmartDashboard::PutNumber("X velocity", ahrs->GetWorldLinearAccelX());
-	frc::SmartDashboard::PutNumber("Y velocity", ahrs->GetWorldLinearAccelY());
+	frc::SmartDashboard::PutNumber("X velocity", navx->GetWorldLinearAccelX());
+	frc::SmartDashboard::PutNumber("Y velocity", navx->GetWorldLinearAccelY());
 
-	frc::SmartDashboard::PutNumber("angle", ahrs->GetAngle());
+	frc::SmartDashboard::PutNumber("angle", navx->GetAngle());
 
 	frc::Wait(kUpdatePeriod); //Wait a short bit before updating again.
 }

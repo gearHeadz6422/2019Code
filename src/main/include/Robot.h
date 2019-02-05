@@ -49,6 +49,9 @@ static float lastAccelY = 0.0;
 static bool colliding = false;
 static double wallDistance = 0.0;
 
+static std::string sensorBoardType = "navx";
+// static std::string sensorBoardType = "analogDev";
+
 class Robot: public frc::TimedRobot {
 
   public: 
@@ -109,10 +112,11 @@ class Robot: public frc::TimedRobot {
 		// Driver station cameras get initialized here
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
-	
-    AHRS *ahrs;
+
 	AnalogInput *ultraSonic;
-	frc::ADIS16448_IMU sensorBoard{
+
+	AHRS *navx;
+	frc::ADIS16448_IMU analogDev{
 		frc::ADIS16448_IMU::kZ,
 		frc::ADIS16448_IMU::kComplementary,
 		frc::SPI::kMXP

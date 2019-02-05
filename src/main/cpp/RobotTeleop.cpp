@@ -16,8 +16,11 @@ void Robot::TeleopInit() {
 	leftEncoder.Reset();
 	winchEncoder.Reset();
 	climberEncoder.Reset();
-	// ahrs->ZeroYaw();
-	sensorBoard.Reset();
+	if (sensorBoardType == "navx") {
+		navx->ZeroYaw();
+	} else {
+		analogDev.Reset();
+	}
 	currentAnlge = 0;
 	prevAnlge = 0;
 
@@ -55,10 +58,13 @@ void Robot::TeleopPeriodic() {
 	}
 
 		// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
-	// accelX = ahrs->GetWorldLinearAccelX() * 1000;
-	// accelY = ahrs->GetWorldLinearAccelY() * 1000;
-	accelX = sensorBoard.GetAccelX() * 1000;
-	accelY = sensorBoard.GetAccelY() * 1000;
+	if (sensorBoardType == "navx") {
+		accelX = navx->GetWorldLinearAccelX() * 1000;
+		accelY = navx->GetWorldLinearAccelY() * 1000;
+	} else {
+		accelX = analogDev.GetAccelX() * 1000;
+		accelY = analogDev.GetAccelY() * 1000;
+	}
 	wallDistance = ultraSonic->GetValue();
 	frc::SmartDashboard::PutNumber("Wall distance", wallDistance);
 	frc::SmartDashboard::PutNumber("X velocity", accelX);
@@ -76,8 +82,11 @@ void Robot::TeleopPeriodic() {
 	
 	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
 	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
-	// currentAnlge += ahrs->GetAngle() - prevAnlge;
-	currentAnlge += sensorBoard.GetAngle() - prevAnlge;
+	if (sensorBoardType == "navx") {
+		currentAnlge += navx->GetAngle() - prevAnlge;
+	} else {
+		currentAnlge += analogDev.GetAngle() - prevAnlge;
+	}
 
 		// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
 	while (currentAnlge >= 360)	{
@@ -380,8 +389,11 @@ void Robot::TeleopPeriodic() {
 		// Finally update our variables that track data from previous robot ticks
 	lastAccelX = accelX;
 	lastAccelY = accelY;
-	// prevAnlge = ahrs->GetAngle();
-	prevAnlge = sensorBoard.GetAngle();
+	if (sensorBoardType == "navx") {
+		prevAnlge = navx->GetAngle();
+	} else {
+		prevAnlge = analogDev.GetAngle();
+	}
 
 		// Put your debugging code here
 	frc::SmartDashboard::PutString("alignStateString", alignState);

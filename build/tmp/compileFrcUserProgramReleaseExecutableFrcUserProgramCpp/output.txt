@@ -1,14 +1,29 @@
 See file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
-compiling RobotUtils.cpp successful.
+compiling RobotTest.cpp failed.
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp: In member function 'virtual void Robot::TestInit()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:14:2: error: 'ahrs' was not declared in this scope
+  ahrs->ZeroYaw();
+  ^~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp: In member function 'virtual void Robot::TestPeriodic()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:43:24: error: 'ahrs' was not declared in this scope
+  double curr_accel_x = ahrs->GetWorldLinearAccelX();
+                        ^~~~
 
-compiling RobotTest.cpp successful.
+compiling Robot.cpp failed.
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp: In constructor 'Robot::Robot()':
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:35:3: error: 'ahrs' was not declared in this scope
+   ahrs = new AHRS(SPI::Port::kMXP);
+   ^~~~
+C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:68:10: error: 'ahrs' was not declared in this scope
+  angle = ahrs->GetAngle();
+          ^~~~
+
+compiling RobotUtils.cpp successful.
 
 compiling RobotAutonomous.cpp successful.
 
 compiling RobotTeleop.cpp successful.
 
 compiling RobotDisabled.cpp successful.
-
-compiling Robot.cpp successful.
 
 Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.

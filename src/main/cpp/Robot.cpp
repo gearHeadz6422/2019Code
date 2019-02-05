@@ -32,7 +32,7 @@ Robot::Robot() :
 		 *
 		 * Multiple navX-model devices on a single robot are supported.
 		 ************************************************************************/
-		ahrs = new AHRS(SPI::Port::kMXP);
+		navx = new navx(SPI::Port::kMXP);
 		int n = 0;
 // wait till calibration is finished
 		// check if navx board is still calibrating, if so
@@ -42,7 +42,7 @@ Robot::Robot() :
 		// [IsCalibrating() returns true]
 		while (n < 20){
 			n++;
-			if (ahrs->IsCalibrating()) {
+			if (navx->IsCalibrating()) {
 				sleep(1);
 			} else {
 				break;
@@ -65,8 +65,8 @@ Robot::Robot() :
 
 	//InitEncoder(m_encoder_left);
 	//I/nitEncoder(m_encoder_right);
-	angle = ahrs->GetAngle();
-	ahrs->ZeroYaw();
+	angle = navx->GetAngle();
+	navx->ZeroYaw();
 	memset(maxpwr,0,sizeof(maxpwr));
 }
 
