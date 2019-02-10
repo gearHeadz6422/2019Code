@@ -20,6 +20,23 @@ const float kValueToCM = 0.144;
 static bool reverseControl __attribute__((unused)) = false;
 static double visionPwr __attribute__((unused)) = 0;
 
+	/*
+	* Button Key
+	* Each dimension of this array represents a controller, and the elements represent a button. If an element of the array is true, that button was pressed and has not
+	* yet been lifted up
+	*
+	* 0: A
+	* 1: B
+	* 2: X
+	* 3: Y
+	* 4: L1
+	* 5: R1
+	*/
+static bool buttonsPressed [2][6] = {
+	{false, false, false, false, false, false}, 
+	{false, false, false, false, false, false}
+};
+
 static bool joystickMode = true;
 static bool mecanumDrive = true;
 
@@ -49,8 +66,10 @@ static float lastAccelY = 0.0;
 static bool colliding = false;
 static double wallDistance = 0.0;
 
-static std::string sensorBoardType = "navx";
-// static std::string sensorBoardType = "analogDev";
+static std::string desElevatorPosition = "low";
+
+// static std::string sensorBoardType = "navx";
+static std::string sensorBoardType = "analogDev";
 
 class Robot: public frc::TimedRobot {
 

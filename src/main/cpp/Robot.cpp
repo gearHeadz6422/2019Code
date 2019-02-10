@@ -32,7 +32,7 @@ Robot::Robot() :
 		 *
 		 * Multiple navX-model devices on a single robot are supported.
 		 ************************************************************************/
-		navx = new navx(SPI::Port::kMXP);
+		navx = new AHRS(SPI::Port::kMXP);
 		int n = 0;
 // wait till calibration is finished
 		// check if navx board is still calibrating, if so

@@ -32,9 +32,12 @@ void Robot::TeleopInit() {
 		// I literally have no idea what this does... I wouldn't touch it
 	Climber.SetSelectedSensorPosition(0, 0, 0);
 
-		// This variable is used to track which side of the rocket we are trying to line up with, or if we are centered
+		// Tracks the current step the auto-lineup algorithim is on
 	alignState = "none";
 	targetAngle = -1;
+
+		// Tracks the desired height of the hook
+	desElevatorPosition = "low";
 
 		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
 	ultraSonic = new AnalogInput(0);
@@ -44,9 +47,8 @@ void Robot::TeleopPeriodic() {
 		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
 	bool stop0 = xboxcontroller0.GetStartButton();
 	bool stop1 = xboxcontroller1.GetStartButton();
-	bool stop2 = xboxcontroller2.GetStartButton();
 	bool stickMoved = false; // This is used later to cancel out of autonomous movements when the driver moves the stick
-	if (stop0 || stop1 || stop2) {
+	if (stop0 || stop1) {
 		FrontLeft.Set(0.0);
 		FrontRight.Set(0.0);
 		BackLeft.Set(0.0);
@@ -281,11 +283,13 @@ void Robot::TeleopPeriodic() {
 			alignState = "straight";
 		}
 
-			// Limits the maximum speed of the algorithim to prevent excess power draw and smooth movement
+		frc::SmartDashboard::PutNumber("Auto mult", multiplier);
+
+			// Limits the speed of the algorithim to prevent cases where the robot over draws current, slids too far, or is unable to slide due to low motor power
 		if (multiplier >= 1.75) {
 			multiplier = 1.75;
-		} else if (multiplier <= 0.5) {
-			multiplier = 0.5;
+		} else if (multiplier <= 0.75) {
+			multiplier = 0.75;
 		}
 
 			// Maintains the angle of the robot as it slides
@@ -342,25 +346,54 @@ void Robot::TeleopPeriodic() {
 
 		dpad2 = xboxcontroller1.GetPOV();
 	} else {
-		rightY2 = xboxcontroller2.GetY(frc::Joystick::kRightHand);
-		rightX2 = xboxcontroller2.GetX(frc::Joystick::kRightHand);
-		leftY2 = xboxcontroller2.GetY(frc::Joystick::kLeftHand);
-		leftX2 = xboxcontroller2.GetX(frc::Joystick::kLeftHand);
+		rightY2 = xboxcontroller1.GetY(frc::Joystick::kRightHand);
+		rightX2 = xboxcontroller1.GetX(frc::Joystick::kRightHand);
+		leftY2 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
+		leftX2 = xboxcontroller1.GetX(frc::Joystick::kLeftHand);
 
-		leftBumper2 = xboxcontroller2.GetBumper(frc::Joystick::kLeftHand);
-		rightBumper2 = xboxcontroller2.GetBumper(frc::Joystick::kRightHand);
+		leftBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kLeftHand);
+		rightBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kRightHand);
 
-  		xButton2 = xboxcontroller2.GetXButton();
-		aButton2 = xboxcontroller2.GetAButton();
-		yButton2 = xboxcontroller2.GetYButton();
-		bButton2 = xboxcontroller2.GetBButton();
+  		xButton2 = xboxcontroller1.GetXButton();
+		aButton2 = xboxcontroller1.GetAButton();
+		yButton2 = xboxcontroller1.GetYButton();
+		bButton2 = xboxcontroller1.GetBButton();
 
-		rightTrigger2 = xboxcontroller2.GetTriggerAxis(frc::Joystick::kRightHand);
-		leftTrigger2 = xboxcontroller2.GetTriggerAxis(frc::Joystick::kLeftHand);
+		rightTrigger2 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kRightHand);
+		leftTrigger2 = xboxcontroller1.GetTriggerAxis(frc::Joystick::kLeftHand);
 
-		startButton2 = xboxcontroller2.GetStartButton();
+		startButton2 = xboxcontroller1.GetStartButton();
 
-		dpad2 = xboxcontroller2.GetPOV();
+		dpad2 = xboxcontroller1.GetPOV();
+	}
+
+		// Checks if the raise elevator button was just pressed, and if it was it changes the desired elevator position
+	if (yButton2 && !buttonsPressed[1][3] && desElevatorPosition != "high") {
+		if (desElevatorPosition == "mid") {
+			desElevatorPosition = "high";
+		} else {
+			desElevatorPosition = "mid";
+		}
+	} else if (aButton2 && !buttonsPressed[1][0] && desElevatorPosition != "low") {
+		if (desElevatorPosition == "mid") {
+			desElevatorPosition = "low";
+		} else {
+			desElevatorPosition = "mid";
+		}
+	}
+
+	if (desElevatorPosition == "high") {
+		frc::SmartDashboard::PutBoolean("elevatorHigh", true);
+		frc::SmartDashboard::PutBoolean("elevatorMid", false);
+		frc::SmartDashboard::PutBoolean("elevatorLow", false);
+	} else if (desElevatorPosition == "mid") {
+		frc::SmartDashboard::PutBoolean("elevatorHigh", false);
+		frc::SmartDashboard::PutBoolean("elevatorMid", true);
+		frc::SmartDashboard::PutBoolean("elevatorLow", false);
+	} else {
+		frc::SmartDashboard::PutBoolean("elevatorHigh", false);
+		frc::SmartDashboard::PutBoolean("elevatorMid", false);
+		frc::SmartDashboard::PutBoolean("elevatorLow", true);
 	}
 
 	// End controller code-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -373,20 +406,34 @@ void Robot::TeleopPeriodic() {
 	} else {
 		big = fabs(leftX1);
 	}
-	if (mecanumDrive) {
-		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	} else {
-			// Tank drive code here
-		FrontLeft.Set(0.0);
-		FrontRight.Set(0.0);
-		BackLeft.Set(0.0);
-		BackRight.Set(0.0);
-	}
+	// if (mecanumDrive) {
+	// 	FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	// 	FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	// 	BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	// 	BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	// } else {
+	// 		// Tank drive code here
+	// 	FrontLeft.Set(0.0);
+	// 	FrontRight.Set(0.0);
+	// 	BackLeft.Set(0.0);
+	// 	BackRight.Set(0.0);
+	// }
 
 		// Finally update our variables that track data from previous robot ticks
+	buttonsPressed[0][0] = aButton1;
+	buttonsPressed[0][1] = bButton1;
+	buttonsPressed[0][2] = xButton1;
+	buttonsPressed[0][3] = yButton1;
+	buttonsPressed[0][4] = rightBumper1;
+	buttonsPressed[0][5] = leftBumper1;
+
+	buttonsPressed[1][0] = aButton2;
+	buttonsPressed[1][1] = bButton2;
+	buttonsPressed[1][2] = xButton2;
+	buttonsPressed[1][3] = yButton2;
+	buttonsPressed[1][4] = rightBumper2;
+	buttonsPressed[1][5] = leftBumper2;
+
 	lastAccelX = accelX;
 	lastAccelY = accelY;
 	if (sensorBoardType == "navx") {
