@@ -12,8 +12,8 @@ Robot::Robot() :
 	//right_slave = back right
 	//reverse(1),
 			m_pdp(0),
-	FrontLeft(3), BackLeft(1),
-	FrontRight(4), BackRight(2),
+	FrontLeft(1), BackLeft(2),
+	FrontRight(3), BackRight(4),
 	//sp(1),
 	Shooter1(5), Shooter2(6), Winch(7), Climber(8),
 	Hook(0)

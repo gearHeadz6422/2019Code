@@ -171,7 +171,7 @@ void Robot::TeleopPeriodic() {
 		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0) {
 			leftX1 *= -1;
 		}
-		rightY1 = 1.3 * sqrt(abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand)));
+		rightY1 = -1.3 * sqrt(abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand)));
 		if (xboxcontroller0.GetY(frc::Joystick::kLeftHand) < 0) {
 			rightY1 *= -1; // Ensures that the curve doesn't screw up the sign of the stick input
 		}
@@ -406,18 +406,19 @@ void Robot::TeleopPeriodic() {
 	} else {
 		big = fabs(leftX1);
 	}
-	// if (mecanumDrive) {
-	// 	FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	// 	FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	// 	BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	// 	BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	// } else {
-	// 		// Tank drive code here
-	// 	FrontLeft.Set(0.0);
-	// 	FrontRight.Set(0.0);
-	// 	BackLeft.Set(0.0);
-	// 	BackRight.Set(0.0);
-	// }
+
+	if (mecanumDrive) {
+		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	} else {
+			// Tank drive code here
+		FrontLeft.Set(0.0);
+		FrontRight.Set(0.0);
+		BackLeft.Set(0.0);
+		BackRight.Set(0.0);
+	}
 
 		// Finally update our variables that track data from previous robot ticks
 	buttonsPressed[0][0] = aButton1;
