@@ -1,14 +1,14 @@
 See file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramDebugExecutableFrcUserProgramCpp.
-compiling RobotAutonomous.cpp successful.
+compiling RobotTest.cpp successful.
 
 compiling RobotUtils.cpp successful.
 
-compiling RobotTest.cpp successful.
+compiling RobotAutonomous.cpp successful.
 
 compiling RobotTeleop.cpp successful.
 
-compiling RobotDisabled.cpp successful.
-
 compiling Robot.cpp successful.
+
+compiling RobotDisabled.cpp successful.
 
 Finished compileFrcUserProgramDebugExecutableFrcUserProgramCpp, see full log file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramDebugExecutableFrcUserProgramCpp/output.txt.

@@ -15,7 +15,7 @@ Robot::Robot() :
 	FrontLeft(1), BackLeft(2),
 	FrontRight(3), BackRight(4),
 	//sp(1),
-	Shooter1(5), Shooter2(6), Winch(7), Climber(8),
+	Lift1(5), Lift2(6), Winch(7), Climber(8),
 	Hook(0)
 {
 
@@ -83,10 +83,6 @@ void Robot::RobotInit() {
 	// camera1.SetResolution(160, 120);
 	// camera1.SetFPS(30);
 //frc::StartRobot<Robot>();
-
-	auto netTable = nt::NetworkTableInstance::GetDefault().GetTable("SmartDashboard");
-	auto cameraOut = netTable->GetEntry("cameraOut");
-	cameraOut.SetString("Left");
 }
 int main() { return frc::StartRobot<Robot>(); }
 //START_ROBOT_CLASS(Robot)

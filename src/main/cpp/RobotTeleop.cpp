@@ -16,11 +16,13 @@ void Robot::TeleopInit() {
 	leftEncoder.Reset();
 	winchEncoder.Reset();
 	climberEncoder.Reset();
+
 	if (sensorBoardType == "navx") {
 		navx->ZeroYaw();
 	} else {
 		analogDev.Reset();
 	}
+
 	currentAnlge = 0;
 	prevAnlge = 0;
 
@@ -41,6 +43,8 @@ void Robot::TeleopInit() {
 
 		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
 	ultraSonic = new AnalogInput(0);
+
+	frc::SmartDashboard::PutNumber("testMotor", -1.0);
 }
 
 void Robot::TeleopPeriodic() {
@@ -144,7 +148,7 @@ void Robot::TeleopPeriodic() {
 		rightX1 = xboxcontroller0.GetX(frc::Joystick::kRightHand);
 		rightY1 = xboxcontroller0.GetY(frc::Joystick::kRightHand);
 		leftX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
-		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+	leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
 
 		leftBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kLeftHand);
 		rightBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kRightHand);
@@ -273,12 +277,12 @@ void Robot::TeleopPeriodic() {
 		}
 
 			// Pulls camera outputs from the net tables, detirmines what direction to drive in, and scales the speed of the robot based on the distance
-		if (cameraOutput > 20 && !networkUpdating) {
+		if (cameraOutput > 10 && !networkUpdating) {
 			rightX1 = -1.25;
-			multiplier = fabs(cameraOutput) * 0.01;
-		} else if (cameraOutput < -20 && !networkUpdating) {
+			multiplier = fabs(cameraOutput) * 0.075;
+		} else if (cameraOutput < -10 && !networkUpdating) {
 			rightX1 = 1.25;
-			multiplier = fabs(cameraOutput) * 0.01;
+			multiplier = fabs(cameraOutput) * 0.075;
 		} else if (!networkUpdating) {
 			alignState = "straight";
 		}
@@ -445,4 +449,49 @@ void Robot::TeleopPeriodic() {
 
 		// Put your debugging code here
 	frc::SmartDashboard::PutString("alignStateString", alignState);
+
+		// While in this mode the joystick's Y axis is used to control 1 specifiic talon by an id taken from the shuffleboard
+	if (motorDebug) {
+		double leftY1 = 0.0;
+		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1.0);
+
+		switch (testMotor)	{
+			case 1:
+				FrontLeft.Set(leftY1/2);
+				break;
+			case 2:
+				BackLeft.Set(leftY1/2);
+				break;
+			case 3:
+				FrontRight.Set(leftY1/2);
+				break;
+			case 4:
+				BackRight.Set(leftY1/2);
+				break;
+			case 5:
+				Lift1.Set(leftY1/2);
+				break;
+			case 6:
+				Lift2.Set(leftY1/2);
+				break;
+			case 7:
+				Winch.Set(leftY1/2);
+				break;
+			case 8:
+				Climber.Set(leftY1/2);
+				break;
+
+			default:
+				FrontLeft.Set(0.0);
+				BackLeft.Set(0.0);
+				FrontRight.Set(0.0);
+				BackRight.Set(0.0);
+				Lift1.Set(0.0);
+				Lift2.Set(0.0);
+				Winch.Set(0.0);
+				Climber.Set(0.0);
+				break;
+		}
+	}
 }

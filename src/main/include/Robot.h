@@ -71,6 +71,9 @@ static std::string desElevatorPosition = "low";
 // static std::string sensorBoardType = "navx";
 static std::string sensorBoardType = "analogDev";
 
+static bool motorDebug = false;
+static int testMotor = 0;
+
 class Robot: public frc::TimedRobot {
 
   public: 
@@ -123,8 +126,8 @@ class Robot: public frc::TimedRobot {
 	WPI_TalonSRX BackLeft;
 	WPI_TalonSRX FrontRight;
 	WPI_TalonSRX BackRight;
-	WPI_TalonSRX Shooter1;
-	WPI_TalonSRX Shooter2;
+	WPI_TalonSRX Lift1;
+	WPI_TalonSRX Lift2;
 	WPI_TalonSRX Winch;
 	WPI_TalonSRX Climber;
 
