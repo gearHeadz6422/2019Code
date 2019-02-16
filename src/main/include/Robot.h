@@ -51,7 +51,6 @@ static bool networkUpdating = false;
 static std::string alignState = "none";
 
 static bool autoCompleted = false;
-
 static int startPosition = 0;
 static double desAutoDelay = 0;
 static double smartDashTimerAuto = 0;
@@ -64,7 +63,8 @@ static float accelY = 0.0;
 static float lastAccelX = 0.0;
 static float lastAccelY = 0.0;
 static bool colliding = false;
-static double wallDistance = 0.0;
+static double frontWallDistance = 0.0;
+static double rearWallDistance = 0.0;
 
 static std::string desElevatorPosition = "low";
 
@@ -135,7 +135,8 @@ class Robot: public frc::TimedRobot {
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
 
-	AnalogInput *ultraSonic;
+	AnalogInput *frontUltraSonic;
+	AnalogInput *rearUltraSonic;
 
 	AHRS *navx;
 	frc::ADIS16448_IMU analogDev{

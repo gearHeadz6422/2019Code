@@ -42,9 +42,13 @@ void Robot::TeleopInit() {
 	desElevatorPosition = "low";
 
 		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
-	ultraSonic = new AnalogInput(0);
+	frontUltraSonic = new AnalogInput(0);
+	rearUltraSonic = new AnalogInput(1);
 
-	frc::SmartDashboard::PutNumber("testMotor", -1.0);
+	// Used to define which talon is currently being tested later on
+	if (motorDebug) {
+		frc::SmartDashboard::PutNumber("testMotor", -1.0);
+	}
 }
 
 void Robot::TeleopPeriodic() {
@@ -71,8 +75,10 @@ void Robot::TeleopPeriodic() {
 		accelX = analogDev.GetAccelX() * 1000;
 		accelY = analogDev.GetAccelY() * 1000;
 	}
-	wallDistance = ultraSonic->GetValue();
-	frc::SmartDashboard::PutNumber("Wall distance", wallDistance);
+	frontWallDistance = frontUltraSonic->GetValue();
+	rearWallDistance = rearUltraSonic->GetValue();
+	frc::SmartDashboard::PutNumber("Front wall distance", frontWallDistance);
+	frc::SmartDashboard::PutNumber("Rear wall distance", rearWallDistance);
 	frc::SmartDashboard::PutNumber("X velocity", accelX);
 	frc::SmartDashboard::PutNumber("Y velocity", accelX);
 	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
@@ -122,6 +128,7 @@ void Robot::TeleopPeriodic() {
 	bool startButton1 = false;
 	double dpad1 = 0.0;
 	float big = 0.0; // This isn't actually a controller input, but is rather used by the mecanum drive code
+	bool directedForward = true;
 
 	double rightY2 = 0.0;
 	double rightX2 = 0.0;
@@ -175,7 +182,7 @@ void Robot::TeleopPeriodic() {
 		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) < 0) {
 			leftX1 *= -1;
 		}
-		rightY1 = -1.3 * sqrt(abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand)));
+		rightY1 = -1.3 * sqrt(abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand))); // This input is negated
 		if (xboxcontroller0.GetY(frc::Joystick::kLeftHand) < 0) {
 			rightY1 *= -1; // Ensures that the curve doesn't screw up the sign of the stick input
 		}
@@ -186,8 +193,12 @@ void Robot::TeleopPeriodic() {
 
 			// Checks if the driver is sending input to the robot. This will cancel out some autonomous processes
 		stickMoved = false;
-		if (abs(xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand)) > 0.25 || abs(xboxcontroller0.GetY(frc::Joystick::kLeftHand)) > 0.25 || abs(xboxcontroller0.GetX(frc::Joystick::kLeftHand)) > 0.25) {
+		if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) > 0.25 || xboxcontroller0.GetY(frc::Joystick::kLeftHand) > 0.25 || xboxcontroller0.GetX(frc::Joystick::kLeftHand) > 0.25) {
 			stickMoved = true;
+			directedForward = false;
+		} else if (xboxcontroller0.GetTriggerAxis(frc::Joystick::kLeftHand) > 0.25 || xboxcontroller0.GetY(frc::Joystick::kLeftHand) > 0.25 || xboxcontroller0.GetX(frc::Joystick::kLeftHand) > 0.25) {
+			stickMoved = true;
+			directedForward = true;
 		}
 
 			// Again, curves the stick input, and makes sure the sign is not lost
@@ -222,38 +233,43 @@ void Robot::TeleopPeriodic() {
 		}
 	}
 
-		// Determines the desired line based on the current direction of the robot, and the joystick dpad
+		// Determines the desired angle based on the current direction of the robot, and the joystick dpad
 	const int lineErrorMagrin = 5;
 	if (dpad1 != -1) {
-		alignState = "angle";
-		if (dpad1 == 0) {
-			if (currentAnlge >= 0) {
-				targetAngle = 150;
+		if (directedForward) {
+			alignState = "angle";
+			if (dpad1 == 0) {
+				if (currentAnlge >= 0) {
+					targetAngle = 150;
+				} else {
+					targetAngle = -150;
+				}
+			} else if (dpad1 == 90 || dpad1 == 270) {
+				if (currentAnlge >= 0) {
+					targetAngle = 90;
+				} else {
+					targetAngle = -90;
+				}
 			} else {
-				targetAngle = -150;
-			}
-		} else if (dpad1 == 90 || dpad1 == 270) {
-			if (currentAnlge >= 0) {
-				targetAngle = 90;
-			} else {
-				targetAngle = -90;
+				if (currentAnlge >= 0) {
+					targetAngle = 30;
+				} else {
+					targetAngle = -30;
+				}
 			}
 		} else {
-			if (currentAnlge >= 0) {
-				targetAngle = 30;
-			} else {
-				targetAngle = -30;
-			}
+			// TODO: Backward movement angles
 		}
 	}
 
 	if (stickMoved)	{
 		alignState = "none";
-		targetAngle= -1;
+		targetAngle = -1;
 	}
 
 		//Turns the robot to be aligned with the selected line
 	if (alignState == "angle" && (targetAngle - lineErrorMagrin >= currentAnlge || currentAnlge >= targetAngle + lineErrorMagrin)) {
+		// TODO: Reverse this when not directed forward?
 		if (currentAnlge <= targetAngle) {
 			leftX1 = 1.0;
 		} else {
@@ -278,6 +294,7 @@ void Robot::TeleopPeriodic() {
 
 			// Pulls camera outputs from the net tables, detirmines what direction to drive in, and scales the speed of the robot based on the distance
 		if (cameraOutput > 10 && !networkUpdating) {
+			// TODO: Reverse this when not directed forward?
 			rightX1 = -1.25;
 			multiplier = fabs(cameraOutput) * 0.075;
 		} else if (cameraOutput < -10 && !networkUpdating) {
@@ -298,17 +315,29 @@ void Robot::TeleopPeriodic() {
 
 			// Maintains the angle of the robot as it slides
 		if (currentAnlge < targetAngle - lineErrorMagrin) {
+			// TODO: Reverse this when not directed forward?
 			leftX1 = 1.0 / multiplier;
 		} else if (currentAnlge > targetAngle + lineErrorMagrin) {
 			leftX1 = -1.0 / multiplier;
 		}
 	} else if (alignState == "straight") {
-		rightY1 = (sqrt(wallDistance - 350) / -20);
-		if (rightY1 > 0.5) {
-			rightY1 = 0;
-		}
-		if (wallDistance <= 350) {
-			alignState = "lift";
+		if (directedForward) {
+			// TODO: Reverse due to the new drive train?
+			rightY1 = (sqrt(frontWallDistance - 350) / -20);
+			if (rightY1 > 0.5) {
+				rightY1 = 0;
+			}
+			if (frontWallDistance <= 350) {
+				alignState = "lift";
+			}
+		} else {
+			rightY1 = (sqrt(rearWallDistance - 350) / 20);
+			if (rightY1 > 0.5) {
+				rightY1 = 0;
+			}
+			if (rearWallDistance <= 350) {
+				alignState = "lift";
+			}
 		}
 
 		// Maintains the angle of the robot as it drives forward
