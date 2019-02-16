@@ -74,6 +74,8 @@ static std::string sensorBoardType = "analogDev";
 static bool motorDebug = false;
 static int testMotor = 0;
 
+static bool autoMode = true;
+
 class Robot: public frc::TimedRobot {
 
   public: 

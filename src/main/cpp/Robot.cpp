@@ -64,25 +64,15 @@ Robot::Robot() :
 	//talon_ballpick.SetNeutralMode(NeutralMode::Coast);
 
 	//InitEncoder(m_encoder_left);
-	//I/nitEncoder(m_encoder_right);
+	//InitEncoder(m_encoder_right);
 	angle = navx->GetAngle();
 	navx->ZeroYaw();
 	memset(maxpwr,0,sizeof(maxpwr));
 }
 
 void Robot::RobotInit() {
-	//  chooser.AddDefault(autoNameDefault, autoNameDefault);
-	//  chooser.AddObject(autoNameCustom, autoNameCustom);
-	//  frc::SmartDashboard::PutData("Auto Modes", &chooser);
-
-	// camera0 = CameraServer::GetInstance()->StartAutomaticCapture(0);
-	// camera0.SetResolution(160, 120);
-	// camera0.SetFPS(30);
-
-	// camera1 = CameraServer::GetInstance()->StartAutomaticCapture(1);
-	// camera1.SetResolution(160, 120);
-	// camera1.SetFPS(30);
-//frc::StartRobot<Robot>();
+		// Set up the initial state of our shuffleboard
+	frc::SmartDashboard::PutNumber("desAutoDelay", 0);
 }
 int main() { return frc::StartRobot<Robot>(); }
 //START_ROBOT_CLASS(Robot)

@@ -31,7 +31,7 @@ void Robot::TeleopInit() {
 	FrontRight.Set(ControlMode::PercentOutput, 0);
 	BackLeft.Set(ControlMode::PercentOutput, 0);
 	BackRight.Set(ControlMode::PercentOutput, 0);
-		// I literally have no idea what this does... I wouldn't touch it
+		// I literally have no idea what this does... don't touch it
 	Climber.SetSelectedSensorPosition(0, 0, 0);
 
 		// Tracks the current step the auto-lineup algorithim is on
