@@ -9,13 +9,8 @@ void Robot::TeleopInit() {
 	accelY = 0.0;
 	lastAccelX = 0.0;
 	lastAccelY = 0.0;
-	leftEncoder.Reset();
-	rightEncoder.Reset();
-	winchEncoder.Reset();
-	rightEncoder.Reset();
-	leftEncoder.Reset();
-	winchEncoder.Reset();
-	climberEncoder.Reset();
+	liftEncoderLow.Reset();
+	liftEncoderHigh.Reset();
 
 	if (sensorBoardType == "navx") {
 		navx->ZeroYaw();
@@ -31,7 +26,9 @@ void Robot::TeleopInit() {
 	FrontRight.Set(ControlMode::PercentOutput, 0);
 	BackLeft.Set(ControlMode::PercentOutput, 0);
 	BackRight.Set(ControlMode::PercentOutput, 0);
-		// I literally have no idea what this does... don't touch it
+	liftLow.Set(ControlMode::PercentOutput, 0);
+	liftHigh.Set(ControlMode::PercentOutput, 0);
+	// I literally have no idea what this does... don't touch it
 	Climber.SetSelectedSensorPosition(0, 0, 0);
 
 		// Tracks the current step the auto-lineup algorithim is on
@@ -39,11 +36,14 @@ void Robot::TeleopInit() {
 	targetAngle = -1;
 
 		// Tracks the desired height of the hook
-	desElevatorPosition = "low";
+	desLiftPosition = "low";
 
 		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
 	frontUltraSonic = new AnalogInput(0);
-	rearUltraSonic = new AnalogInput(1);
+	rearUltraSonic = new AnalogInput(1); // Blue goes towards the outside of the rio
+
+		// Toggles the debug mode for testing talons individually
+	motorDebug = true;
 
 	// Used to define which talon is currently being tested later on
 	if (motorDebug) {
@@ -75,25 +75,27 @@ void Robot::TeleopPeriodic() {
 		accelX = analogDev.GetAccelX() * 1000;
 		accelY = analogDev.GetAccelY() * 1000;
 	}
+
 	frontWallDistance = frontUltraSonic->GetValue();
 	rearWallDistance = rearUltraSonic->GetValue();
 	frc::SmartDashboard::PutNumber("Front wall distance", frontWallDistance);
 	frc::SmartDashboard::PutNumber("Rear wall distance", rearWallDistance);
-	frc::SmartDashboard::PutNumber("X velocity", accelX);
-	frc::SmartDashboard::PutNumber("Y velocity", accelX);
-	frc::SmartDashboard::PutNumber("desAutoDelay", desAutoDelay);
-	frc::SmartDashboard::PutNumber("startPosition", startPosition);
-	startPosition = frc::SmartDashboard::GetNumber("startPosition", 0.0);
-	leftInches = rightEncoder.GetDistance() / (6 * M_PI); //changed to right, it should be left!
-	rightInches = rightEncoder.GetDistance() / (6 * M_PI);
-	if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) {
+
+	if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) { //TODO: Test and make sure this still works
 		colliding = true;
 	} else {
 		colliding = false;
 	}
-	
-	polyCount = frc::SmartDashboard::GetNumber("polyCount", 0);
-	cameraOutput = frc::SmartDashboard::GetNumber("cameraOutput", 0);
+
+		// This returns value in terms of bits so we convert it to rotations
+	liftHeightHigh = liftEncoderHigh.GetDistance()/4096;
+	liftHeightLow = liftEncoderLow.GetDistance()/4096;
+	frc::SmartDashboard::PutNumber("High lift height", liftHeightHigh);
+	frc::SmartDashboard::PutNumber("Low lift height", liftHeightLow);
+
+	frontCameraOutput = frc::SmartDashboard::GetNumber("Front camera out", 0);
+	rearCameraOutput = frc::SmartDashboard::GetNumber("Rear camera out", 0);
+
 	if (sensorBoardType == "navx") {
 		currentAnlge += navx->GetAngle() - prevAnlge;
 	} else {
@@ -112,7 +114,7 @@ void Robot::TeleopPeriodic() {
 	}
 	frc::SmartDashboard::PutNumber("Angle", currentAnlge);
 
-		// Next, we reset all of the gamepad inputs. Variables labeld 1 coordespond to the driver, and 2 to attatchments, regardless of the actual number for each gamepad
+		// Next, we reset all of the gamepad inputs to 0
 	double rightX1 = 0.0;
 	double rightY1 = 0.0;
 	double leftX1 = 0.0;
@@ -155,7 +157,7 @@ void Robot::TeleopPeriodic() {
 		rightX1 = xboxcontroller0.GetX(frc::Joystick::kRightHand);
 		rightY1 = xboxcontroller0.GetY(frc::Joystick::kRightHand);
 		leftX1 = xboxcontroller0.GetX(frc::Joystick::kLeftHand);
-	leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
 
 		leftBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kLeftHand);
 		rightBumper1 = xboxcontroller0.GetBumper(frc::Joystick::kRightHand);
@@ -262,6 +264,7 @@ void Robot::TeleopPeriodic() {
 		}
 	}
 
+		// If the dirver has moved the stick, cancel the operation
 	if (stickMoved)	{
 		alignState = "none";
 		targetAngle = -1;
@@ -293,18 +296,28 @@ void Robot::TeleopPeriodic() {
 		}
 
 			// Pulls camera outputs from the net tables, detirmines what direction to drive in, and scales the speed of the robot based on the distance
-		if (cameraOutput > 10 && !networkUpdating) {
-			// TODO: Reverse this when not directed forward?
-			rightX1 = -1.25;
-			multiplier = fabs(cameraOutput) * 0.075;
-		} else if (cameraOutput < -10 && !networkUpdating) {
-			rightX1 = 1.25;
-			multiplier = fabs(cameraOutput) * 0.075;
-		} else if (!networkUpdating) {
-			alignState = "straight";
+		if (directedForward) {
+			if (frontCameraOutput > 10 && !networkUpdating) {
+				rightX1 = -1.25;
+				multiplier = fabs(frontCameraOutput) * 0.075;
+			} else if (frontCameraOutput < -10 && !networkUpdating) {
+				rightX1 = 1.25;
+				multiplier = fabs(frontCameraOutput) * 0.075;
+			} else if (!networkUpdating) {
+				alignState = "straight";
+			}
+		} else {
+				if (rearCameraOutput > 10 && !networkUpdating) {
+				// TODO: Reverse this when not directed forward?
+				rightX1 = -1.25;
+				multiplier = fabs(rearCameraOutput) * 0.075;
+			} else if (rearCameraOutput < -10 && !networkUpdating) {
+				rightX1 = 1.25;
+				multiplier = fabs(rearCameraOutput) * 0.075;
+			} else if (!networkUpdating) {
+				alignState = "straight";
+			}
 		}
-
-		frc::SmartDashboard::PutNumber("Auto mult", multiplier);
 
 			// Limits the speed of the algorithim to prevent cases where the robot over draws current, slids too far, or is unable to slide due to low motor power
 		if (multiplier >= 1.75) {
@@ -357,8 +370,7 @@ void Robot::TeleopPeriodic() {
 	}
 
 	// End driver code; Begin attatchment code---------------------------------------------------------------------------------------------------------------------------
-
-	if (!joystickMode) {
+	if (!joystickMode)	{
 		rightY2 = xboxcontroller1.GetY(frc::Joystick::kRightHand);
 		rightX2 = xboxcontroller1.GetX(frc::Joystick::kRightHand);
 		leftY2 = xboxcontroller1.GetY(frc::Joystick::kLeftHand);
@@ -400,34 +412,52 @@ void Robot::TeleopPeriodic() {
 		dpad2 = xboxcontroller1.GetPOV();
 	}
 
-		// Checks if the raise elevator button was just pressed, and if it was it changes the desired elevator position
-	if (yButton2 && !buttonsPressed[1][3] && desElevatorPosition != "high") {
-		if (desElevatorPosition == "mid") {
-			desElevatorPosition = "high";
+		// TODO: Actually callibrate this
+	double ballLiftTargetsHigh [3] = {};
+	double ballLiftTargetsLow [3] = {};
+	double hatchLiftTargetsHigh[3] = {};
+	double hatchLiftTargetsLow[3] = {};
+
+	double liftTargetHigh = 100.0;
+	double liftTargetMid = 50.0;
+	double liftTargetLow = 0.0;
+
+		// Checks if the raise lift button was just pressed, and if it was it changes the desired lift position
+	if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") {
+		if (desLiftPosition == "mid") {
+			desLiftPosition = "high";
 		} else {
-			desElevatorPosition = "mid";
+			desLiftPosition = "mid";
 		}
-	} else if (aButton2 && !buttonsPressed[1][0] && desElevatorPosition != "low") {
-		if (desElevatorPosition == "mid") {
-			desElevatorPosition = "low";
+	} else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "low") {
+		if (desLiftPosition == "mid") {
+			desLiftPosition = "low";
 		} else {
-			desElevatorPosition = "mid";
+			desLiftPosition = "mid";
 		}
 	}
 
-	if (desElevatorPosition == "high") {
-		frc::SmartDashboard::PutBoolean("elevatorHigh", true);
-		frc::SmartDashboard::PutBoolean("elevatorMid", false);
-		frc::SmartDashboard::PutBoolean("elevatorLow", false);
-	} else if (desElevatorPosition == "mid") {
-		frc::SmartDashboard::PutBoolean("elevatorHigh", false);
-		frc::SmartDashboard::PutBoolean("elevatorMid", true);
-		frc::SmartDashboard::PutBoolean("elevatorLow", false);
+		// Updates the shuffleboard's lift dispaly
+	if (desLiftPosition == "high") {
+		frc::SmartDashboard::PutBoolean("Lift high", true);
+		frc::SmartDashboard::PutBoolean("Lift mid", false);
+		frc::SmartDashboard::PutBoolean("Lift low", false);
+	} else if (desLiftPosition == "mid") {
+		frc::SmartDashboard::PutBoolean("Lift high", false);
+		frc::SmartDashboard::PutBoolean("Lift mid", true);
+		frc::SmartDashboard::PutBoolean("liftLow", false);
 	} else {
-		frc::SmartDashboard::PutBoolean("elevatorHigh", false);
-		frc::SmartDashboard::PutBoolean("elevatorMid", false);
-		frc::SmartDashboard::PutBoolean("elevatorLow", true);
+		frc::SmartDashboard::PutBoolean("Lift high", false);
+		frc::SmartDashboard::PutBoolean("Lift mid", false);
+		frc::SmartDashboard::PutBoolean("liftLow", true);
 	}
+
+		// Forces the lift to move when the force button is pressed
+	// if (xButton2) {
+	// 	if () {
+			
+	// 	}
+	// }
 
 	// End controller code-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -440,17 +470,61 @@ void Robot::TeleopPeriodic() {
 		big = fabs(leftX1);
 	}
 
-	if (mecanumDrive) {
-		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	} else {
-			// Tank drive code here
-		FrontLeft.Set(0.0);
-		FrontRight.Set(0.0);
-		BackLeft.Set(0.0);
-		BackRight.Set(0.0);
+	if (!motorDebug) {
+		liftLow.Set(leftY2);	
+		liftHigh.Set(-rightY2/2);
+
+		if (mecanumDrive) {
+			FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+			FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+			BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+			BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		} else {
+				// Tank drive code here
+			FrontLeft.Set(0.0);
+			FrontRight.Set(0.0);
+			BackLeft.Set(0.0);
+			BackRight.Set(0.0);
+		}
+	}
+		// Put your debugging code here
+	frc::SmartDashboard::PutString("alignStateString", alignState);
+
+		// While in this mode the joystick's Y axis is used to control 1 specifiic talon by an id taken from the shuffleboard
+	if (motorDebug) {
+		double leftY1 = 0.0;
+		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
+		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1.0);
+
+		if (aButton1 && !buttonsPressed[0][0]) {
+			if (testMotor == 5) {
+				testMotor = 9;
+			} else {
+				testMotor = 5;
+			}
+
+			frc::SmartDashboard::PutNumber("testMotor", testMotor);
+		}
+
+		switch (testMotor)	{
+			case 5:
+				liftLow.Set(leftY1);
+				break;
+			case 9:
+				liftHigh.Set(-leftY1);
+				break;
+
+			default:
+				FrontLeft.Set(0.0);
+				BackLeft.Set(0.0);
+				FrontRight.Set(0.0);
+				BackRight.Set(0.0);
+				liftLow.Set(0.0);
+				liftHigh.Set(0.0); // TODO: Rename talons so they follow convention
+				Winch.Set(0.0);
+				Climber.Set(0.0);
+				break;
+		}
 	}
 
 		// Finally update our variables that track data from previous robot ticks
@@ -474,53 +548,5 @@ void Robot::TeleopPeriodic() {
 		prevAnlge = navx->GetAngle();
 	} else {
 		prevAnlge = analogDev.GetAngle();
-	}
-
-		// Put your debugging code here
-	frc::SmartDashboard::PutString("alignStateString", alignState);
-
-		// While in this mode the joystick's Y axis is used to control 1 specifiic talon by an id taken from the shuffleboard
-	if (motorDebug) {
-		double leftY1 = 0.0;
-		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
-		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1.0);
-
-		switch (testMotor)	{
-			case 1:
-				FrontLeft.Set(leftY1/2);
-				break;
-			case 2:
-				BackLeft.Set(leftY1/2);
-				break;
-			case 3:
-				FrontRight.Set(leftY1/2);
-				break;
-			case 4:
-				BackRight.Set(leftY1/2);
-				break;
-			case 5:
-				Lift1.Set(leftY1/2);
-				break;
-			case 6:
-				Lift2.Set(leftY1/2);
-				break;
-			case 7:
-				Winch.Set(leftY1/2);
-				break;
-			case 8:
-				Climber.Set(leftY1/2);
-				break;
-
-			default:
-				FrontLeft.Set(0.0);
-				BackLeft.Set(0.0);
-				FrontRight.Set(0.0);
-				BackRight.Set(0.0);
-				Lift1.Set(0.0);
-				Lift2.Set(0.0);
-				Winch.Set(0.0);
-				Climber.Set(0.0);
-				break;
-		}
 	}
 }

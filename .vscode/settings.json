@@ -18,7 +18,8 @@
     "memory": "cpp",
     "iostream": "cpp",
     "atomic": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "xstring": "cpp"
   },
   "python.linting.pylintEnabled": false,
   "python.formatting.provider": "black",

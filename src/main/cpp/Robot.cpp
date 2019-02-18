@@ -15,31 +15,14 @@ Robot::Robot() :
 	FrontLeft(1), BackLeft(2),
 	FrontRight(3), BackRight(4),
 	//sp(1),
-	Lift1(5), Lift2(6), Winch(7), Climber(8),
+	liftHigh(9), liftLow(5), Winch(7), Climber(8),
 	Hook(0)
 {
 
 
 	try {
-		/***********************************************************************
-		 * navX-MXP:
-		 * - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB.
-		 * - See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
-		 *
-		 * navX-Micro:
-		 * - Communication via I2C (RoboRIO MXP or Onboard) and USB.
-		 * - See http://navx-micro.kauailabs.com/guidance/selecting-an-interface.
-		 *
-		 * Multiple navX-model devices on a single robot are supported.
-		 ************************************************************************/
 		navx = new AHRS(SPI::Port::kMXP);
 		int n = 0;
-// wait till calibration is finished
-		// check if navx board is still calibrating, if so
-		// sleep 1 sec and try again
-		// do this for 20 times before giving up
-		// this prevents a hangup if the board never calibrates
-		// [IsCalibrating() returns true]
 		while (n < 20){
 			n++;
 			if (navx->IsCalibrating()) {
@@ -53,6 +36,7 @@ Robot::Robot() :
 		err_string += ex.what();
 		DriverStation::ReportError(err_string.c_str());
 	}
+
 	FrontRight.SetInverted(true);
 	BackRight.SetInverted(true);
 	//InitEncoder(m_encoder_right);
@@ -63,8 +47,8 @@ Robot::Robot() :
 
 	//talon_ballpick.SetNeutralMode(NeutralMode::Coast);
 
-	//InitEncoder(m_encoder_left);
-	//InitEncoder(m_encoder_right);
+	InitEncoder(liftEncoderLow);
+	InitEncoder(liftEncoderHigh);
 	angle = navx->GetAngle();
 	navx->ZeroYaw();
 	memset(maxpwr,0,sizeof(maxpwr));

@@ -13,6 +13,7 @@
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
 #include <adi/ADIS16448_IMU.h>
+#include <frc/Encoder.h>
 
 const float kUpdatePeriod = 0.005;
 const float kValueToCM = 0.144;
@@ -44,8 +45,9 @@ static double prevAnlge = 0.0;
 static double currentAnlge = 0.0;
 static int targetAngle = -1;
 
-static double polyCount = 0.0;
-static double cameraOutput = 0.0;
+static double frontCameraOutput = 0.0;
+static double rearCameraOutput = 0.0;
+
 static int alignLoopCount = 0;
 static bool networkUpdating = false;
 static std::string alignState = "none";
@@ -65,8 +67,10 @@ static float lastAccelY = 0.0;
 static bool colliding = false;
 static double frontWallDistance = 0.0;
 static double rearWallDistance = 0.0;
+static double liftHeightLow = 0.0;
+static double liftHeightHigh = 0.0;
 
-static std::string desElevatorPosition = "low";
+static std::string desLiftPosition = "low";
 
 // static std::string sensorBoardType = "navx";
 static std::string sensorBoardType = "analogDev";
@@ -92,7 +96,7 @@ class Robot: public frc::TimedRobot {
 	  void TeleopInit() override;
 	  void TeleopPeriodic() override;
 	  void TestInit() override;
-  	  void TestPeriodic() override;
+  	void TestPeriodic() override;
 
 	void InitEncoder(frc::Encoder &enc);
 	void CameraLightOn();
@@ -106,10 +110,12 @@ class Robot: public frc::TimedRobot {
 
 	double maxpwr[6];
 	int waitper = 0;
-	frc::Encoder leftEncoder { 2, 3, true, Encoder::k4X };
-	frc::Encoder rightEncoder { 0, 1, false, Encoder::k4X };
-	frc::Encoder winchEncoder { 4, 5, false, Encoder::k4X };
-	frc::Encoder climberEncoder { 6, 7, false, Encoder::k4X };
+
+		// Here, the first 2 arguments are the port numbers for the two digital inputs and the bool tells it wether to reverse
+	frc::Encoder liftEncoderLow { 0, 1, true, Encoder::k4X };
+	frc::Encoder liftEncoderHigh { 2, 3, false, Encoder::k4X };
+	// frc::Encoder winchEncoder { 4, 5, false, Encoder::k4X };
+	// frc::Encoder climberEncoder { 6, 7, false, Encoder::k4X };
 
 	float winchSpeed = 0.0;
 	float rampSpeed = 0.0;
@@ -128,14 +134,17 @@ class Robot: public frc::TimedRobot {
 	WPI_TalonSRX BackLeft;
 	WPI_TalonSRX FrontRight;
 	WPI_TalonSRX BackRight;
-	WPI_TalonSRX Lift1;
-	WPI_TalonSRX Lift2;
+	WPI_TalonSRX liftLow;
+	WPI_TalonSRX liftHigh;
 	WPI_TalonSRX Winch;
 	WPI_TalonSRX Climber;
 
 		// Driver station cameras get initialized here
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
+
+	frc::GenericHID::RumbleType kLeftRumble;
+	frc::GenericHID::RumbleType kRightRumble;
 
 	AnalogInput *frontUltraSonic;
 	AnalogInput *rearUltraSonic;
