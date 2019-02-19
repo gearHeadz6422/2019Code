@@ -14,6 +14,8 @@
 #include "networktables/NetworkTableInstance.h"
 #include <adi/ADIS16448_IMU.h>
 #include <frc/Encoder.h>
+#include <Solenoid.h>
+#include <Compressor.h>
 
 const float kUpdatePeriod = 0.005;
 const float kValueToCM = 0.144;
@@ -143,8 +145,7 @@ class Robot: public frc::TimedRobot {
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
 
-	frc::GenericHID::RumbleType kLeftRumble;
-	frc::GenericHID::RumbleType kRightRumble;
+	frc::Compressor *compressor = new frc::Compressor(0);
 
 	AnalogInput *frontUltraSonic;
 	AnalogInput *rearUltraSonic;

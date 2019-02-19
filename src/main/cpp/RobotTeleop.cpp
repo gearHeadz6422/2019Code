@@ -42,10 +42,12 @@ void Robot::TeleopInit() {
 	frontUltraSonic = new AnalogInput(0);
 	rearUltraSonic = new AnalogInput(1); // Blue goes towards the outside of the rio
 
-		// Toggles the debug mode for testing talons individually
-	motorDebug = true;
+		// Turns on the compressor
+	compressor->SetClosedLoopControl(true);
 
-	// Used to define which talon is currently being tested later on
+		// Toggles the debug mode for testing talons individually
+	motorDebug = false;
+		// Used to define which talon is currently being tested later on
 	if (motorDebug) {
 		frc::SmartDashboard::PutNumber("testMotor", -1.0);
 	}
@@ -260,7 +262,26 @@ void Robot::TeleopPeriodic() {
 				}
 			}
 		} else {
-			// TODO: Backward movement angles
+			// TODO: Test backward movement angles
+				if (dpad1 == 0) {
+				if (currentAnlge >= 0) {
+					targetAngle = 150;
+				} else {
+					targetAngle = -150;
+				}
+			} else if (dpad1 == 90 || dpad1 == 270) {
+				if (currentAnlge >= 0) {
+					targetAngle = 90;
+				} else {
+					targetAngle = -90;
+				}
+			} else {
+				if (currentAnlge >= 0) {
+					targetAngle = 30;
+				} else {
+					targetAngle = -30;
+				}
+			}
 		}
 	}
 
