@@ -4,13 +4,14 @@
 using namespace std;
 
 void Robot::TeleopInit() {
-	// Set the initial state for our variables, and pull some data from the driver station
+		// Set the initial state for our variables, and pull some data from the driver station
 	accelX = 0.0;
 	accelY = 0.0;
 	lastAccelX = 0.0;
 	lastAccelY = 0.0;
-	liftEncoderLow.Reset();
 	liftEncoderHigh.Reset();
+	leftEncoder.Reset();
+	rightEncoder.Reset();
 
 	if (sensorBoardType == "navx") {
 		navx->ZeroYaw();
@@ -28,15 +29,17 @@ void Robot::TeleopInit() {
 	BackRight.Set(ControlMode::PercentOutput, 0);
 	liftLow.Set(ControlMode::PercentOutput, 0);
 	liftHigh.Set(ControlMode::PercentOutput, 0);
-	// I literally have no idea what this does... don't touch it
-	Climber.SetSelectedSensorPosition(0, 0, 0);
+	intake.Set(ControlMode::PercentOutput, 0);
+
+		// Initializes the encoder attatched to the lower lift's talon
+	liftLow.SetSelectedSensorPosition(0, 0, 0);
 
 		// Tracks the current step the auto-lineup algorithim is on
 	alignState = "none";
 	targetAngle = -1;
-
-		// Tracks the desired height of the hook
-	desLiftPosition = "low";
+   
+		// Tracks the desired height of the lift
+	desLiftPosition = "off";
 
 		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
 	frontUltraSonic = new AnalogInput(0);
@@ -44,13 +47,6 @@ void Robot::TeleopInit() {
 
 		// Turns on the compressor
 	compressor->SetClosedLoopControl(true);
-
-		// Toggles the debug mode for testing talons individually
-	motorDebug = false;
-		// Used to define which talon is currently being tested later on
-	if (motorDebug) {
-		frc::SmartDashboard::PutNumber("testMotor", -1.0);
-	}
 }
 
 void Robot::TeleopPeriodic() {
@@ -64,7 +60,7 @@ void Robot::TeleopPeriodic() {
 		BackLeft.Set(0.0);
 		BackRight.Set(0.0);
 		Hook.Set(0.0);
-		Winch.Set(0.0);
+		intake.Set(0.0);
 
 		return;
 	}
@@ -90,10 +86,16 @@ void Robot::TeleopPeriodic() {
 	}
 
 		// This returns value in terms of bits so we convert it to rotations
-	liftHeightHigh = liftEncoderHigh.GetDistance()/4096;
-	liftHeightLow = liftEncoderLow.GetDistance()/4096;
+	liftHeightHigh = liftEncoderHigh.GetDistance() / 1024;
+	liftHeightLow = liftLow.GetSelectedSensorPosition(0) / 4096.0;
 	frc::SmartDashboard::PutNumber("High lift height", liftHeightHigh);
 	frc::SmartDashboard::PutNumber("Low lift height", liftHeightLow);
+
+	leftDistance = leftEncoder.GetDistance() / 360;
+	rightDistance = rightEncoder.GetDistance() / 360;
+	
+	frc::SmartDashboard::PutNumber("Left encoder", leftDistance);
+	frc::SmartDashboard::PutNumber("Right encoder", rightDistance);
 
 	frontCameraOutput = frc::SmartDashboard::GetNumber("Front camera out", 0);
 	rearCameraOutput = frc::SmartDashboard::GetNumber("Rear camera out", 0);
@@ -433,25 +435,19 @@ void Robot::TeleopPeriodic() {
 		dpad2 = xboxcontroller1.GetPOV();
 	}
 
-		// TODO: Actually callibrate this
-	double ballLiftTargetsHigh [3] = {};
-	double ballLiftTargetsLow [3] = {};
-	double hatchLiftTargetsHigh[3] = {};
-	double hatchLiftTargetsLow[3] = {};
-
-	double liftTargetHigh = 100.0;
-	double liftTargetMid = 50.0;
-	double liftTargetLow = 0.0;
-
-		// Checks if the raise lift button was just pressed, and if it was it changes the desired lift position
-	if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") {
+		// Checks if the raise/lower lift button was just pressed, and if it was it changes the desired lift position
+	if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") { //Raise
 		if (desLiftPosition == "mid") {
 			desLiftPosition = "high";
-		} else {
+		} else if (desLiftPosition == "low") {
 			desLiftPosition = "mid";
+		} else {
+			desLiftPosition = "low";
 		}
-	} else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "low") {
-		if (desLiftPosition == "mid") {
+	} else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "off") { // Lower
+		if (desLiftPosition == "low") {
+			desLiftPosition = "off";
+		} else if (desLiftPosition == "mid") {
 			desLiftPosition = "low";
 		} else {
 			desLiftPosition = "mid";
@@ -463,22 +459,36 @@ void Robot::TeleopPeriodic() {
 		frc::SmartDashboard::PutBoolean("Lift high", true);
 		frc::SmartDashboard::PutBoolean("Lift mid", false);
 		frc::SmartDashboard::PutBoolean("Lift low", false);
+		frc::SmartDashboard::PutBoolean("Lift off", false);
 	} else if (desLiftPosition == "mid") {
 		frc::SmartDashboard::PutBoolean("Lift high", false);
 		frc::SmartDashboard::PutBoolean("Lift mid", true);
-		frc::SmartDashboard::PutBoolean("liftLow", false);
+		frc::SmartDashboard::PutBoolean("Lift low", false);
+		frc::SmartDashboard::PutBoolean("Lift off", false);
+	} else if (desLiftPosition == "low") {
+		frc::SmartDashboard::PutBoolean("Lift high", false);
+		frc::SmartDashboard::PutBoolean("Lift mid", false);
+		frc::SmartDashboard::PutBoolean("Lift low", true);
+		frc::SmartDashboard::PutBoolean("Lift off", false);
 	} else {
 		frc::SmartDashboard::PutBoolean("Lift high", false);
 		frc::SmartDashboard::PutBoolean("Lift mid", false);
-		frc::SmartDashboard::PutBoolean("liftLow", true);
+		frc::SmartDashboard::PutBoolean("Lift low", false);
+		frc::SmartDashboard::PutBoolean("Lift off", true);
 	}
 
 		// Forces the lift to move when the force button is pressed
-	// if (xButton2) {
-	// 	if () {
+	// if (xButton2 && !buttonsPressed[1][2]) {
+	// 	if (holdingHatch) {
 			
 	// 	}
 	// }
+
+	intake.Set(leftY2);
+
+	if (bButton2 && !buttonsPressed[1][1]) {
+		holdingHatch = !holdingHatch;
+	}
 
 	// End controller code-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -491,62 +501,24 @@ void Robot::TeleopPeriodic() {
 		big = fabs(leftX1);
 	}
 
-	if (!motorDebug) {
-		liftLow.Set(leftY2);	
-		liftHigh.Set(-rightY2/2);
+	liftLow.Set(leftY2);	
+	liftHigh.Set(-rightY2/2);
 
-		if (mecanumDrive) {
-			FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-			FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-			BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-			BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		} else {
-				// Tank drive code here
-			FrontLeft.Set(0.0);
-			FrontRight.Set(0.0);
-			BackLeft.Set(0.0);
-			BackRight.Set(0.0);
-		}
+	if (mecanumDrive) {
+		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	} else {
+			// Tank drive code here
+		FrontLeft.Set(0.0);
+		FrontRight.Set(0.0);
+		BackLeft.Set(0.0);
+		BackRight.Set(0.0);
 	}
+		
 		// Put your debugging code here
 	frc::SmartDashboard::PutString("alignStateString", alignState);
-
-		// While in this mode the joystick's Y axis is used to control 1 specifiic talon by an id taken from the shuffleboard
-	if (motorDebug) {
-		double leftY1 = 0.0;
-		leftY1 = xboxcontroller0.GetY(frc::Joystick::kLeftHand);
-		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1.0);
-
-		if (aButton1 && !buttonsPressed[0][0]) {
-			if (testMotor == 5) {
-				testMotor = 9;
-			} else {
-				testMotor = 5;
-			}
-
-			frc::SmartDashboard::PutNumber("testMotor", testMotor);
-		}
-
-		switch (testMotor)	{
-			case 5:
-				liftLow.Set(leftY1);
-				break;
-			case 9:
-				liftHigh.Set(-leftY1);
-				break;
-
-			default:
-				FrontLeft.Set(0.0);
-				BackLeft.Set(0.0);
-				FrontRight.Set(0.0);
-				BackRight.Set(0.0);
-				liftLow.Set(0.0);
-				liftHigh.Set(0.0); // TODO: Rename talons so they follow convention
-				Winch.Set(0.0);
-				Climber.Set(0.0);
-				break;
-		}
-	}
 
 		// Finally update our variables that track data from previous robot ticks
 	buttonsPressed[0][0] = aButton1;

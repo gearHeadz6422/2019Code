@@ -1,86 +1,14 @@
 See file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
-compiling RobotUtils.cpp successful.
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:17:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning is a GCC extension
- #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead" [-Wcpp]
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:18:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotUtils.cpp:7:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning is a GCC extension
- #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+compiling RobotTest.cpp successful.
 
 compiling RobotAutonomous.cpp successful.
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:17:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:1:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning is a GCC extension
- #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead" [-Wcpp]
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:18:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotAutonomous.cpp:1:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning is a GCC extension
- #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
 
-compiling RobotTest.cpp successful.
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:17:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning is a GCC extension
- #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead" [-Wcpp]
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:18:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTest.cpp:8:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning is a GCC extension
- #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
+compiling RobotUtils.cpp successful.
 
 compiling RobotTeleop.cpp successful.
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:17:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:1:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning is a GCC extension
- #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead" [-Wcpp]
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:18:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotTeleop.cpp:1:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning is a GCC extension
- #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
 
 compiling RobotDisabled.cpp successful.
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:17:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning is a GCC extension
- #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead" [-Wcpp]
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:18:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\RobotDisabled.cpp:8:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning is a GCC extension
- #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
 
 compiling Robot.cpp successful.
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:17:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning is a GCC extension
- #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Solenoid.h:14:2: warning: #warning "Solenoid.h is deprecated; include frc/Solenoid.h instead" [-Wcpp]
-In file included from C:\Robotics\Code\Working code\2019Code\src\main\include/Robot.h:18:0,
-                 from C:\Robotics\Code\Working code\2019Code\src\main\cpp\Robot.cpp:1:
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning is a GCC extension
- #warning "Compressor.h is deprecated; include frc/Compressor.h instead"
-  ^~~~~~~
-C:\Robotics\Code\Working code\2019Code\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/Compressor.h:14:2: warning: #warning "Compressor.h is deprecated; include frc/Compressor.h instead" [-Wcpp]
 
 Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///C:/Robotics/Code/Working%20code/2019Code/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.

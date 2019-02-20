@@ -14,8 +14,8 @@
 #include "networktables/NetworkTableInstance.h"
 #include <adi/ADIS16448_IMU.h>
 #include <frc/Encoder.h>
-#include <Solenoid.h>
-#include <Compressor.h>
+#include <frc/Solenoid.h>
+#include <frc/Compressor.h>
 
 const float kUpdatePeriod = 0.005;
 const float kValueToCM = 0.144;
@@ -59,8 +59,8 @@ static int startPosition = 0;
 static double desAutoDelay = 0;
 static double smartDashTimerAuto = 0;
 static double autoDelayTimer = 0;
-static float leftInches = 0; //This variable accually uses the right encoder for now because of an emergancy fix
-static float rightInches = 0;
+static float leftDistance = 0;
+static float rightDistance = 0;
 static int stepCount = 0;
 static float accelX = 0.0;
 static float accelY = 0.0;
@@ -71,6 +71,7 @@ static double frontWallDistance = 0.0;
 static double rearWallDistance = 0.0;
 static double liftHeightLow = 0.0;
 static double liftHeightHigh = 0.0;
+static bool holdingHatch = false;
 
 static std::string desLiftPosition = "low";
 
@@ -114,10 +115,9 @@ class Robot: public frc::TimedRobot {
 	int waitper = 0;
 
 		// Here, the first 2 arguments are the port numbers for the two digital inputs and the bool tells it wether to reverse
-	frc::Encoder liftEncoderLow { 0, 1, true, Encoder::k4X };
-	frc::Encoder liftEncoderHigh { 2, 3, false, Encoder::k4X };
-	// frc::Encoder winchEncoder { 4, 5, false, Encoder::k4X };
-	// frc::Encoder climberEncoder { 6, 7, false, Encoder::k4X };
+	frc::Encoder liftEncoderHigh { 0, 1, true, Encoder::k4X };
+	frc::Encoder leftEncoder { 2, 3, false, Encoder::k4X };
+	frc::Encoder rightEncoder { 4, 5, false, Encoder::k4X };
 
 	float winchSpeed = 0.0;
 	float rampSpeed = 0.0;
@@ -138,8 +138,8 @@ class Robot: public frc::TimedRobot {
 	WPI_TalonSRX BackRight;
 	WPI_TalonSRX liftLow;
 	WPI_TalonSRX liftHigh;
-	WPI_TalonSRX Winch;
-	WPI_TalonSRX Climber;
+	WPI_TalonSRX intake;
+	WPI_TalonSRX climber;
 
 		// Driver station cameras get initialized here
 	cs::UsbCamera camera0;
@@ -158,6 +158,40 @@ class Robot: public frc::TimedRobot {
 	};
 	float angle;
     Servo Hook;
+};
+
+class liftTargetingTable {
+	public:
+		double ballForwardHigh;
+		double ballForwardMid;
+		double ballForwardLow;
+
+		double ballReverseHigh;
+		double ballReversMid;
+		double ballReversLow;
+
+		double hatchForwardHigh;
+		double hatchForwardMid;
+		double hatchForwardLow;
+
+		double hatchReverseHigh;
+		double hatchReversMid;
+		double hatchReversLow;
+
+		liftTargetingTable() { //TODO: Define targets
+			ballForwardHigh = 0.0;
+			ballForwardMid = 0.0;
+			ballForwardLow = 0.0;
+			ballReverseHigh = 0.0;
+			ballReversMid = 0.0;
+			ballReversLow = 0.0;
+			hatchForwardHigh = 0.0;
+			hatchForwardMid = 0.0;
+			hatchForwardLow = 0.0;
+			hatchReverseHigh = 0.0;
+			hatchReversMid = 0.0;
+			hatchReversLow = 0.0;
+		}
 };
 
 #endif /* SRC_ROBOT_H_ */

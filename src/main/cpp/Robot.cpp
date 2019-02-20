@@ -15,7 +15,7 @@ Robot::Robot() :
 	FrontLeft(1), BackLeft(2),
 	FrontRight(3), BackRight(4),
 	//sp(1),
-	liftHigh(9), liftLow(5), Winch(7), Climber(8),
+	liftHigh(9), liftLow(5), intake(7), climber(8),
 	Hook(0)
 {
 
@@ -47,11 +47,13 @@ Robot::Robot() :
 
 	//talon_ballpick.SetNeutralMode(NeutralMode::Coast);
 
-	InitEncoder(liftEncoderLow);
 	InitEncoder(liftEncoderHigh);
 	angle = navx->GetAngle();
 	navx->ZeroYaw();
 	memset(maxpwr,0,sizeof(maxpwr));
+
+	liftTargetingTable *liftTargets;
+	liftTargets = new liftTargetingTable();
 }
 
 void Robot::RobotInit() {
@@ -59,4 +61,3 @@ void Robot::RobotInit() {
 	frc::SmartDashboard::PutNumber("desAutoDelay", 0);
 }
 int main() { return frc::StartRobot<Robot>(); }
-//START_ROBOT_CLASS(Robot)
