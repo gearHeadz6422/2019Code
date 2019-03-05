@@ -81,7 +81,9 @@ void Robot::TeleopInit() {
 int test = 0;
 
 void Robot::TeleopPeriodic() {
-	frc::SmartDashboard::PutBoolean("Test", ++test);
+	frc::SmartDashboard::PutNumber("Test", ++test);
+
+	cout << test;
 
 		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
 	bool stop0 = xboxcontroller0.GetStartButton();
