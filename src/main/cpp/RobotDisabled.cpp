@@ -19,8 +19,6 @@ Robot::DisabledInit()
 	//maxpwr2 = 0;
 	waitper = 0;
 	winchSpeed = 0;
-	frc::SmartDashboard::PutNumber("X velocity" , 0);
-	frc::SmartDashboard::PutNumber("Y velocity" , 0);
 	//talon_winch.Set(0.0);
 	//talon_ballpick.Set(0.0);
 	//talon_ballshoot.Set(0.0);

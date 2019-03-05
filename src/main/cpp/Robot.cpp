@@ -6,19 +6,39 @@
 using namespace std;
 
 Robot::Robot() :
-	//left_master = front left
-	//left_slave = back left
-	//right_master = front right
-	//right_slave = back right
-	//reverse(1),
-			m_pdp(0),
-	FrontLeft(1), BackLeft(2),
-	FrontRight(3), BackRight(4),
-	//sp(1),
-	liftHigh(9), liftLow(5), intake(7), climber(8),
-	Hook(0)
+	m_pdp(0),
+	FrontLeft(1),
+	BackLeft(2),
+	FrontRight(3),
+	BackRight(4),
+	liftHigh(9),
+	liftLow(5),
+	intake(7),
+	climber(8),
+	Hook(0),
+
+	testTalon0(0),
+	testTalon1(1),
+	testTalon2(2),
+	testTalon3(3),
+	testTalon4(4),
+	testTalon5(5),
+	testTalon6(6),
+	testTalon7(7),
+	testTalon8(8),
+	testTalon9(9)
 {
 
+	// testTalons.push_back(testTalon0);
+	// testTalons.push_back(testTalon1);
+	// testTalons.push_back(testTalon2);
+	// testTalons.push_back(testTalon3);
+	// testTalons.push_back(testTalon4);
+	// testTalons.push_back(testTalon5);
+	// testTalons.push_back(testTalon6);
+	// testTalons.push_back(testTalon7);
+	// testTalons.push_back(testTalon8);
+	// testTalons.push_back(testTalon9);
 
 	try {
 		navx = new AHRS(SPI::Port::kMXP);

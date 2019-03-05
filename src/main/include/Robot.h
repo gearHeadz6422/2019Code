@@ -5,6 +5,7 @@
 #include <ctre/Phoenix.h>
 #include <frc/WPIlib.h>
 #include <iostream>
+#include <vector>
 #include <memory>
 #include <string>
 #include <opencv2/core/core.hpp>
@@ -73,15 +74,17 @@ static double liftHeightLow = 0.0;
 static double liftHeightHigh = 0.0;
 static bool holdingHatch = false;
 
+static int testMotor = -1;
+static double motorPower = 0.0;
+
 static std::string desLiftPosition = "low";
 
 // static std::string sensorBoardType = "navx";
 static std::string sensorBoardType = "analogDev";
 
-static bool motorDebug = false;
-static int testMotor = 0;
-
 static bool autoMode = true;
+
+static std::vector<WPI_TalonSRX> testTalons;
 
 class Robot: public frc::TimedRobot {
 
@@ -141,7 +144,18 @@ class Robot: public frc::TimedRobot {
 	WPI_TalonSRX intake;
 	WPI_TalonSRX climber;
 
-		// Driver station cameras get initialized here
+	WPI_TalonSRX testTalon0;
+	WPI_TalonSRX testTalon1;
+	WPI_TalonSRX testTalon2;
+	WPI_TalonSRX testTalon3;
+	WPI_TalonSRX testTalon4;
+	WPI_TalonSRX testTalon5;
+	WPI_TalonSRX testTalon6;
+	WPI_TalonSRX testTalon7;
+	WPI_TalonSRX testTalon8;
+	WPI_TalonSRX testTalon9;
+
+	// Driver station cameras get initialized here
 	cs::UsbCamera camera0;
 	cs::UsbCamera camera1;
 
@@ -170,27 +184,22 @@ class liftTargetingTable {
 		double ballReversMid;
 		double ballReversLow;
 
-		double hatchForwardHigh;
-		double hatchForwardMid;
-		double hatchForwardLow;
-
-		double hatchReverseHigh;
-		double hatchReversMid;
-		double hatchReversLow;
+		double hatchHigh;
+		double hatchMid;
+		double hatchLow;
 
 		liftTargetingTable() { //TODO: Define targets
 			ballForwardHigh = 0.0;
 			ballForwardMid = 0.0;
 			ballForwardLow = 0.0;
+
 			ballReverseHigh = 0.0;
 			ballReversMid = 0.0;
-			ballReversLow = 0.0;
-			hatchForwardHigh = 0.0;
-			hatchForwardMid = 0.0;
-			hatchForwardLow = 0.0;
-			hatchReverseHigh = 0.0;
-			hatchReversMid = 0.0;
-			hatchReversLow = 0.0;
+			ballReversLow = 0.0; //Done
+
+			hatchHigh = 0.0;
+			hatchMid = 0.0;
+			hatchLow = 0.0;
 		}
 };
 

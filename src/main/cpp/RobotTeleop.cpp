@@ -3,6 +3,8 @@
 
 using namespace std;
 
+bool motorDebug = false;
+
 void Robot::TeleopInit() {
 		// Set the initial state for our variables, and pull some data from the driver station
 	accelX = 0.0;
@@ -31,7 +33,18 @@ void Robot::TeleopInit() {
 	liftHigh.Set(ControlMode::PercentOutput, 0);
 	intake.Set(ControlMode::PercentOutput, 0);
 
-		// Initializes the encoder attatched to the lower lift's talon
+	testTalon0.Set(ControlMode::PercentOutput, 0);
+	testTalon1.Set(ControlMode::PercentOutput, 0);
+	testTalon2.Set(ControlMode::PercentOutput, 0);
+	testTalon3.Set(ControlMode::PercentOutput, 0);
+	testTalon4.Set(ControlMode::PercentOutput, 0);
+	testTalon5.Set(ControlMode::PercentOutput, 0);
+	testTalon6.Set(ControlMode::PercentOutput, 0);
+	testTalon7.Set(ControlMode::PercentOutput, 0);
+	testTalon8.Set(ControlMode::PercentOutput, 0);
+	testTalon9.Set(ControlMode::PercentOutput, 0);
+
+	// Initializes the encoder attatched to the lower lift's talon
 	liftLow.SetSelectedSensorPosition(0, 0, 0);
 
 		// Tracks the current step the auto-lineup algorithim is on
@@ -47,9 +60,29 @@ void Robot::TeleopInit() {
 
 		// Turns on the compressor
 	compressor->SetClosedLoopControl(true);
+
+	if (motorDebug) {
+			// Create the test motor entry on the shuffle board
+		frc::SmartDashboard::PutNumber("testMotor", -1);
+	}
+
+	frc::SmartDashboard::PutNumber("Controller leftX", 0);
+	frc::SmartDashboard::PutNumber("Controller leftY", 0);
+	frc::SmartDashboard::PutNumber("Controller rightX", 0);
+	frc::SmartDashboard::PutNumber("Controller rightY", 0);
+	frc::SmartDashboard::PutBoolean("Controller LB", false);
+	frc::SmartDashboard::PutBoolean("Controller RB", false);
+	frc::SmartDashboard::PutBoolean("Controller X", false);
+	frc::SmartDashboard::PutBoolean("Controller A", false);
+	frc::SmartDashboard::PutBoolean("Controller Y", false);
+	frc::SmartDashboard::PutBoolean("Controller B", false);
 }
 
+int test = 0;
+
 void Robot::TeleopPeriodic() {
+	frc::SmartDashboard::PutBoolean("Test", ++test);
+
 		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
 	bool stop0 = xboxcontroller0.GetStartButton();
 	bool stop1 = xboxcontroller1.GetStartButton();
@@ -61,8 +94,60 @@ void Robot::TeleopPeriodic() {
 		BackRight.Set(0.0);
 		Hook.Set(0.0);
 		intake.Set(0.0);
+		liftHigh.Set(0.0);
+		liftLow.Set(0.0);
 
 		return;
+	}
+
+	if (motorDebug) {
+		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1);
+		motorPower = xboxcontroller0.GetY(frc::Joystick::kLeftHand) * 2;
+
+		switch (testMotor) {
+			case 0:
+				testTalon0.Set(motorPower);
+				break;
+			case 1:
+				testTalon1.Set(motorPower);
+				break;
+			case 2:
+				testTalon2.Set(motorPower);
+				break;
+			case 3:
+				testTalon3.Set(motorPower);
+				break;
+			case 4:
+				testTalon4.Set(motorPower);
+				break;
+			case 5:
+				testTalon5.Set(motorPower);
+				break;
+			case 6:
+				testTalon6.Set(motorPower);
+				break;
+			case 7:
+				testTalon7.Set(motorPower);
+				break;
+			case 8:
+				testTalon8.Set(motorPower);
+				break;
+			case 9:
+				testTalon9.Set(motorPower);
+				break;
+		}
+		return;
+	} else {
+		testTalon0.Set(0.0);
+		testTalon1.Set(0.0);
+		testTalon2.Set(0.0);
+		testTalon3.Set(0.0);
+		testTalon4.Set(0.0);
+		testTalon5.Set(0.0);
+		testTalon6.Set(0.0);
+		testTalon7.Set(0.0);
+		testTalon8.Set(0.0);
+		testTalon9.Set(0.0);
 	}
 
 		// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
@@ -86,7 +171,7 @@ void Robot::TeleopPeriodic() {
 	}
 
 		// This returns value in terms of bits so we convert it to rotations
-	liftHeightHigh = liftEncoderHigh.GetDistance() / 1024;
+	liftHeightHigh = liftEncoderHigh.GetDistance() / -1024;
 	liftHeightLow = liftLow.GetSelectedSensorPosition(0) / 4096.0;
 	frc::SmartDashboard::PutNumber("High lift height", liftHeightHigh);
 	frc::SmartDashboard::PutNumber("Low lift height", liftHeightLow);
@@ -150,6 +235,17 @@ void Robot::TeleopPeriodic() {
 	double leftTrigger2 = 0.0;
 	bool startButton2 = false;
 	double dpad2 = 0;
+
+	frc::SmartDashboard::PutNumber("Controller leftX", leftX2);
+	frc::SmartDashboard::PutNumber("Controller leftY", leftY2);
+	frc::SmartDashboard::PutNumber("Controller rightX", rightX2);
+	frc::SmartDashboard::PutNumber("Controller rightY", rightY2);
+	frc::SmartDashboard::PutBoolean("Controller LB", leftBumper2);
+	frc::SmartDashboard::PutBoolean("Controller RB", rightBumper2);
+	frc::SmartDashboard::PutBoolean("Controller X", xButton2);
+	frc::SmartDashboard::PutBoolean("Controller A", aButton2);
+	frc::SmartDashboard::PutBoolean("Controller Y", yButton2);
+	frc::SmartDashboard::PutBoolean("Controller B", bButton2);
 
 	if (!joystickMode)	{ // The non-joystick mode is no longer supported by the actual driver code. If you want to switch back you'll need to fix a few bugs
 		/* 
@@ -267,9 +363,9 @@ void Robot::TeleopPeriodic() {
 			// TODO: Test backward movement angles
 				if (dpad1 == 0) {
 				if (currentAnlge >= 0) {
-					targetAngle = 150;
+					targetAngle = 30;
 				} else {
-					targetAngle = -150;
+					targetAngle = -30;
 				}
 			} else if (dpad1 == 90 || dpad1 == 270) {
 				if (currentAnlge >= 0) {
@@ -279,9 +375,9 @@ void Robot::TeleopPeriodic() {
 				}
 			} else {
 				if (currentAnlge >= 0) {
-					targetAngle = 30;
+					targetAngle = 150;
 				} else {
-					targetAngle = -30;
+					targetAngle = -150;
 				}
 			}
 		}
@@ -422,7 +518,7 @@ void Robot::TeleopPeriodic() {
 		leftBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kLeftHand);
 		rightBumper2 = xboxcontroller1.GetBumper(frc::Joystick::kRightHand);
 
-  		xButton2 = xboxcontroller1.GetXButton();
+		xButton2 = xboxcontroller1.GetXButton();
 		aButton2 = xboxcontroller1.GetAButton();
 		yButton2 = xboxcontroller1.GetYButton();
 		bButton2 = xboxcontroller1.GetBButton();
@@ -484,7 +580,26 @@ void Robot::TeleopPeriodic() {
 	// 	}
 	// }
 
-	intake.Set(leftY2);
+	liftLow.Set(leftY2);
+	liftHigh.Set(-rightY2 / 2);
+
+		// Apply passive voltage to the motors to prevent the lift from fallign due to gravity
+	if (fabs(leftY2) < 0.25) {
+		liftLow.Set(-0.2); 	
+
+	}
+	if (fabs(rightY2) < 0.25) {
+		liftHigh.Set(0.2);
+	}
+
+		// Make the intake take in
+	if (dpad2 == 0) {
+		intake.Set(1.0);
+	} else if (dpad2 == 180) {
+		intake.Set(-1.0);
+	} else {
+		intake.Set(0.0);
+	}
 
 	if (bButton2 && !buttonsPressed[1][1]) {
 		holdingHatch = !holdingHatch;
@@ -500,9 +615,6 @@ void Robot::TeleopPeriodic() {
 	} else {
 		big = fabs(leftX1);
 	}
-
-	liftLow.Set(leftY2);	
-	liftHigh.Set(-rightY2/2);
 
 	if (mecanumDrive) {
 		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
