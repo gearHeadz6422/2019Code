@@ -14,6 +14,7 @@ void Robot::TeleopInit() {
 	liftEncoderHigh.Reset();
 	leftEncoder.Reset();
 	rightEncoder.Reset();
+	grabberEncoder.Reset();
 
 	if (sensorBoardType == "navx") {
 		navx->ZeroYaw();
@@ -32,6 +33,7 @@ void Robot::TeleopInit() {
 	liftLow.Set(ControlMode::PercentOutput, 0);
 	liftHigh.Set(ControlMode::PercentOutput, 0);
 	intake.Set(ControlMode::PercentOutput, 0);
+	grabberWinch.Set(ControlMode::PercentOutput, 0);
 
 	testTalon0.Set(ControlMode::PercentOutput, 0);
 	testTalon1.Set(ControlMode::PercentOutput, 0);
@@ -54,36 +56,28 @@ void Robot::TeleopInit() {
 		// Tracks the desired height of the lift
 	desLiftPosition = "off";
 
-		// This sets up the ultrasonic sensor, and declares that it is hooked into analog port 0
+		// This sets up the ultrasonic sensors and the box's string potentiometer, and declares that they are hooked into analog port 0
 	frontUltraSonic = new AnalogInput(0);
-	rearUltraSonic = new AnalogInput(1); // Blue goes towards the outside of the rio
+	rearUltraSonic = new AnalogInput(1);
+	boxPotentiometer = new AnalogInput(2);
 
-		// Turns on the compressor
+		// Turns on the compressor and sets the solenoid for the grabber to off
 	compressor->SetClosedLoopControl(true);
+	grabber.Set(frc::DoubleSolenoid::kReverse);
 
 	if (motorDebug) {
 			// Create the test motor entry on the shuffle board
 		frc::SmartDashboard::PutNumber("testMotor", -1);
 	}
-
-	frc::SmartDashboard::PutNumber("Controller leftX", 0);
-	frc::SmartDashboard::PutNumber("Controller leftY", 0);
-	frc::SmartDashboard::PutNumber("Controller rightX", 0);
-	frc::SmartDashboard::PutNumber("Controller rightY", 0);
-	frc::SmartDashboard::PutBoolean("Controller LB", false);
-	frc::SmartDashboard::PutBoolean("Controller RB", false);
-	frc::SmartDashboard::PutBoolean("Controller X", false);
-	frc::SmartDashboard::PutBoolean("Controller A", false);
-	frc::SmartDashboard::PutBoolean("Controller Y", false);
-	frc::SmartDashboard::PutBoolean("Controller B", false);
 }
 
-int test = 0;
+double prevGrabberEncoderDistance = 0.0;
+double grabberDistance = 0.0;
 
 void Robot::TeleopPeriodic() {
-	frc::SmartDashboard::PutNumber("Test", ++test);
+		// TEST CODE
 
-	cout << test;
+		//END TEST CODE
 
 		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
 	bool stop0 = xboxcontroller0.GetStartButton();
@@ -94,10 +88,20 @@ void Robot::TeleopPeriodic() {
 		FrontRight.Set(0.0);
 		BackLeft.Set(0.0);
 		BackRight.Set(0.0);
-		Hook.Set(0.0);
 		intake.Set(0.0);
 		liftHigh.Set(0.0);
 		liftLow.Set(0.0);
+
+		testTalon0.Set(0.0);
+		testTalon1.Set(0.0);
+		testTalon2.Set(0.0);
+		testTalon3.Set(0.0);
+		testTalon4.Set(0.0);
+		testTalon5.Set(0.0);
+		testTalon6.Set(0.0);
+		testTalon7.Set(0.0);
+		testTalon8.Set(0.0);
+		testTalon9.Set(0.0);
 
 		return;
 	}
@@ -105,7 +109,7 @@ void Robot::TeleopPeriodic() {
 	if (motorDebug) {
 		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1);
 		motorPower = xboxcontroller0.GetY(frc::Joystick::kLeftHand) * 2;
-
+		
 		switch (testMotor) {
 			case 0:
 				testTalon0.Set(motorPower);
@@ -138,6 +142,13 @@ void Robot::TeleopPeriodic() {
 				testTalon9.Set(motorPower);
 				break;
 		}
+
+		if (motorPower >= 0) {
+			grabberDistance += grabberEncoder.GetDirection() - prevGrabberEncoderDistance;
+		} else {
+			grabberDistance -= grabberEncoder.GetDirection() - prevGrabberEncoderDistance;
+		}
+
 		return;
 	} else {
 		testTalon0.Set(0.0);
@@ -237,17 +248,6 @@ void Robot::TeleopPeriodic() {
 	double leftTrigger2 = 0.0;
 	bool startButton2 = false;
 	double dpad2 = 0;
-
-	frc::SmartDashboard::PutNumber("Controller leftX", leftX2);
-	frc::SmartDashboard::PutNumber("Controller leftY", leftY2);
-	frc::SmartDashboard::PutNumber("Controller rightX", rightX2);
-	frc::SmartDashboard::PutNumber("Controller rightY", rightY2);
-	frc::SmartDashboard::PutBoolean("Controller LB", leftBumper2);
-	frc::SmartDashboard::PutBoolean("Controller RB", rightBumper2);
-	frc::SmartDashboard::PutBoolean("Controller X", xButton2);
-	frc::SmartDashboard::PutBoolean("Controller A", aButton2);
-	frc::SmartDashboard::PutBoolean("Controller Y", yButton2);
-	frc::SmartDashboard::PutBoolean("Controller B", bButton2);
 
 	if (!joystickMode)	{ // The non-joystick mode is no longer supported by the actual driver code. If you want to switch back you'll need to fix a few bugs
 		/* 
@@ -490,7 +490,8 @@ void Robot::TeleopPeriodic() {
 		rightY1 = -0.5;
 	}
 
-	// End driver code; Begin attatchment code---------------------------------------------------------------------------------------------------------------------------
+	// End driver code; Begin co-pilot code------------------------------------------------------------------------------------------------------------------------------
+	
 	if (!joystickMode)	{
 		rightY2 = xboxcontroller1.GetY(frc::Joystick::kRightHand);
 		rightX2 = xboxcontroller1.GetX(frc::Joystick::kRightHand);
@@ -533,24 +534,35 @@ void Robot::TeleopPeriodic() {
 		dpad2 = xboxcontroller1.GetPOV();
 	}
 
-		// Checks if the raise/lower lift button was just pressed, and if it was it changes the desired lift position
-	if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") { //Raise
-		if (desLiftPosition == "mid") {
-			desLiftPosition = "high";
-		} else if (desLiftPosition == "low") {
-			desLiftPosition = "mid";
+	// Checks if the driver is presseing both bumpers, and if so toggles the grabber
+	if ((leftBumper2 && !buttonsPressed[1][4]) && (rightBumper2 && !buttonsPressed[1][5])) {
+		if (holdingHatch) {
+			grabber.Set(frc::DoubleSolenoid::kForward);
 		} else {
-			desLiftPosition = "low";
+			grabber.Set(frc::DoubleSolenoid::kReverse);
 		}
-	} else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "off") { // Lower
-		if (desLiftPosition == "low") {
-			desLiftPosition = "off";
-		} else if (desLiftPosition == "mid") {
-			desLiftPosition = "low";
-		} else {
-			desLiftPosition = "mid";
-		}
+
+		holdingHatch = !holdingHatch;
 	}
+
+		// Checks if the raise/lower lift button was just pressed, and if it was it changes the desired lift position
+	// if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") { //Raise
+	// 	if (desLiftPosition == "mid") {
+	// 		desLiftPosition = "high";
+	// 	} else if (desLiftPosition == "low") {
+	// 		desLiftPosition = "mid";
+	// 	} else {
+	// 		desLiftPosition = "low";
+	// 	}
+	// } else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "off") { // Lower
+	// 	if (desLiftPosition == "low") {
+	// 		desLiftPosition = "off";
+	// 	} else if (desLiftPosition == "mid") {
+	// 		desLiftPosition = "low";
+	// 	} else {
+	// 		desLiftPosition = "mid";
+	// 	}
+	// }
 
 		// Updates the shuffleboard's lift dispaly
 	if (desLiftPosition == "high") {
@@ -656,4 +668,6 @@ void Robot::TeleopPeriodic() {
 	} else {
 		prevAnlge = analogDev.GetAngle();
 	}
+
+	prevGrabberEncoderDistance = grabberEncoder.GetDirection();
 }

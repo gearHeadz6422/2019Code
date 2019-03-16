@@ -14,37 +14,37 @@ c++
 -pthread
 -Og
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\src\\main\\include"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\src\\main\\include
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\wpilibc-cpp-2019.4.1-headers.zip_b81507b0c50c581f7502538d67c4b01b
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.2.1-headers.zip_c1e3733a98824778ae9dc4369a7c5066"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\hal-cpp-2019.4.1-headers.zip_c188c7b3a999a3880106aec59871f632
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.2.1-headers.zip_961601eb64e5456d71ed70c0f9da8e94"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiutil-cpp-2019.4.1-headers.zip_5e342f497d78cde8042c25fea7a66506
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.2.1-headers.zip_bb0cec940e93e7a2ed066107bd22e12e"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\ntcore-cpp-2019.4.1-headers.zip_9555d7c48fd82baf566f02717a6c3cb0
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.2.1-headers.zip_3d9a26a763eb0e1008d349ec462fd509"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\cscore-cpp-2019.4.1-headers.zip_6f6b3f86ef5e8708aac28c5ba02696ca
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.2.1-headers.zip_6d5c4a8bf55973d76d90eeb158bc5c66"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\cameraserver-cpp-2019.4.1-headers.zip_992d6c67f4984f018ec363e9353431cb
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\opencv-cpp-3.4.4-4-headers.zip_ed19d56be47d37c8193b8f0377a9cfe6
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\chipobject-2019.12.1-headers.zip_45012665afb78c4c4816a3a35e8fe8aa
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\netcomm-2019.12.1-headers.zip_97d07b8af9f28e0504c6dc239ac1f176
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\adis16448-cpp-2019-r1-headers.zip_1e1d60e2b3b7bd5a971a9afe6c9ff8d5"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\adis16448-cpp-2019-r1-headers.zip_1e1d60e2b3b7bd5a971a9afe6c9ff8d5
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\navx-cpp-3.1.344-headers.zip_744b022e6074b8136dc4cb47e25c93fd
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\wpiapi-cpp-5.12.0-headers.zip_29daa6d91100a3e64a6c5c507f77fd54
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\api-cpp-5.12.0-headers.zip_4c0f1181ce667c2b1da6d536e53054ec"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\api-cpp-5.12.0-headers.zip_4c0f1181ce667c2b1da6d536e53054ec
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\cci-5.12.0-headers.zip_dcc0606199f9f03e2afc8c79f610ebba"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\cci-5.12.0-headers.zip_dcc0606199f9f03e2afc8c79f610ebba
 -I
-"C:\\Robotics\\Code\\Working code\\2019Code\\build\\tmp\\expandedArchives\\core-5.12.0-headers.zip_318ff6fc4a9e78b523ef7a1e4e5003aa"
+C:\\Robotics\\Code\\WorkingCode\\2019Code\\build\\tmp\\expandedArchives\\core-5.12.0-headers.zip_318ff6fc4a9e78b523ef7a1e4e5003aa
 -isystem
 c:\\users\\public\\frc2019\\roborio\\bin\\..\\arm-frc2019-linux-gnueabi\\usr\\lib\\gcc\\arm-frc2019-linux-gnueabi\\6.3.0\\include
 -isystem

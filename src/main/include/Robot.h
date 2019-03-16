@@ -14,8 +14,9 @@
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
 #include <adi/ADIS16448_IMU.h>
+#include <liftTargetingTable.h>
 #include <frc/Encoder.h>
-#include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 #include <frc/Compressor.h>
 
 const float kUpdatePeriod = 0.005;
@@ -121,6 +122,9 @@ class Robot: public frc::TimedRobot {
 	frc::Encoder liftEncoderHigh { 0, 1, true, Encoder::k4X };
 	frc::Encoder leftEncoder { 2, 3, false, Encoder::k4X };
 	frc::Encoder rightEncoder { 4, 5, false, Encoder::k4X };
+	frc::Encoder grabberEncoder{6, 7, false, Encoder::k4X};
+
+	frc::DoubleSolenoid grabber { 0, 0, 1 };
 
 	float winchSpeed = 0.0;
 	float rampSpeed = 0.0;
@@ -142,7 +146,7 @@ class Robot: public frc::TimedRobot {
 	WPI_TalonSRX liftLow;
 	WPI_TalonSRX liftHigh;
 	WPI_TalonSRX intake;
-	WPI_TalonSRX climber;
+	WPI_TalonSRX grabberWinch;
 
 	WPI_TalonSRX testTalon0;
 	WPI_TalonSRX testTalon1;
@@ -163,6 +167,8 @@ class Robot: public frc::TimedRobot {
 
 	AnalogInput *frontUltraSonic;
 	AnalogInput *rearUltraSonic;
+	
+	AnalogInput *boxPotentiometer;
 
 	AHRS *navx;
 	frc::ADIS16448_IMU analogDev{
@@ -170,37 +176,10 @@ class Robot: public frc::TimedRobot {
 		frc::ADIS16448_IMU::kComplementary,
 		frc::SPI::kMXP
 	};
+
 	float angle;
-    Servo Hook;
-};
 
-class liftTargetingTable {
-	public:
-		double ballForwardHigh;
-		double ballForwardMid;
-		double ballForwardLow;
-
-		double ballReverseHigh;
-		double ballReversMid;
-		double ballReversLow;
-
-		double hatchHigh;
-		double hatchMid;
-		double hatchLow;
-
-		liftTargetingTable() { //TODO: Define targets
-			ballForwardHigh = 0.0;
-			ballForwardMid = 0.0;
-			ballForwardLow = 0.0;
-
-			ballReverseHigh = 0.0;
-			ballReversMid = 0.0;
-			ballReversLow = 0.0; //Done
-
-			hatchHigh = 0.0;
-			hatchMid = 0.0;
-			hatchLow = 0.0;
-		}
+	liftTargetingTable liftTargets;
 };
 
 #endif /* SRC_ROBOT_H_ */

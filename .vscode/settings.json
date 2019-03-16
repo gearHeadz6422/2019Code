@@ -23,5 +23,6 @@
   },
   "python.linting.pylintEnabled": false,
   "python.formatting.provider": "black",
-  "python.pythonPath": "C:\\Python30\\python.exe"
+  "python.pythonPath": "C:\\Python30\\python.exe",
+  "C_Cpp.configurationWarnings": "Disabled"
 }

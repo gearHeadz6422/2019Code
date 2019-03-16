@@ -7,15 +7,16 @@ using namespace std;
 
 Robot::Robot() :
 	m_pdp(0),
+
 	FrontLeft(1),
 	BackLeft(2),
 	FrontRight(3),
 	BackRight(4),
-	liftHigh(9),
 	liftLow(5),
+	grabberWinch(6),
 	intake(7),
-	climber(8),
-	Hook(0),
+	// climber(8),
+	liftHigh(9),
 
 	testTalon0(0),
 	testTalon1(1),
@@ -71,13 +72,10 @@ Robot::Robot() :
 	angle = navx->GetAngle();
 	navx->ZeroYaw();
 	memset(maxpwr,0,sizeof(maxpwr));
-
-	liftTargetingTable *liftTargets;
-	liftTargets = new liftTargetingTable();
 }
 
 void Robot::RobotInit() {
-		// Set up the initial state of our shuffleboard
+		// Set up the initial state of our shuffleb	oard
 	frc::SmartDashboard::PutNumber("desAutoDelay", 0);
 }
 int main() { return frc::StartRobot<Robot>(); }
