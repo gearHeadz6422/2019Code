@@ -75,6 +75,9 @@ static double liftHeightLow = 0.0;
 static double liftHeightHigh = 0.0;
 static bool holdingHatch = false;
 
+static double prevTime = 0.0;
+static double bumperHoldTime = 0.0;
+
 static int testMotor = -1;
 static double motorPower = 0.0;
 
@@ -122,7 +125,7 @@ class Robot: public frc::TimedRobot {
 	frc::Encoder liftEncoderHigh { 0, 1, true, Encoder::k4X };
 	frc::Encoder leftEncoder { 2, 3, false, Encoder::k4X };
 	frc::Encoder rightEncoder { 4, 5, false, Encoder::k4X };
-	frc::Encoder grabberEncoder{6, 7, false, Encoder::k4X};
+	frc::Encoder grabberEncoder {6, 7, true, Encoder::k4X};
 
 	frc::DoubleSolenoid grabber { 0, 0, 1 };
 
@@ -180,6 +183,8 @@ class Robot: public frc::TimedRobot {
 	float angle;
 
 	liftTargetingTable liftTargets;
+
+	frc::Timer time;
 };
 
 #endif /* SRC_ROBOT_H_ */

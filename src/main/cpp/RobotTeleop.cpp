@@ -6,7 +6,10 @@ using namespace std;
 bool motorDebug = false;
 
 void Robot::TeleopInit() {
-		// Set the initial state for our variables, and pull some data from the driver station
+	// We start the robot's timer so we can use it later for some controller stuff
+	time.Start();
+
+	// Set the initial state for our variables, and pull some data from the driver station
 	accelX = 0.0;
 	accelY = 0.0;
 	lastAccelX = 0.0;
@@ -25,7 +28,7 @@ void Robot::TeleopInit() {
 	currentAnlge = 0;
 	prevAnlge = 0;
 
-		// Sets the way that the TALONs will recieve input
+	// Sets the way that the TALONs will recieve input
 	FrontLeft.Set(ControlMode::PercentOutput, 0);
 	FrontRight.Set(ControlMode::PercentOutput, 0);
 	BackLeft.Set(ControlMode::PercentOutput, 0);
@@ -49,37 +52,30 @@ void Robot::TeleopInit() {
 	// Initializes the encoder attatched to the lower lift's talon
 	liftLow.SetSelectedSensorPosition(0, 0, 0);
 
-		// Tracks the current step the auto-lineup algorithim is on
+	// Tracks the current step the auto-lineup algorithim is on
 	alignState = "none";
 	targetAngle = -1;
    
-		// Tracks the desired height of the lift
+	// Tracks the desired height of the lift
 	desLiftPosition = "off";
 
-		// This sets up the ultrasonic sensors and the box's string potentiometer, and declares that they are hooked into analog port 0
+	// This sets up the ultrasonic sensors and the box's string potentiometer, and declares that they are hooked into analog port 0
 	frontUltraSonic = new AnalogInput(0);
 	rearUltraSonic = new AnalogInput(1);
 	boxPotentiometer = new AnalogInput(2);
 
-		// Turns on the compressor and sets the solenoid for the grabber to off
+	// Turns on the compressor and sets the solenoid for the grabber to off
 	compressor->SetClosedLoopControl(true);
 	grabber.Set(frc::DoubleSolenoid::kReverse);
 
 	if (motorDebug) {
-			// Create the test motor entry on the shuffle board
+		// Create the test motor entry on the shuffle board
 		frc::SmartDashboard::PutNumber("testMotor", -1);
 	}
 }
 
-double prevGrabberEncoderDistance = 0.0;
-double grabberDistance = 0.0;
-
 void Robot::TeleopPeriodic() {
-		// TEST CODE
-
-		//END TEST CODE
-
-		// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
+	// This is the code that will cancel operations that are posing real world danger. This stuff is very important, so it comes first, and isn't dependent on any other systems actually working. If you need to change it for some reason, make sure it still works!
 	bool stop0 = xboxcontroller0.GetStartButton();
 	bool stop1 = xboxcontroller1.GetStartButton();
 	bool stickMoved = false; // This is used later to cancel out of autonomous movements when the driver moves the stick
@@ -142,13 +138,6 @@ void Robot::TeleopPeriodic() {
 				testTalon9.Set(motorPower);
 				break;
 		}
-
-		if (motorPower >= 0) {
-			grabberDistance += grabberEncoder.GetDirection() - prevGrabberEncoderDistance;
-		} else {
-			grabberDistance -= grabberEncoder.GetDirection() - prevGrabberEncoderDistance;
-		}
-
 		return;
 	} else {
 		testTalon0.Set(0.0);
@@ -203,6 +192,8 @@ void Robot::TeleopPeriodic() {
 	} else {
 		currentAnlge += analogDev.GetAngle() - prevAnlge;
 	}
+
+	frc::SmartDashboard::PutNumber("Grabber encoder", grabberEncoder.GetDistance());
 
 		// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
 	while (currentAnlge >= 360)	{
@@ -490,6 +481,28 @@ void Robot::TeleopPeriodic() {
 		rightY1 = -0.5;
 	}
 
+			// Now that we have all of the controller inputs, we set the motors to their cooresponding vqriables
+	if (fabs(rightX1) > fabs(rightY1) && fabs(rightX1) > fabs(leftX1)) {
+		big = fabs(rightX1);
+	} else if (fabs(rightY1) > fabs(rightX1) && fabs(rightY1) > fabs(leftX1) ) {
+		big = fabs(rightY1);
+	} else {
+		big = fabs(leftX1);
+	}
+
+	if (mecanumDrive) {
+		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
+	} else {
+			// Tank drive code here
+		FrontLeft.Set(0.0);
+		FrontRight.Set(0.0);
+		BackLeft.Set(0.0);
+		BackRight.Set(0.0);
+	}
+
 	// End driver code; Begin co-pilot code------------------------------------------------------------------------------------------------------------------------------
 	
 	if (!joystickMode)	{
@@ -534,35 +547,51 @@ void Robot::TeleopPeriodic() {
 		dpad2 = xboxcontroller1.GetPOV();
 	}
 
-	// Checks if the driver is presseing both bumpers, and if so toggles the grabber
-	if ((leftBumper2 && !buttonsPressed[1][4]) && (rightBumper2 && !buttonsPressed[1][5])) {
-		if (holdingHatch) {
-			grabber.Set(frc::DoubleSolenoid::kForward);
-		} else {
-			grabber.Set(frc::DoubleSolenoid::kReverse);
+	// Runs the intake
+	intake.Set(1.5 * rightY2);
+
+	// Push and pull the grabber
+	if (dpad2 == 0 && grabberEncoder.GetDistance() <= 1000000) {
+		grabberWinch.Set(-1.0);
+	} else if (dpad2 == 180 && grabberEncoder.GetDistance() >= 0) {
+		grabberWinch.Set(1.0);
+	}
+
+	// Checks if the co-pilot is presseing both bumpers, and if so toggles the grabber
+	if (leftBumper2 || rightBumper2) {
+		bumperHoldTime += time.Get() - prevTime;
+		
+		if (leftBumper2 && rightBumper2 && bumperHoldTime <= 0.15) {
+			if (holdingHatch) {
+				grabber.Set(frc::DoubleSolenoid::kForward);
+			} else {
+				grabber.Set(frc::DoubleSolenoid::kReverse);
+			}
 		}
 
 		holdingHatch = !holdingHatch;
+	} else {
+		bumperHoldTime = 0.0;
 	}
 
-		// Checks if the raise/lower lift button was just pressed, and if it was it changes the desired lift position
-	// if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") { //Raise
-	// 	if (desLiftPosition == "mid") {
-	// 		desLiftPosition = "high";
-	// 	} else if (desLiftPosition == "low") {
-	// 		desLiftPosition = "mid";
-	// 	} else {
-	// 		desLiftPosition = "low";
-	// 	}
-	// } else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "off") { // Lower
-	// 	if (desLiftPosition == "low") {
-	// 		desLiftPosition = "off";
-	// 	} else if (desLiftPosition == "mid") {
-	// 		desLiftPosition = "low";
-	// 	} else {
-	// 		desLiftPosition = "mid";
-	// 	}
-	// }
+	// Checks if the raise/lower lift button was just pressed, and if it was it changes the desired lift position
+	if (yButton2 && !buttonsPressed[1][3] && desLiftPosition != "high") { //Raise
+		if (desLiftPosition == "mid") {
+			desLiftPosition = "high";
+		} else if (desLiftPosition == "low") {
+			desLiftPosition = "mid";
+		} else {
+			desLiftPosition = "low";
+		}
+	} else if (aButton2 && !buttonsPressed[1][0] && desLiftPosition != "off") { // Lower
+		if (desLiftPosition == "low") {
+			desLiftPosition = "off";
+		} else if (desLiftPosition == "mid") {
+			desLiftPosition = "low";
+		} else {
+			desLiftPosition = "mid";
+		}
+	}
 
 		// Updates the shuffleboard's lift dispaly
 	if (desLiftPosition == "high") {
@@ -587,15 +616,14 @@ void Robot::TeleopPeriodic() {
 		frc::SmartDashboard::PutBoolean("Lift off", true);
 	}
 
-		// Forces the lift to move when the force button is pressed
+	// 	// Forces the lift to move when the force button is pressed
 	// if (xButton2 && !buttonsPressed[1][2]) {
 	// 	if (holdingHatch) {
 			
+	// 	} else {
+
 	// 	}
 	// }
-
-	liftLow.Set(leftY2);
-	liftHigh.Set(-rightY2 / 2);
 
 		// Apply passive voltage to the motors to prevent the lift from fallign due to gravity
 	if (fabs(leftY2) < 0.25) {
@@ -606,42 +634,7 @@ void Robot::TeleopPeriodic() {
 		liftHigh.Set(0.2);
 	}
 
-		// Make the intake take in
-	if (dpad2 == 0) {
-		intake.Set(1.0);
-	} else if (dpad2 == 180) {
-		intake.Set(-1.0);
-	} else {
-		intake.Set(0.0);
-	}
-
-	if (bButton2 && !buttonsPressed[1][1]) {
-		holdingHatch = !holdingHatch;
-	}
-
 	// End controller code-----------------------------------------------------------------------------------------------------------------------------------------------
-
-		// Now that we have all of the controller inputs, we set the motors to their cooresponding veriables
-	if (fabs(rightX1) > fabs(rightY1) && fabs(rightX1) > fabs(leftX1)) {
-		big = fabs(rightX1);
-	} else if (fabs(rightY1) > fabs(rightX1) && fabs(rightY1) > fabs(leftX1) ) {
-		big = fabs(rightY1);
-	} else {
-		big = fabs(leftX1);
-	}
-
-	if (mecanumDrive) {
-		FrontLeft.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		FrontRight.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackLeft.Set(((sin(atan2(rightY1, rightX1) - 0.7853981633974483) + leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
-	} else {
-			// Tank drive code here
-		FrontLeft.Set(0.0);
-		FrontRight.Set(0.0);
-		BackLeft.Set(0.0);
-		BackRight.Set(0.0);
-	}
 		
 		// Put your debugging code here
 	frc::SmartDashboard::PutString("alignStateString", alignState);
@@ -669,5 +662,5 @@ void Robot::TeleopPeriodic() {
 		prevAnlge = analogDev.GetAngle();
 	}
 
-	prevGrabberEncoderDistance = grabberEncoder.GetDirection();
+	prevTime = time.Get();
 }
