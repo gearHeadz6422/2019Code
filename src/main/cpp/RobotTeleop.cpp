@@ -6,9 +6,6 @@ using namespace std;
 bool motorDebug = false;
 
 void Robot::TeleopInit() {
-	// We start the robot's timer so we can use it later for some controller stuff
-	time.Start();
-
 	// Set the initial state for our variables, and pull some data from the driver station
 	accelX = 0.0;
 	accelY = 0.0;
@@ -16,10 +13,15 @@ void Robot::TeleopInit() {
 	lastAccelY = 0.0;
 	liftEncoderHigh.Reset();
 	leftEncoder.Reset();
+
 	rightEncoder.Reset();
 	grabberEncoder.Reset();
 
-	if (sensorBoardType == "navx") {
+	liftHeightHigh = 0;
+	liftHeightLow = 0;
+
+		if (sensorBoardType == "navx")
+	{
 		navx->ZeroYaw();
 	} else {
 		analogDev.Reset();
@@ -72,6 +74,9 @@ void Robot::TeleopInit() {
 		// Create the test motor entry on the shuffle board
 		frc::SmartDashboard::PutNumber("testMotor", -1);
 	}
+
+	// Initialize the hatch indicator to off
+	frc::SmartDashboard::PutBoolean("Holding hatch", false);
 }
 
 void Robot::TeleopPeriodic() {
@@ -102,6 +107,7 @@ void Robot::TeleopPeriodic() {
 		return;
 	}
 
+	// This is used for debugging specific motors and TALONs
 	if (motorDebug) {
 		testMotor = frc::SmartDashboard::GetNumber("testMotor", -1);
 		motorPower = xboxcontroller0.GetY(frc::Joystick::kLeftHand) * 2;
@@ -152,7 +158,7 @@ void Robot::TeleopPeriodic() {
 		testTalon9.Set(0.0);
 	}
 
-		// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
+	// Now, we collect all of the data our sensors are spitting out, process it, and display some of it on the smart dashboard
 	if (sensorBoardType == "navx") {
 		accelX = navx->GetWorldLinearAccelX() * 1000;
 		accelY = navx->GetWorldLinearAccelY() * 1000;
@@ -172,7 +178,7 @@ void Robot::TeleopPeriodic() {
 		colliding = false;
 	}
 
-		// This returns value in terms of bits so we convert it to rotations
+	// This returns value in terms of bits so we convert it to rotations
 	liftHeightHigh = liftEncoderHigh.GetDistance() / -1024;
 	liftHeightLow = liftLow.GetSelectedSensorPosition(0) / 4096.0;
 	frc::SmartDashboard::PutNumber("High lift height", liftHeightHigh);
@@ -195,7 +201,7 @@ void Robot::TeleopPeriodic() {
 
 	frc::SmartDashboard::PutNumber("Grabber encoder", grabberEncoder.GetDistance());
 
-		// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
+	// We need to make sure that the robot always has an idea of the direction it's pointing, so we manipulate the angle measurement a little so that positive angles are always right, negative angles are always left, and that the angle is never above 180
 	while (currentAnlge >= 360)	{
 		currentAnlge -= 360;
 	}
@@ -312,7 +318,7 @@ void Robot::TeleopPeriodic() {
 		dpad1 = xboxcontroller0.GetPOV();
 	}
 
-		// Calculates the robot's speed multiplier
+	// Calculates the robot's speed multiplier
 	leftTrigger1 = fabs(1 - (xboxcontroller0.GetTriggerAxis(frc::Joystick::kRightHand) / 2 + 0.5));
 	if (aButton1) {
 		leftTrigger1 = 1.0;
@@ -328,7 +334,7 @@ void Robot::TeleopPeriodic() {
 		}
 	}
 
-		// Determines the desired angle based on the current direction of the robot, and the joystick dpad
+	// Determines the desired angle based on the current direction of the robot, and the joystick dpad
 	const int lineErrorMagrin = 5;
 	if (dpad1 != -1) {
 		if (directedForward) {
@@ -354,7 +360,7 @@ void Robot::TeleopPeriodic() {
 			}
 		} else {
 			// TODO: Test backward movement angles
-				if (dpad1 == 0) {
+			if (dpad1 == 0) {
 				if (currentAnlge >= 0) {
 					targetAngle = 30;
 				} else {
@@ -376,13 +382,13 @@ void Robot::TeleopPeriodic() {
 		}
 	}
 
-		// If the dirver has moved the stick, cancel the operation
+	// If the dirver has moved the stick, cancel the operation
 	if (stickMoved)	{
 		alignState = "none";
 		targetAngle = -1;
 	}
 
-		//Turns the robot to be aligned with the selected line
+	//Turns the robot to be aligned with the selected line
 	if (alignState == "angle" && (targetAngle - lineErrorMagrin >= currentAnlge || currentAnlge >= targetAngle + lineErrorMagrin)) {
 		// TODO: Reverse this when not directed forward?
 		if (currentAnlge <= targetAngle) {
@@ -394,9 +400,9 @@ void Robot::TeleopPeriodic() {
 		alignState = "slide";
 	}
 
-		 // Align the robot to a rocket
+	// Align the robot to a rocket
 	if (alignState == "slide") {
-			// Theres an inherent delay in camera updates, so we stop the robot to allow the network tables to update about once 1500ms
+		// Theres an inherent delay in camera updates, so we stop the robot to allow the network tables to update about once 1500ms
 		alignLoopCount++;
 		if (alignLoopCount >= 15) {
 			if (!networkUpdating) {
@@ -431,14 +437,14 @@ void Robot::TeleopPeriodic() {
 			}
 		}
 
-			// Limits the speed of the algorithim to prevent cases where the robot over draws current, slids too far, or is unable to slide due to low motor power
+		// Limits the speed of the algorithim to prevent cases where the robot over draws current, slids too far, or is unable to slide due to low motor power
 		if (multiplier >= 1.75) {
 			multiplier = 1.75;
 		} else if (multiplier <= 0.75) {
 			multiplier = 0.75;
 		}
 
-			// Maintains the angle of the robot as it slides
+		// Maintains the angle of the robot as it slides
 		if (currentAnlge < targetAngle - lineErrorMagrin) {
 			// TODO: Reverse this when not directed forward?
 			leftX1 = 1.0 / multiplier;
@@ -465,7 +471,7 @@ void Robot::TeleopPeriodic() {
 			}
 		}
 
-		// Maintains the angle of the robot as it drives forward
+		// Maintains the angle of the robot as it drives forward DEPRECATED?
 		// if (currentAnlge < targetAngle - lineErrorMagrin) {
 		// 	leftX1 = 1.0 / multiplier;
 		// } else if (currentAnlge > targetAngle + lineErrorMagrin) {
@@ -545,33 +551,35 @@ void Robot::TeleopPeriodic() {
 		startButton2 = xboxcontroller1.GetStartButton();
 
 		dpad2 = xboxcontroller1.GetPOV();
-	}
+	}	
 
 	// Runs the intake
-	intake.Set(1.5 * rightY2);
+	if (rightTrigger2 != 0) {
+		intake.Set(-1.5 * rightTrigger2);
+	} else {
+		intake.Set(1.5 * leftTrigger2);
+	}
+
+	// LIFT TEST CODE TODO: REMOVE
+	liftLow.Set(leftY2/1.25);
+	liftHigh.Set(-rightY2/1.25);
 
 	// Push and pull the grabber
-	if (dpad2 == 0 && grabberEncoder.GetDistance() <= 1000000) {
-		grabberWinch.Set(-1.0);
-	} else if (dpad2 == 180 && grabberEncoder.GetDistance() >= 0) {
+	if (dpad2 == 0 && (grabberEncoder.GetDistance() <= 685 || rightBumper2)) {
 		grabberWinch.Set(1.0);
+	} else if (dpad2 == 180 && (grabberEncoder.GetDistance() >= 0 || rightBumper2)) {
+		grabberWinch.Set(-1.0);
 	}
 
 	// Checks if the co-pilot is presseing both bumpers, and if so toggles the grabber
-	if (leftBumper2 || rightBumper2) {
-		bumperHoldTime += time.Get() - prevTime;
-		
-		if (leftBumper2 && rightBumper2 && bumperHoldTime <= 0.15) {
-			if (holdingHatch) {
-				grabber.Set(frc::DoubleSolenoid::kForward);
-			} else {
-				grabber.Set(frc::DoubleSolenoid::kReverse);
-			}
-		}
-
-		holdingHatch = !holdingHatch;
-	} else {
-		bumperHoldTime = 0.0;
+	if (!holdingHatch && xButton2 ) {
+		holdingHatch = true;
+		frc::SmartDashboard::PutBoolean("Holding hatch", holdingHatch);
+		grabber.Set(frc::DoubleSolenoid::kForward);
+	} else if (bButton2) {
+		holdingHatch = false;
+		frc::SmartDashboard::PutBoolean("Holding hatch", holdingHatch);
+		grabber.Set(frc::DoubleSolenoid::kReverse);
 	}
 
 	// Checks if the raise/lower lift button was just pressed, and if it was it changes the desired lift position
@@ -616,22 +624,135 @@ void Robot::TeleopPeriodic() {
 		frc::SmartDashboard::PutBoolean("Lift off", true);
 	}
 
-	// 	// Forces the lift to move when the force button is pressed
+	// Forces the lift to move when the force button is pressed
 	// if (xButton2 && !buttonsPressed[1][2]) {
 	// 	if (holdingHatch) {
-			
-	// 	} else {
+	// 		if (desLiftPosition == "high") {
+	// 			if (liftHeightLow < liftLowTargets.hatchHigh) {
+	// 				liftLow.Set(liftLowSpeed);
+	// 			} else {
+	// 				liftLow.Set(-liftLowSpeed);
+	// 			}
 
+	// 			if (liftHeightHigh < liftHighTargets.hatchHigh) {
+	// 				liftHigh.Set(liftHighSpeed);
+	// 			} else {
+	// 				liftHigh.Set(-liftHighSpeed);
+	// 			}
+	// 		} else if (desLiftPosition == "mid") {
+	// 			if (liftHeightLow < liftLowTargets.hatchMid) {
+	// 				liftLow.Set(liftLowSpeed);
+	// 			} else {
+	// 				liftLow.Set(-liftLowSpeed);
+	// 			}
+
+	// 			if (liftHeightHigh < liftHighTargets.hatchMid) {
+	// 				liftHigh.Set(liftHighSpeed);
+	// 			} else {
+	// 				liftHigh.Set(-liftHighSpeed);
+	// 			}
+	// 		} else if (desLiftPosition == "low") {
+	// 			if (liftHeightLow < liftLowTargets.hatchLow) {
+	// 				liftLow.Set(liftLowSpeed);
+	// 			} else {
+	// 				liftLow.Set(-liftLowSpeed);
+	// 			}
+
+	// 			if (liftHeightHigh < liftHighTargets.hatchLow) {
+	// 				liftHigh.Set(liftHighSpeed);
+	// 			} else {
+	// 				liftHigh.Set(-liftHighSpeed);
+	// 			}
+	// 		}
+	// 	} else {
+	// 		if (directedForward) {
+	// 			if (desLiftPosition == "high") {
+	// 				if (liftHeightLow < liftLowTargets.ballForwardHigh) {
+	// 					liftLow.Set(liftLowSpeed);
+	// 				} else {
+	// 					liftLow.Set(-liftLowSpeed);
+	// 				}
+
+	// 				if (liftHeightHigh < liftHighTargets.ballForwardHigh) {
+	// 					liftHigh.Set(liftHighSpeed);
+	// 				} else {
+	// 					liftHigh.Set(-liftHighSpeed);
+	// 				}
+	// 			} else if (desLiftPosition == "mid") {
+	// 				if (liftHeightLow < liftLowTargets.ballForwardMid) {
+	// 					liftLow.Set(liftLowSpeed);
+	// 				} else {
+	// 					liftLow.Set(-liftLowSpeed);
+	// 				}
+
+	// 				if (liftHeightHigh < liftHighTargets.ballForwardMid) {
+	// 					liftHigh.Set(liftHighSpeed);
+	// 				} else {
+	// 					liftHigh.Set(-liftHighSpeed);
+	// 				}
+	// 			} else if (desLiftPosition == "low") {
+	// 				if (liftHeightLow < liftLowTargets.ballForwardLow) {
+	// 					liftLow.Set(liftLowSpeed);
+	// 				} else {
+	// 					liftLow.Set(-liftLowSpeed);
+	// 				}
+
+	// 				if (liftHeightHigh < liftHighTargets.ballForwardLow) {
+	// 					liftHigh.Set(liftHighSpeed);
+	// 				} else {
+	// 					liftHigh.Set(-liftHighSpeed);
+	// 				}
+	// 			}
+	// 		} else {
+	// 			if (desLiftPosition == "high") {
+	// 				if (liftHeightLow < liftLowTargets.ballReverseHigh) {
+	// 					liftLow.Set(liftLowSpeed);
+	// 				} else {
+	// 					liftLow.Set(-liftLowSpeed);
+	// 				}
+
+	// 				if (liftHeightHigh < liftHighTargets.ballReverseHigh) {
+	// 					liftHigh.Set(liftHighSpeed);
+	// 				} else {
+	// 					liftHigh.Set(-liftHighSpeed);
+	// 				}
+	// 			} else if (desLiftPosition == "mid") {
+	// 				if (liftHeightLow < liftLowTargets.ballReverseMid) {
+	// 					liftLow.Set(liftLowSpeed);
+	// 				} else {
+	// 					liftLow.Set(-liftLowSpeed);
+	// 				}
+
+	// 				if (liftHeightHigh < liftHighTargets.ballReverseMid) {
+	// 					liftHigh.Set(liftHighSpeed);
+	// 				} else {
+	// 					liftHigh.Set(-liftHighSpeed);
+	// 				}
+	// 			} else if (desLiftPosition == "low") {
+	// 				if (liftHeightLow < liftLowTargets.ballReverseLow) {
+	// 					liftLow.Set(liftLowSpeed);
+	// 				} else {
+	// 					liftLow.Set(-liftLowSpeed);
+	// 				}
+
+	// 				if (liftHeightHigh < liftHighTargets.ballReverseLow) {
+	// 					liftHigh.Set(liftHighSpeed);
+	// 				} else {
+	// 					liftHigh.Set(-liftHighSpeed);
+	// 				}
+	// 			}
+	// 		}
 	// 	}
 	// }
 
-		// Apply passive voltage to the motors to prevent the lift from fallign due to gravity
-	if (fabs(leftY2) < 0.25) {
-		liftLow.Set(-0.2); 	
-
+	// Apply passive current to the lift motors to prevent the lift from falling due to gravity
+	//TODO: Only enable passive current while the robot is holding up
+	if (liftHeightLow > .25 && fabs(leftY2) < fabs(0.25)) {
+		liftLow.Set(-0.24);
 	}
-	if (fabs(rightY2) < 0.25) {
-		liftHigh.Set(0.2);
+
+	if ( liftHeightHigh > 7.5 && fabs(rightY2) < fabs(0.25)) {
+		liftHigh.Set(0.24);
 	}
 
 	// End controller code-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -661,6 +782,4 @@ void Robot::TeleopPeriodic() {
 	} else {
 		prevAnlge = analogDev.GetAngle();
 	}
-
-	prevTime = time.Get();
 }

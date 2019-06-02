@@ -19,7 +19,8 @@
     "iostream": "cpp",
     "atomic": "cpp",
     "thread": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "cmath": "cpp"
   },
   "python.linting.pylintEnabled": false,
   "python.formatting.provider": "black",
