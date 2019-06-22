@@ -77,6 +77,9 @@ void Robot::TeleopInit() {
 
 	// Initialize the hatch indicator to off
 	frc::SmartDashboard::PutBoolean("Holding hatch", false);
+
+	// Create an entry on the dashboard that allows us to tune the speed of the robot at presentations and stuff like that
+	frc::SmartDashboard::PutNumber("Child endangerment multiplier", -1);
 }
 
 void Robot::TeleopPeriodic() {
@@ -324,8 +327,11 @@ void Robot::TeleopPeriodic() {
 		leftTrigger1 = 1.0;
 	}
 	float multiplier = leftTrigger1 + 1;
+	if (frc::SmartDashboard::GetNumber("Child endangerment multiplier", -1) != - 1) {
+		multiplier = frc::SmartDashboard::GetNumber("Child endangerment multiplier", 1);
+	}
 
-		// Enables linear-only movement
+	// Enables linear-only movement
 	if (bButton1) {
 		if (fabs(rightX1) >= fabs(rightY1)) {
 			rightY1 = 0.0;
@@ -471,18 +477,6 @@ void Robot::TeleopPeriodic() {
 			}
 		}
 
-		// Maintains the angle of the robot as it drives forward DEPRECATED?
-		// if (currentAnlge < targetAngle - lineErrorMagrin) {
-		// 	leftX1 = 1.0 / multiplier;
-		// } else if (currentAnlge > targetAngle + lineErrorMagrin) {
-		// 	leftX1 = -1.0 / multiplier;
-		// }
-
-			// detect when we reach the rocket
-		// if (colliding) {
-		// 	alignState = "none";
-		// 	targetAngle = -1;
-		// }
 	} else if (alignState == "lift") {
 		rightY1 = -0.5;
 	}
@@ -577,7 +571,8 @@ void Robot::TeleopPeriodic() {
 		frc::SmartDashboard::PutBoolean("Holding hatch", holdingHatch);
 		grabber.Set(frc::DoubleSolenoid::kForward);
 	} else if (bButton2) {
-		holdingHatch = false;
+		holdingHatch = false;\
+		
 		frc::SmartDashboard::PutBoolean("Holding hatch", holdingHatch);
 		grabber.Set(frc::DoubleSolenoid::kReverse);
 	}
