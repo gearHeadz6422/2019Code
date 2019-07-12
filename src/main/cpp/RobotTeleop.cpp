@@ -175,7 +175,7 @@ void Robot::TeleopPeriodic() {
 	frc::SmartDashboard::PutNumber("Front wall distance", frontWallDistance);
 	frc::SmartDashboard::PutNumber("Rear wall distance", rearWallDistance);
 
-	if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) { //TODO: Test and make sure this still works
+	if (fabs(lastAccelX) - fabs(accelX) > 500 || fabs(lastAccelY) - fabs(accelY) > 500) { // TODO: Test and make sure this still works
 		colliding = true;
 	} else {
 		colliding = false;
@@ -342,7 +342,8 @@ void Robot::TeleopPeriodic() {
 
 	// Determines the desired angle based on the current direction of the robot, and the joystick dpad
 	const int lineErrorMagrin = 5;
-	if (dpad1 != -1) {
+	// if (dpad1 != -1) { TODO: If you want to use this code it needs to have this uncommented. Auto line up system is curretnly DISABLED
+	if (false) {
 		if (directedForward) {
 			alignState = "angle";
 			if (dpad1 == 0) {
@@ -497,10 +498,10 @@ void Robot::TeleopPeriodic() {
 		BackRight.Set(((cos(atan2(rightY1, rightX1) - 0.7853981633974483) - leftX1 * (1 - rightTrigger1)) / 2) * big * multiplier);
 	} else {
 			// Tank drive code here
-		FrontLeft.Set(0.0);
-		FrontRight.Set(0.0);
-		BackLeft.Set(0.0);
-		BackRight.Set(0.0);
+		FrontLeft.Set(leftY1);
+		FrontRight.Set(rightY1);
+		BackLeft.Set(leftY1);
+		BackRight.Set(rightY1);
 	}
 
 	// End driver code; Begin co-pilot code------------------------------------------------------------------------------------------------------------------------------
@@ -554,7 +555,7 @@ void Robot::TeleopPeriodic() {
 		intake.Set(1.5 * leftTrigger2);
 	}
 
-	// LIFT TEST CODE TODO: REMOVE
+	// LIFT CODE
 	liftLow.Set(leftY2/1.25);
 	liftHigh.Set(-rightY2/1.25);
 
@@ -741,7 +742,6 @@ void Robot::TeleopPeriodic() {
 	// }
 
 	// Apply passive current to the lift motors to prevent the lift from falling due to gravity
-	//TODO: Only enable passive current while the robot is holding up
 	if (liftHeightLow > .25 && fabs(leftY2) < fabs(0.25)) {
 		liftLow.Set(-0.24);
 	}

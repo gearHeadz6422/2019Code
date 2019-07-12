@@ -43,7 +43,7 @@ static bool buttonsPressed [2][6] = {
 };
 
 static bool joystickMode = true;
-static bool mecanumDrive = true;
+static bool mecanumDrive = false;
 
 static double prevAnlge = 0.0;
 static double currentAnlge = 0.0;
